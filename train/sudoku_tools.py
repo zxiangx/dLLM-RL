@@ -8,8 +8,18 @@ specific logic.
 """
 from __future__ import annotations
 
+import re
+import numpy as np
 from typing import Iterable, Sequence
+DIGIT_BASE_ID = 15
+SPACE_ID = 220
+NEWLINE_ID = 198
+MASK_ID = 126336
+GRID = 6
 
+DIGIT_TOKEN_MAP = {
+    16: 1, 17: 2, 18: 3, 19: 4, 20: 5, 21: 6,
+}
 
 def pre_fill(prompt: str, token_ids: Sequence[int]):
     """Fill deterministic tokens before sampling starts.
@@ -32,12 +42,45 @@ def pre_fill(prompt: str, token_ids: Sequence[int]):
         Indices (relative to the first token after the prompt) that were filled
         by this routine.
     """
-
-    raise NotImplementedError(
-        "Please provide a project specific implementation of pre_fill(prompt, "
-        "token_ids).  The function must return (filled_ids, filled_count, "
-        "filled_indices)."
-    )
+    lines = prompt.strip().split('\n')
+    puzzle_lines = []
+   
+    for line in lines:
+        if re.match(r'^[0-6\.\s]+$', line.strip()):
+            puzzle_lines.append(line.strip())
+    
+    if len(puzzle_lines) >= GRID:
+        puzzle_text = '\n'.join(puzzle_lines[:GRID])
+    else:
+        return list(token_ids), 0, []
+    
+    text = puzzle_text.replace('\r\n', '\n').replace('\r', '\n')
+    
+    filled_ids = []
+    filled_indices = []
+    filled_count = 0
+    current_index = 0
+    
+    for ch in text:
+        if ch == '.':
+            filled_ids.append(MASK_ID)
+            current_index += 1
+        elif ch == ' ':
+            filled_ids.append(SPACE_ID)
+            current_index += 1
+        elif ch == '\n':
+            filled_ids.append(NEWLINE_ID)
+            current_index += 1
+        elif '0' <= ch <= '6':
+            token_id = DIGIT_BASE_ID + (ord(ch) - ord('0'))
+            filled_ids.append(token_id)
+            filled_indices.append(current_index)
+            filled_count += 1
+            current_index += 1
+        else:
+            continue
+    
+    return filled_ids, filled_count, filled_indices
 
 
 def detect_definite(state_ids: Sequence[int]):
@@ -47,18 +90,131 @@ def detect_definite(state_ids: Sequence[int]):
     :func:`train.sudoku_rl_utils.normalise_definite_positions`.  Returning a list
     of ``(index, token_id)`` tuples is the most convenient option.
     """
+    grid = np.zeros((GRID, GRID), dtype=int)
+    mask_positions = []
+    pos = 0
+    
+    for i, token_id in enumerate(state_ids):
+        if token_id in DIGIT_TOKEN_MAP:
+            row = pos // GRID
+            col = pos % GRID
+            if row < GRID and col < GRID:
+                grid[row, col] = DIGIT_TOKEN_MAP[token_id]
+            pos += 1
+        elif token_id == MASK_ID:
+            row = pos // GRID
+            col = pos % GRID
+            if row < GRID and col < GRID:
+                mask_positions.append((row, col))
+                grid[row, col] = 0
+            pos += 1
+        elif token_id == NEWLINE_ID:
+            pass
+        elif token_id == SPACE_ID:
+            pass
+    
+    definite_positions = []
+    
+    for row, col in mask_positions:
+        if grid[row, col] != 0:
+            continue
+            
+        candidates = {1, 2, 3, 4, 5, 6}
+        candidates -= set(grid[row, :])
+        candidates -= set(grid[:, col])
+        
+        box_row = (row // 2) * 2
+        box_col = (col // 3) * 3
+        candidates -= set(grid[box_row:box_row+2, box_col:box_col+3].flatten())
+        
+        if len(candidates) == 1:
+            definite_value = candidates.pop()
+            token_index = find_tokenindex(state_ids, row, col)
+            if token_index is not None:
+                target_token_id = DIGIT_BASE_ID + definite_value
+                definite_positions.append((token_index, target_token_id))
+    
+    return definite_positions
 
-    raise NotImplementedError(
-        "Please implement detect_definite(state_ids) and return the indices "
-        "(relative to the first token after the prompt) together with their "
-        "target token ids."
-    )
-
+def find_tokenindex(token_ids: Sequence[int], target_row: int, target_col: int) -> int:
+    
+    pos = 0
+    for i, token_id in enumerate(token_ids):
+        if token_id in DIGIT_TOKEN_MAP or token_id == MASK_ID:
+            row = pos // GRID
+            col = pos % GRID
+            if row == target_row and col == target_col:
+                return i
+            pos += 1
+        elif token_id == NEWLINE_ID:
+            pass
+        elif token_id == SPACE_ID:
+            pass
+    return None
 
 def judge_error(state_ids: Sequence[int]) -> bool:
     """Return ``True`` if the partially decoded Sudoku violates any constraint."""
+    grid = np.zeros((GRID, GRID), dtype=int)
+    pos = 0
+    
+    for token_id in state_ids:
+        if token_id in DIGIT_TOKEN_MAP:
+            row = pos // GRID
+            col = pos % GRID
+            if row < GRID and col < GRID:
+                grid[row, col] = DIGIT_TOKEN_MAP[token_id]
+            pos += 1
+        elif token_id == MASK_ID:
+            pos += 1
+        elif token_id == NEWLINE_ID:
+            pass
+        elif token_id == SPACE_ID:
+            pass
+    # 检查行冲突
+    for row in range(GRID):
+        row_values = grid[row, :]
+        non_zero = row_values[row_values != 0]
+        if len(non_zero) != len(set(non_zero)):
+            return True
+    # 检查列冲突
+    for col in range(GRID):
+        col_values = grid[:, col]
+        non_zero = col_values[col_values != 0]
+        if len(non_zero) != len(set(non_zero)):
+            return True
+    # 检查宫格冲突
+    for box_row in range(0, GRID, 2):
+        for box_col in range(0, GRID, 3):
+            box = grid[box_row:box_row+2, box_col:box_col+3]
+            non_zero = box[box != 0]
+            if len(non_zero) != len(set(non_zero)):
+                return True
+    
+    return False
 
-    raise NotImplementedError(
-        "Please implement judge_error(state_ids) so that the training loop can "
-        "terminate trajectories once an invalid Sudoku state is reached."
-    )
+# 不知道是否需要，先放这里了
+def format_6x6_sudoku_prompt(puzzle_text):
+    
+    prompt = """Please solve the following 6x6 sudoku puzzle.
+
+Rules of 6x6 sudoku:
+- The grid is 6x6.
+- Each row must contain the digits 1-6 exactly once.
+- Each column must contain the digits 1-6 exactly once.
+- Each of the 6 subgrids (2x3 boxes) must also contain the digits 1-6 exactly once.
+- The 6 subgrids are arranged as:
+  - Box 1: rows 1-2, columns 1-3
+  - Box 2: rows 1-2, columns 4-6  
+  - Box 3: rows 3-4, columns 1-3
+  - Box 4: rows 3-4, columns 4-6
+  - Box 5: rows 5-6, columns 1-3
+  - Box 6: rows 5-6, columns 4-6
+- Empty cells are represented by a dot ".".
+
+Here is the puzzle (6 lines, each with 6 entries separated by spaces):
+
+""" + puzzle_text + """
+
+Please output the completed sudoku as 36 numbers, row by row, separated by spaces."""
+    
+    return prompt
