@@ -21,7 +21,24 @@ DIGIT_TOKEN_MAP = {
     16: 1, 17: 2, 18: 3, 19: 4, 20: 5, 21: 6,
 }
 
-def pre_fill(prompt: str, token_ids: Sequence[int]):
+def encode_sudoku_prefill(text: str):
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
+    ids = []
+    for ch in text:
+        if ch == '.':
+            ids.append(MASK_ID)
+        elif ch == ' ':
+            ids.append(SPACE_ID)
+        elif ch == '\n':
+            ids.append(NEWLINE_ID)
+        elif '0' <= ch <= '6':
+            ids.append(DIGIT_BASE_ID + (ord(ch) - ord('0')))
+        else:
+            continue
+    return ids
+
+
+def pre_fill(prompt: str, tokenizer, max_gen_length: int):
     """Fill deterministic tokens before sampling starts.
 
     Parameters
@@ -42,45 +59,43 @@ def pre_fill(prompt: str, token_ids: Sequence[int]):
         Indices (relative to the first token after the prompt) that were filled
         by this routine.
     """
+    m = [{"role": "user", "content": prompt}, ]
+    all_prompt = tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False)
+    all_prompt += """Sure, I'll help you solve the 6x6 Sudoku puzzle. Here is the completed Sudoku grid:\n```\n"""
+    prompt_token_ids = tokenizer(all_prompt, add_special_tokens=False)['input_ids']
+    prompt_length = len(prompt_token_ids)
+    
     lines = prompt.strip().split('\n')
     puzzle_lines = []
-   
+    
     for line in lines:
         if re.match(r'^[0-6\.\s]+$', line.strip()):
             puzzle_lines.append(line.strip())
     
-    if len(puzzle_lines) >= GRID:
-        puzzle_text = '\n'.join(puzzle_lines[:GRID])
-    else:
-        return list(token_ids), 0, []
+    puzzle_text = '\n'.join(puzzle_lines[:GRID])
     
-    text = puzzle_text.replace('\r\n', '\n').replace('\r', '\n')
+    sudoku_token_ids = encode_sudoku_prefill(puzzle_text)
+    sudoku_length = len(sudoku_token_ids)
     
-    filled_ids = []
+    sudoku_map_range = (prompt_length, prompt_length + sudoku_length)
+    
+    filled_ids = list(prompt_token_ids)  
+    filled_ids.extend(sudoku_token_ids)
+    
+    current_gen_length = len(filled_ids) - prompt_length  
+    remaining_length = max_gen_length - current_gen_length
+    
+    if remaining_length > 0:
+        filled_ids.extend([MASK_ID] * remaining_length)
+    elif remaining_length < 0:
+        filled_ids = filled_ids[:prompt_length + max_gen_length]
+    
     filled_indices = []
-    filled_count = 0
-    current_index = 0
+    for i in range(len(sudoku_token_ids)):
+        if sudoku_token_ids[i] != MASK_ID:
+            filled_indices.append(i + prompt_length)
     
-    for ch in text:
-        if ch == '.':
-            filled_ids.append(MASK_ID)
-            current_index += 1
-        elif ch == ' ':
-            filled_ids.append(SPACE_ID)
-            current_index += 1
-        elif ch == '\n':
-            filled_ids.append(NEWLINE_ID)
-            current_index += 1
-        elif '0' <= ch <= '6':
-            token_id = DIGIT_BASE_ID + (ord(ch) - ord('0'))
-            filled_ids.append(token_id)
-            filled_indices.append(current_index)
-            filled_count += 1
-            current_index += 1
-        else:
-            continue
-    
-    return filled_ids, filled_count, filled_indices
+    return filled_ids, filled_indices, prompt_length, sudoku_map_range
 
 
 def detect_definite(state_ids: Sequence[int]):

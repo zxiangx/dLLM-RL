@@ -1,0 +1,8000 @@
+# puzzle#1 (difficulty: easy, empty_cells: 18)
+. . 6 . . 1
+3 1 . . 6 .
+2 3 1 6 . .
+. 6 . 1 2 3
+. 4 5 3 1 .
+. . . . 5 .
+
+# puzzle#2 (difficulty: easy, empty_cells: 18)
+. . . 1 5 3
+5 . 1 . . .
+. 6 2 . 4 1
+. . . 2 . .
+. 5 6 3 . .
+2 1 3 4 6 .
+
+# puzzle#3 (difficulty: easy, empty_cells: 18)
+6 4 . . . .
+. . . . . 1
+4 . . 1 . .
+5 . . . 2 6
+1 2 4 . 6 5
+3 5 . 2 1 4
+
+# puzzle#4 (difficulty: easy, empty_cells: 18)
+. . . . 1 3
+. . 3 6 5 .
+. 4 5 1 3 .
+3 1 . . . .
+6 5 . . . .
+4 3 . 5 6 2
+
+# puzzle#5 (difficulty: easy, empty_cells: 18)
+1 . . 6 5 4
+5 4 6 . 3 .
+4 1 3 . . .
+. . . 4 . 3
+6 . . 3 . .
+. 5 4 . . 6
+
+# puzzle#6 (difficulty: easy, empty_cells: 18)
+. 1 . 5 . 4
+. 3 . . . .
+2 5 . 1 . 3
+. . . 2 . 5
+5 . 3 . 2 1
+1 2 4 . 5 .
+
+# puzzle#7 (difficulty: easy, empty_cells: 18)
+3 . . . 5 1
+. . . . 6 .
+4 5 6 1 3 .
+2 1 . . . .
+1 . . 3 . 6
+6 . 2 . 1 4
+
+# puzzle#8 (difficulty: easy, empty_cells: 18)
+6 . 2 . . .
+. 3 1 5 . 2
+. 6 4 . . .
+1 . 3 6 . 4
+3 . 6 2 1 5
+. . . 3 . .
+
+# puzzle#9 (difficulty: easy, empty_cells: 18)
+6 1 . 5 4 .
+. 3 4 1 . 6
+4 . . . . 5
+3 2 5 6 1 .
+2 . . 3 . .
+1 . . . . .
+
+# puzzle#10 (difficulty: easy, empty_cells: 18)
+3 . 1 5 . .
+. . 5 6 3 .
+. 3 . 1 . 2
+. 1 . 3 4 .
+. 5 6 4 1 3
+. . . . 5 .
+
+# puzzle#11 (difficulty: easy, empty_cells: 18)
+2 . . 5 1 3
+1 . . . . 4
+4 . 1 3 2 5
+3 2 . . 4 6
+5 . . . . .
+. 3 . 4 . .
+
+# puzzle#12 (difficulty: easy, empty_cells: 18)
+. 3 . 6 . .
+1 6 5 . 4 .
+. 4 . 1 2 .
+. 2 1 5 . 4
+. . 4 2 . .
+. 5 3 4 . .
+
+# puzzle#13 (difficulty: easy, empty_cells: 18)
+4 . 1 . 5 .
+. . . . 1 .
+1 . . . 3 6
+5 . . 1 2 .
+3 1 . 2 . 5
+6 . 5 . 4 1
+
+# puzzle#14 (difficulty: easy, empty_cells: 18)
+1 . . 5 . 4
+. 6 . 2 . 3
+. . 4 . 3 6
+3 . 6 4 . .
+. . 3 6 2 1
+6 . . 3 . .
+
+# puzzle#15 (difficulty: easy, empty_cells: 18)
+. . . 3 5 2
+. . 3 . . 4
+6 . . 5 2 .
+2 . 5 . 6 3
+. 6 1 . . 5
+4 . 2 1 . .
+
+# puzzle#16 (difficulty: easy, empty_cells: 18)
+5 . . 2 1 .
+. . 4 . 5 6
+. . 6 . . .
+4 . 2 . 6 .
+2 4 . . 3 .
+6 3 1 5 . 2
+
+# puzzle#17 (difficulty: easy, empty_cells: 18)
+. 6 . 4 5 2
+. 5 . . . .
+. . 6 2 3 .
+3 4 2 . . 5
+. . 1 . . .
+4 3 5 1 2 .
+
+# puzzle#18 (difficulty: easy, empty_cells: 18)
+. . . 4 . .
+. . . . 3 .
+. 2 5 . 1 .
+4 1 3 2 6 .
+2 . 4 1 . .
+5 3 . 6 4 2
+
+# puzzle#19 (difficulty: easy, empty_cells: 18)
+. 6 1 . 2 3
+2 5 3 1 6 .
+. 3 . . . .
+1 2 4 . . 5
+. . 5 . . .
+. . 2 3 . 1
+
+# puzzle#20 (difficulty: easy, empty_cells: 18)
+5 . . . . 3
+. . 2 6 . 1
+1 5 3 2 . 6
+6 . . 1 . .
+2 . . . 1 4
+3 . . . 6 2
+
+# puzzle#21 (difficulty: easy, empty_cells: 18)
+. 3 . . 1 5
+. . . 2 4 3
+. . 5 . 3 .
+3 . . 1 5 6
+2 . . 5 6 .
+5 4 . . . 1
+
+# puzzle#22 (difficulty: easy, empty_cells: 18)
+4 . 3 5 1 .
+2 . 1 . . .
+1 . . . 3 .
+6 3 . 2 . 1
+5 4 . 1 . .
+3 . 2 6 . .
+
+# puzzle#23 (difficulty: easy, empty_cells: 18)
+. . . 2 5 4
+5 . 4 1 3 6
+. 3 1 5 . .
+. 6 . . 4 .
+. . . . 1 5
+1 . 6 . . 3
+
+# puzzle#24 (difficulty: easy, empty_cells: 18)
+. 5 4 6 1 2
+. . . . . .
+. 6 . 1 . 3
+2 3 1 5 6 .
+1 . . 4 5 .
+5 . . . . 1
+
+# puzzle#25 (difficulty: easy, empty_cells: 18)
+1 . . . 6 5
+6 2 . 3 4 .
+2 1 4 5 . 6
+3 5 . . 1 .
+5 . . . . .
+. . . . 5 3
+
+# puzzle#26 (difficulty: easy, empty_cells: 18)
+2 . . 6 . .
+. 4 . 3 1 .
+. . . 5 3 .
+6 5 3 1 . .
+. 6 2 . . .
+4 1 5 2 6 .
+
+# puzzle#27 (difficulty: easy, empty_cells: 18)
+. . 3 . . .
+. 1 5 4 . 3
+3 6 . 1 5 4
+. 5 . . 6 .
+1 2 4 5 . 6
+. . . . . 1
+
+# puzzle#28 (difficulty: easy, empty_cells: 18)
+4 . 6 5 . .
+. 5 3 6 1 .
+1 . . . . 6
+6 3 5 . 2 1
+. 4 . . . .
+5 . 1 . . 3
+
+# puzzle#29 (difficulty: easy, empty_cells: 18)
+4 . 5 . . 2
+. . . . 4 .
+3 6 . 4 . 5
+. . . 1 . 6
+6 5 3 2 . .
+1 4 . 6 5 .
+
+# puzzle#30 (difficulty: easy, empty_cells: 18)
+1 3 . 2 4 5
+2 . . 1 3 6
+4 . . 3 5 1
+3 . . . . .
+. . . 5 . 3
+. 1 . . . 2
+
+# puzzle#31 (difficulty: easy, empty_cells: 18)
+. 2 6 1 . 4
+. 1 . . . 5
+6 5 . 2 . .
+1 . 2 . . .
+. 6 1 4 5 .
+2 4 5 . . .
+
+# puzzle#32 (difficulty: easy, empty_cells: 18)
+1 . 6 . . .
+. . . . . .
+. 2 . . . 3
+5 3 1 2 4 6
+3 6 5 4 1 2
+. 1 . 6 . .
+
+# puzzle#33 (difficulty: easy, empty_cells: 18)
+3 6 . 1 . .
+. 4 1 . . 3
+6 1 . 2 3 5
+. . 2 . . .
+. . 3 . 6 1
+1 . . . 2 4
+
+# puzzle#34 (difficulty: easy, empty_cells: 18)
+3 4 . 2 1 5
+. . . 3 . 4
+. . . 6 3 1
+. . . 4 . 2
+. 1 . . . 3
+5 3 . 1 2 .
+
+# puzzle#35 (difficulty: easy, empty_cells: 18)
+. . 1 . 4 5
+5 2 4 3 . .
+6 4 . 1 . 3
+. . . . . 4
+4 5 2 6 . 1
+. . 6 . . .
+
+# puzzle#36 (difficulty: easy, empty_cells: 18)
+. 6 4 3 . .
+1 3 5 2 4 .
+. 2 . 5 . 4
+. . 6 . . .
+6 . 2 4 . 3
+. 1 . . 2 .
+
+# puzzle#37 (difficulty: easy, empty_cells: 18)
+. . 3 . 1 .
+. 1 . 2 3 5
+3 . 2 . . .
+. . 5 . 6 .
+5 3 1 . 2 6
+6 2 . . . 3
+
+# puzzle#38 (difficulty: easy, empty_cells: 18)
+5 4 . . 3 .
+. . . . 1 4
+1 3 . 2 . .
+. 5 6 . 4 1
+6 1 . . 2 .
+4 2 5 . . .
+
+# puzzle#39 (difficulty: easy, empty_cells: 18)
+. . 3 . 2 6
+. . 6 1 . 5
+6 3 . 5 . .
+. . 1 . 4 .
+4 . . . . 1
+3 1 5 . 6 4
+
+# puzzle#40 (difficulty: easy, empty_cells: 18)
+5 . 1 . . 2
+2 3 4 5 6 1
+. 2 . . . 6
+. . 6 . . .
+6 . . . 2 .
+1 5 . 6 4 .
+
+# puzzle#41 (difficulty: easy, empty_cells: 18)
+1 3 2 6 4 .
+6 . . . 1 .
+. 6 . . 2 .
+. 2 . 1 6 3
+2 1 3 . . .
+5 . . 2 . .
+
+# puzzle#42 (difficulty: easy, empty_cells: 18)
+4 . . 2 1 .
+. 3 1 . . .
+. 1 5 4 . .
+. 4 2 . 6 .
+1 2 3 . 4 .
+. . 4 3 2 .
+
+# puzzle#43 (difficulty: easy, empty_cells: 18)
+. 5 2 3 6 .
+. 1 . . . 4
+. 6 1 4 2 3
+3 . . 5 1 .
+. . . 6 . .
+. . 6 1 4 .
+
+# puzzle#44 (difficulty: easy, empty_cells: 18)
+4 2 . 3 . 6
+. 3 6 2 4 .
+3 . 4 . . 2
+2 1 5 . . .
+. . 2 . 3 5
+6 . . . . .
+
+# puzzle#45 (difficulty: easy, empty_cells: 18)
+. 5 4 . 2 3
+. . . 1 5 4
+5 1 2 4 . .
+. . . 2 . .
+3 . 1 . 4 .
+2 . . 3 . 1
+
+# puzzle#46 (difficulty: easy, empty_cells: 18)
+. . 2 . . .
+. 4 . 1 2 .
+3 . 1 . . 2
+. 2 . 5 3 .
+4 3 . 2 1 5
+2 . . 3 . 4
+
+# puzzle#47 (difficulty: easy, empty_cells: 18)
+. . . 1 2 .
+5 2 . . 4 3
+. 4 . . . 6
+. . 5 . 3 .
+. 1 2 . 6 4
+4 . . 3 1 2
+
+# puzzle#48 (difficulty: easy, empty_cells: 18)
+. . 4 3 . .
+6 . . 2 . .
+2 4 . . 6 5
+. . 1 4 . .
+. . 2 6 1 3
+3 1 . 5 2 .
+
+# puzzle#49 (difficulty: easy, empty_cells: 18)
+. . 5 . 2 .
+2 1 4 5 3 6
+. . 3 . 1 .
+. . . 3 . 5
+4 5 . 2 6 .
+. 2 . . . 1
+
+# puzzle#50 (difficulty: easy, empty_cells: 18)
+. 1 . 5 6 .
+6 . . . 2 4
+. 4 . . . .
+2 3 . . . 6
+1 2 . 6 3 .
+3 . 5 2 . 1
+
+# puzzle#51 (difficulty: easy, empty_cells: 18)
+2 5 . 1 . .
+1 . 6 . 3 .
+. 2 4 6 . 1
+6 1 . 3 . 2
+. 3 2 4 1 .
+. . . . . .
+
+# puzzle#52 (difficulty: easy, empty_cells: 18)
+. 1 6 3 . .
+5 . 4 . . 1
+6 2 5 1 . .
+. 4 . 5 . .
+4 5 . 6 . .
+1 . . 4 3 .
+
+# puzzle#53 (difficulty: easy, empty_cells: 18)
+. 4 . . . 3
+. 3 . 5 4 .
+. . 3 . . 1
+2 . 1 . 3 .
+. 2 4 3 1 .
+3 . 5 4 . 2
+
+# puzzle#54 (difficulty: easy, empty_cells: 18)
+. . 5 . 1 .
+. 1 . 4 . 6
+3 5 . . 6 .
+. 2 6 5 . 4
+5 . 2 1 4 3
+4 . . . . .
+
+# puzzle#55 (difficulty: easy, empty_cells: 18)
+. 3 1 5 4 2
+5 . . 6 . 3
+. 5 3 . . 6
+2 . 6 . 5 .
+1 . 2 . . .
+. 4 5 . . .
+
+# puzzle#56 (difficulty: easy, empty_cells: 18)
+6 2 4 . . 1
+. 1 3 4 . .
+4 3 . 2 . .
+. 5 2 . 4 3
+. . . . . 2
+. . . 1 3 4
+
+# puzzle#57 (difficulty: easy, empty_cells: 18)
+2 6 5 4 . 1
+. . . 2 . .
+1 . 2 6 . 3
+6 . 4 5 1 .
+. 2 . . . 4
+. . . . 2 6
+
+# puzzle#58 (difficulty: easy, empty_cells: 18)
+. . . . 2 .
+. . 6 1 . 4
+3 5 . 4 . .
+. 6 . 3 . 1
+2 3 4 . . 5
+6 . . 2 4 3
+
+# puzzle#59 (difficulty: easy, empty_cells: 18)
+6 3 . 4 . 1
+. . 1 6 . .
+4 . . . 1 6
+. . . 3 . 2
+2 5 . 1 . .
+3 1 4 . . 5
+
+# puzzle#60 (difficulty: easy, empty_cells: 18)
+. 3 2 5 . 4
+5 1 4 . 2 .
+. 2 . 4 . 1
+. 4 . 3 6 .
+2 . . . 4 .
+. 5 . . . 6
+
+# puzzle#61 (difficulty: easy, empty_cells: 18)
+3 1 . . . .
+. . . 3 2 1
+1 . 5 . 3 .
+. 6 3 . . .
+. 3 . 2 5 .
+5 2 6 . 1 3
+
+# puzzle#62 (difficulty: easy, empty_cells: 18)
+4 . . 2 . .
+. 2 5 . . 4
+. . . 4 . 3
+6 . 4 1 . 2
+2 6 3 . . .
+5 . 1 . 2 6
+
+# puzzle#63 (difficulty: easy, empty_cells: 18)
+6 5 3 . . 1
+. . . 6 . 5
+5 . . . 2 4
+. . 2 1 5 6
+2 . 5 4 . .
+. 3 4 . . .
+
+# puzzle#64 (difficulty: easy, empty_cells: 18)
+. . 2 . 6 .
+. . 6 5 2 3
+. 3 1 2 . 4
+4 . . 3 1 6
+. . 4 . . .
+5 1 3 . . .
+
+# puzzle#65 (difficulty: easy, empty_cells: 18)
+. . 1 2 4 .
+. 2 4 1 3 6
+. . . . . 2
+. 5 . . . .
+4 1 . 6 5 .
+. 3 5 4 . 1
+
+# puzzle#66 (difficulty: easy, empty_cells: 18)
+. 1 4 . . .
+. 5 3 4 2 .
+1 6 5 . 3 4
+3 4 . . . .
+. . . . 5 6
+. . 6 . 4 2
+
+# puzzle#67 (difficulty: easy, empty_cells: 18)
+6 2 . . 4 .
+. 4 . 6 . .
+3 6 . . 5 .
+2 1 . 4 6 .
+. . 6 . 2 4
+4 . . . 3 6
+
+# puzzle#68 (difficulty: easy, empty_cells: 18)
+. 1 3 5 . 4
+6 . . 1 3 .
+3 . . . 5 .
+. . . 3 . .
+1 3 6 . 2 5
+4 2 . . 1 .
+
+# puzzle#69 (difficulty: easy, empty_cells: 18)
+3 . . . 2 .
+4 . 2 3 . .
+. 3 . . 6 .
+. . 5 2 3 4
+. 4 . 1 . .
+5 . 1 6 4 3
+
+# puzzle#70 (difficulty: easy, empty_cells: 18)
+. 2 3 . 1 4
+1 4 . . 2 3
+4 1 . . 3 .
+3 . . . 5 .
+6 . 1 . . .
+2 . 4 . . 5
+
+# puzzle#71 (difficulty: easy, empty_cells: 18)
+4 1 . . . .
+. 5 2 . 4 3
+. 4 6 . . 2
+5 . . . 3 6
+. . 4 . . 1
+1 . 5 6 2 .
+
+# puzzle#72 (difficulty: easy, empty_cells: 18)
+. . 6 3 . 2
+. . 2 . 6 .
+. . 4 1 5 .
+. . 3 . 2 6
+2 . . 6 3 .
+3 6 1 . 4 .
+
+# puzzle#73 (difficulty: easy, empty_cells: 18)
+. 1 5 . . 4
+6 3 4 . . 5
+3 . 2 4 . .
+. 4 . . . 3
+4 5 . 1 . 2
+. . 3 5 . .
+
+# puzzle#74 (difficulty: easy, empty_cells: 18)
+. . 2 . . 1
+4 1 6 2 3 5
+. . 5 . . .
+1 3 4 . 2 .
+. 2 . . 4 3
+. . . . 5 2
+
+# puzzle#75 (difficulty: easy, empty_cells: 18)
+2 1 . . 5 6
+5 . . 2 4 .
+4 2 . 5 . .
+. . 5 . . .
+. . 6 1 . 5
+1 . 2 6 . 4
+
+# puzzle#76 (difficulty: easy, empty_cells: 18)
+2 . 3 . . 4
+4 1 . . 3 .
+. . . 3 2 1
+1 . . 4 . 5
+. . . 5 1 3
+3 . 1 . . 6
+
+# puzzle#77 (difficulty: easy, empty_cells: 18)
+2 1 3 . . 4
+. . 4 . 3 2
+3 5 . . 4 .
+. 2 1 3 . 6
+. 4 . . 2 3
+. 3 . . . .
+
+# puzzle#78 (difficulty: easy, empty_cells: 18)
+4 5 . 3 . 6
+6 . 3 2 . 5
+2 3 . . . .
+5 . . . 3 2
+. 2 . . 5 .
+3 6 . . . 1
+
+# puzzle#79 (difficulty: easy, empty_cells: 18)
+. . 5 . 3 .
+. . . 6 2 5
+5 . 3 . 1 .
+6 1 . . 5 4
+3 5 6 . . 2
+4 2 . . . .
+
+# puzzle#80 (difficulty: easy, empty_cells: 18)
+1 . . . . 6
+3 . . . . .
+5 6 . 3 2 1
+2 . 3 6 5 4
+. . . . 6 .
+6 2 5 4 . .
+
+# puzzle#81 (difficulty: easy, empty_cells: 18)
+1 . 6 . 5 4
+. . . 6 . 1
+. . 3 4 2 .
+6 . . . . 3
+. 6 2 1 . 5
+4 . . 3 . 2
+
+# puzzle#82 (difficulty: easy, empty_cells: 18)
+. 5 . . . 2
+2 . . 6 5 4
+. . . . . .
+6 1 . . 2 3
+. 4 . 5 3 .
+5 . 3 2 4 1
+
+# puzzle#83 (difficulty: easy, empty_cells: 18)
+2 . . . . 3
+. . . 6 . 5
+4 1 5 3 . 2
+6 2 . . . .
+. 3 4 . . 6
+5 . 2 4 . 1
+
+# puzzle#84 (difficulty: easy, empty_cells: 18)
+. 3 5 . 2 .
+. . 1 . . 5
+5 1 2 . 3 6
+6 4 . . . 2
+. 2 . . 5 .
+. 5 . 2 . 3
+
+# puzzle#85 (difficulty: easy, empty_cells: 18)
+. 5 . 6 . .
+4 3 6 2 . .
+. 6 . 1 . .
+. 1 . . 6 3
+6 . . 5 1 2
+1 . 5 . 4 .
+
+# puzzle#86 (difficulty: easy, empty_cells: 18)
+. . . 4 2 .
+6 4 2 5 1 3
+2 . 3 . 6 4
+. 1 . 3 . .
+. . . 6 4 5
+. . . . 3 .
+
+# puzzle#87 (difficulty: easy, empty_cells: 18)
+. 3 . . 1 2
+. . . 5 3 6
+. . 2 . 6 1
+. 6 . . 4 5
+. 2 . . . .
+5 . 4 6 2 3
+
+# puzzle#88 (difficulty: easy, empty_cells: 18)
+. 4 . . . 6
+2 . . . 5 4
+5 2 1 4 6 3
+. . . . . 1
+. 5 3 . 1 .
+6 . . . 4 5
+
+# puzzle#89 (difficulty: easy, empty_cells: 18)
+. 4 . . 5 3
+2 5 3 . 1 6
+6 . 4 1 . .
+. 1 5 . 4 2
+. . . . . .
+4 . . . 6 1
+
+# puzzle#90 (difficulty: easy, empty_cells: 18)
+1 3 6 4 . .
+5 4 . . . 1
+. . 1 . 3 6
+. 2 . . 1 .
+. 6 4 1 2 .
+. . . 6 . 3
+
+# puzzle#91 (difficulty: easy, empty_cells: 18)
+. . 3 . 4 .
+4 . 5 6 1 .
+. 1 4 2 . .
+. 3 2 . 5 4
+. . . . 6 .
+3 . 6 4 2 .
+
+# puzzle#92 (difficulty: easy, empty_cells: 18)
+2 . . 3 6 4
+. 3 4 5 . .
+. . 2 . 3 .
+. 4 . . 5 6
+. 2 3 6 4 .
+. 5 6 . . .
+
+# puzzle#93 (difficulty: easy, empty_cells: 18)
+. . 4 . . 2
+5 2 . 3 . .
+. 5 6 . . .
+2 . . 6 5 .
+6 1 5 . 3 .
+4 3 2 1 . .
+
+# puzzle#94 (difficulty: easy, empty_cells: 18)
+. . . 1 . 4
+. . 1 . 3 6
+5 . . 3 1 .
+. . 3 . 4 5
+6 . 4 5 . .
+2 1 . 4 . 3
+
+# puzzle#95 (difficulty: easy, empty_cells: 18)
+. 6 . . . 4
+4 3 . 1 . .
+. . 3 . . 5
+5 . 6 . 1 3
+6 1 4 3 5 .
+3 . . 4 . .
+
+# puzzle#96 (difficulty: easy, empty_cells: 18)
+3 4 6 . . .
+. . 1 . 3 6
+2 5 . 6 . 4
+. 6 . . . .
+. 1 5 3 6 .
+6 . 2 . . 1
+
+# puzzle#97 (difficulty: easy, empty_cells: 18)
+5 . 2 . 1 .
+1 3 4 2 . 6
+6 . . . . .
+. . 5 . 2 .
+2 5 . 1 3 .
+4 . . 5 . 2
+
+# puzzle#98 (difficulty: easy, empty_cells: 18)
+1 . 6 . 3 2
+3 . . 6 . .
+4 . . . 2 .
+6 2 3 . . 5
+. . . . 6 4
+2 6 4 1 . .
+
+# puzzle#99 (difficulty: easy, empty_cells: 18)
+. . 2 . 5 3
+5 3 . 6 . .
+. . 4 3 6 1
+. . 6 5 4 .
+. . . 2 3 .
+6 . . . 1 5
+
+# puzzle#100 (difficulty: easy, empty_cells: 18)
+. 5 3 1 . 6
+2 1 6 5 3 4
+5 . 4 . . 3
+. . . 4 . .
+1 . . . . 2
+. . . . 5 1
+
+# puzzle#101 (difficulty: easy, empty_cells: 18)
+. 3 . 5 4 .
+5 6 4 . . .
+6 2 . . 1 .
+4 . 1 6 3 2
+. . . 2 . .
+. . 5 1 . 3
+
+# puzzle#102 (difficulty: easy, empty_cells: 18)
+2 1 . 6 . 5
+4 . . . . .
+1 3 . . . .
+6 5 . 2 . .
+5 4 1 3 2 6
+3 . . . . 1
+
+# puzzle#103 (difficulty: easy, empty_cells: 18)
+. . . . 4 6
+. . 6 5 . .
+3 . . 4 . .
+2 . 4 . . 1
+4 1 2 . 5 3
+6 3 . 2 . 4
+
+# puzzle#104 (difficulty: easy, empty_cells: 18)
+5 4 2 3 6 .
+. . . . . 4
+6 . 3 4 . 5
+. 5 1 2 . .
+. . . . 5 3
+. 6 5 . 4 .
+
+# puzzle#105 (difficulty: easy, empty_cells: 18)
+4 . . 6 . .
+5 6 1 2 . .
+. . 3 . 2 5
+. . . 3 . 6
+. 5 . . . 2
+1 2 . 5 3 4
+
+# puzzle#106 (difficulty: easy, empty_cells: 18)
+5 . . 3 . .
+1 . . . 2 .
+4 . . . 3 5
+6 . 5 4 1 2
+2 . . 1 . 3
+3 4 . 2 . .
+
+# puzzle#107 (difficulty: easy, empty_cells: 18)
+5 . . . 6 .
+4 6 . 3 5 .
+2 . . . 1 5
+. . . 2 . .
+3 4 5 . 2 6
+6 2 . . . 3
+
+# puzzle#108 (difficulty: easy, empty_cells: 18)
+5 6 . 3 . .
+. . 4 6 1 5
+4 . . . 3 6
+. . 3 . . 4
+. . . . 5 3
+3 5 2 . . 1
+
+# puzzle#109 (difficulty: easy, empty_cells: 18)
+4 1 6 . . .
+. . . 6 4 1
+. . 5 2 . 3
+. . . 4 . .
+5 6 . 1 3 2
+3 2 . 5 . .
+
+# puzzle#110 (difficulty: easy, empty_cells: 18)
+. . 1 2 4 .
+2 4 3 . . .
+4 1 . . . 5
+. . 6 . 2 4
+3 . . 4 1 .
+. 6 . 3 . 2
+
+# puzzle#111 (difficulty: easy, empty_cells: 18)
+. 1 6 4 5 .
+2 . 4 . . .
+1 . 3 6 4 .
+. . 5 . 1 3
+4 . . . . .
+5 . 1 3 . 4
+
+# puzzle#112 (difficulty: easy, empty_cells: 18)
+4 5 1 3 2 .
+. 3 6 5 4 1
+. . . . . 2
+6 . . . 3 .
+1 . 4 . . .
+3 . 5 . 6 .
+
+# puzzle#113 (difficulty: easy, empty_cells: 18)
+2 3 . 1 5 6
+5 1 . . 4 2
+. . . . . .
+. . . 2 . 3
+. 2 1 5 3 4
+4 . . . . 1
+
+# puzzle#114 (difficulty: easy, empty_cells: 18)
+6 5 . 2 4 3
+. . 4 6 . .
+5 . 3 1 6 .
+1 2 . 5 . .
+. . . 4 . 5
+. . . 3 . 6
+
+# puzzle#115 (difficulty: easy, empty_cells: 18)
+6 . . 3 . 4
+4 5 . . . .
+1 2 . . 6 3
+. 6 . 4 . 2
+5 . . . 4 .
+2 4 1 . . 5
+
+# puzzle#116 (difficulty: easy, empty_cells: 18)
+6 4 1 . 3 2
+5 3 . 1 6 .
+4 . . 2 . 5
+2 . . . . .
+. 2 . 3 . 6
+3 5 . . . .
+
+# puzzle#117 (difficulty: easy, empty_cells: 18)
+. 4 . 1 3 5
+. 3 5 . 6 .
+. . . . 4 .
+6 . 4 2 . 3
+4 . 2 . 5 .
+5 . . . 2 4
+
+# puzzle#118 (difficulty: easy, empty_cells: 18)
+4 3 . 5 . .
+5 . . 3 . 6
+6 2 3 . . .
+. . . 6 . 3
+. 6 4 1 3 .
+3 . 1 . . 4
+
+# puzzle#119 (difficulty: easy, empty_cells: 18)
+3 . . 4 . .
+. 1 4 5 3 .
+6 2 . 1 5 .
+. . 1 . . .
+. 4 2 6 1 .
+1 . . 2 4 .
+
+# puzzle#120 (difficulty: easy, empty_cells: 18)
+. 4 . 6 5 3
+. 3 6 2 . 1
+. . . 1 6 .
+. . . . 2 4
+1 . 2 4 . 6
+4 . . . 1 .
+
+# puzzle#121 (difficulty: easy, empty_cells: 18)
+1 . 6 3 2 5
+. 2 . 1 4 .
+. 1 3 4 5 .
+4 . . 6 . 1
+. . . 5 . .
+. . . 2 6 .
+
+# puzzle#122 (difficulty: easy, empty_cells: 18)
+1 6 5 . . 2
+2 . 3 1 . .
+3 5 . . . 4
+6 . 4 . . 5
+. 1 6 5 2 3
+. . . . . .
+
+# puzzle#123 (difficulty: easy, empty_cells: 18)
+5 . . 1 . 6
+1 6 2 . 4 3
+6 2 . 3 . 4
+. . . . 6 .
+3 . 5 6 . .
+2 . 6 . . .
+
+# puzzle#124 (difficulty: easy, empty_cells: 18)
+. 4 . 2 . 5
+5 1 . . 6 .
+4 6 5 1 . .
+2 . . . 4 .
+6 2 . 4 5 .
+. . 4 . 3 .
+
+# puzzle#125 (difficulty: easy, empty_cells: 18)
+4 . 5 1 . 3
+. 1 . 4 . .
+6 4 1 5 . .
+5 . 3 6 . .
+2 5 . 3 . 1
+. . 6 . . .
+
+# puzzle#126 (difficulty: easy, empty_cells: 18)
+. 3 4 6 5 1
+. 1 . 4 . .
+6 4 2 . . .
+. . 3 2 6 .
+4 . . . 1 2
+. . . 5 4 .
+
+# puzzle#127 (difficulty: easy, empty_cells: 18)
+1 2 . 3 5 .
+6 . . 4 . .
+4 . . 2 . 5
+5 . 2 6 1 .
+. . 1 . 6 .
+. 6 . . 4 2
+
+# puzzle#128 (difficulty: easy, empty_cells: 18)
+5 4 . 2 . .
+. . 2 . 3 .
+2 3 4 6 . 1
+6 . . 3 . .
+. 5 6 1 . 4
+4 . 1 . . .
+
+# puzzle#129 (difficulty: easy, empty_cells: 18)
+. 3 . 5 4 2
+5 . . . . 1
+. . 3 4 . .
+6 . 1 2 5 .
+. . 5 1 . .
+4 . 2 3 . 5
+
+# puzzle#130 (difficulty: easy, empty_cells: 18)
+1 6 . . . .
+. . 2 6 1 5
+. . 6 . 3 4
+4 2 . . . .
+. 3 4 . 5 6
+6 . 1 . 2 .
+
+# puzzle#131 (difficulty: easy, empty_cells: 18)
+1 . 4 . 3 .
+6 3 5 . 4 2
+. . . . . 4
+4 . 6 . 2 1
+. 4 1 . 6 .
+5 . . . 1 .
+
+# puzzle#132 (difficulty: easy, empty_cells: 18)
+6 . 5 . . 1
+. 4 . 2 5 6
+. . . 6 . 4
+4 . 1 . 3 2
+. . . 4 . 5
+2 . . 1 . 3
+
+# puzzle#133 (difficulty: easy, empty_cells: 18)
+. . 6 . . 5
+2 1 5 3 4 6
+. 4 . 6 5 .
+6 . . . . 4
+5 6 . . . 1
+1 . . . . 3
+
+# puzzle#134 (difficulty: easy, empty_cells: 18)
+. 1 3 . 4 .
+4 6 . . 3 5
+. . 5 . . 2
+. 3 1 . . 4
+. 2 . . 5 .
+3 . 4 . 2 1
+
+# puzzle#135 (difficulty: easy, empty_cells: 18)
+1 4 . 5 . .
+. . 3 4 . 6
+. . 1 . 4 .
+. 2 . . 3 .
+. 1 . 2 . 4
+4 6 . 3 5 1
+
+# puzzle#136 (difficulty: easy, empty_cells: 18)
+2 . . . 5 3
+. . 5 . 1 6
+. 2 . . . .
+6 1 4 . 3 .
+. 4 . . 6 5
+3 5 6 . 2 .
+
+# puzzle#137 (difficulty: easy, empty_cells: 18)
+5 . . . . .
+. 4 2 1 6 5
+1 3 . . . 4
+. . . 6 1 3
+. 1 3 . 5 .
+. 2 . 4 . 1
+
+# puzzle#138 (difficulty: easy, empty_cells: 18)
+1 . 6 . 5 3
+. . . . . .
+. 4 . . . 6
+. 1 3 5 . 4
+4 6 5 1 3 .
+. . 1 . 4 5
+
+# puzzle#139 (difficulty: easy, empty_cells: 18)
+6 . 3 . . .
+. 5 4 3 . .
+. 2 . . 4 .
+. . 1 6 . 2
+1 . 5 2 6 .
+4 . . 1 5 3
+
+# puzzle#140 (difficulty: easy, empty_cells: 18)
+2 6 . 1 3 .
+. 4 3 . . .
+4 . . . 5 .
+. . 6 2 4 .
+3 . . 4 . 6
+. 1 . 3 2 5
+
+# puzzle#141 (difficulty: easy, empty_cells: 18)
+. . 1 3 6 2
+3 . . . . .
+. . 5 . 1 .
+1 . . . 5 .
+6 4 2 5 3 1
+. . 3 4 . 6
+
+# puzzle#142 (difficulty: easy, empty_cells: 18)
+2 . . 3 5 .
+. . . 1 6 2
+5 . 6 4 . .
+1 2 . . 3 .
+. 1 3 . . 5
+4 . 2 . 1 .
+
+# puzzle#143 (difficulty: easy, empty_cells: 18)
+3 . 1 2 . .
+5 2 6 . 4 1
+. . 5 . . .
+. . . 1 . 5
+. . . 6 1 .
+. 1 2 5 3 4
+
+# puzzle#144 (difficulty: easy, empty_cells: 18)
+3 . 2 . 5 4
+6 . . . 3 .
+1 4 6 . 2 5
+. 3 5 . . .
+. . 3 4 . .
+. . 1 5 . 3
+
+# puzzle#145 (difficulty: easy, empty_cells: 18)
+. . . 6 5 .
+6 . 5 . 2 .
+. 6 . . . 2
+3 4 2 5 6 .
+. 1 . 3 4 5
+. 5 . . 1 .
+
+# puzzle#146 (difficulty: easy, empty_cells: 18)
+. . . 4 . 2
+5 . . 1 6 3
+. . . . . .
+4 2 6 . 3 .
+6 . 1 . 2 4
+2 3 . . 1 5
+
+# puzzle#147 (difficulty: easy, empty_cells: 18)
+. . . 2 5 .
+6 . 5 . 4 3
+5 . 4 . . .
+. 1 . . 3 .
+4 6 1 3 2 .
+. 5 2 . 6 .
+
+# puzzle#148 (difficulty: easy, empty_cells: 18)
+. 4 5 . . 6
+. 2 . 5 3 4
+. . . . . 5
+5 . 4 1 . 2
+2 6 . 4 . .
+4 5 . . . 3
+
+# puzzle#149 (difficulty: easy, empty_cells: 18)
+. 3 . . 2 4
+. . . 1 6 3
+. 6 3 . 4 .
+2 . 4 . 5 .
+1 . . . 3 5
+3 . . 4 1 .
+
+# puzzle#150 (difficulty: easy, empty_cells: 18)
+1 . 2 6 3 .
+. . . 5 . 1
+. . 1 . . .
+. . 6 3 1 5
+6 2 4 1 . 3
+. . . 4 6 .
+
+# puzzle#151 (difficulty: easy, empty_cells: 18)
+. 6 1 . 3 5
+5 3 . 6 1 .
+. 4 5 . . 6
+1 . . 4 5 .
+. 5 4 . . .
+6 . 3 . . .
+
+# puzzle#152 (difficulty: easy, empty_cells: 18)
+. 1 . . 2 .
+5 . . . 1 .
+. . 3 5 4 .
+2 5 4 1 6 .
+3 2 . 6 . 4
+. . 5 . . 1
+
+# puzzle#153 (difficulty: easy, empty_cells: 18)
+. . . 4 6 .
+. . 6 . 3 .
+2 5 4 6 . 3
+. 1 . . . .
+4 2 . 3 5 6
+3 . . 2 . 1
+
+# puzzle#154 (difficulty: easy, empty_cells: 18)
+3 2 6 . . 1
+4 5 1 3 . .
+2 . 3 6 5 .
+. . . 1 . 3
+6 . . 4 . .
+. 4 . 2 . .
+
+# puzzle#155 (difficulty: easy, empty_cells: 18)
+. . 2 3 . 1
+. . . 6 2 .
+4 2 3 . 5 .
+6 1 . . . .
+2 5 . 4 1 3
+. 4 . 5 . .
+
+# puzzle#156 (difficulty: easy, empty_cells: 18)
+. 2 6 . . .
+. 5 . 4 2 6
+5 . . . 3 .
+6 3 . 1 . 4
+3 . 5 2 . .
+2 . 4 5 . .
+
+# puzzle#157 (difficulty: easy, empty_cells: 18)
+4 2 6 5 3 .
+. . . . 2 6
+. 3 . . 5 2
+. 5 . . . .
+2 . 5 . 6 .
+3 . . 2 4 5
+
+# puzzle#158 (difficulty: easy, empty_cells: 18)
+4 2 . 1 5 3
+1 . . . . 6
+. . 1 6 . .
+6 4 . . 3 .
+2 . 3 . 6 5
+. . . . 1 2
+
+# puzzle#159 (difficulty: easy, empty_cells: 18)
+. 3 . . . 1
+1 . . 4 3 6
+. 1 . 6 . .
+6 . . . 1 5
+2 . 5 1 . 3
+. 6 . . 5 4
+
+# puzzle#160 (difficulty: easy, empty_cells: 18)
+. 4 . 1 6 2
+. 6 . 4 3 5
+. 1 5 . 2 3
+. . 2 . . 4
+. 5 . 2 . .
+1 . 4 . . .
+
+# puzzle#161 (difficulty: easy, empty_cells: 18)
+1 . . . 4 .
+. 6 . 1 3 2
+2 3 . . 5 1
+6 . 1 4 . .
+3 . . . 1 .
+5 . 2 3 . .
+
+# puzzle#162 (difficulty: easy, empty_cells: 18)
+. 5 4 3 2 .
+2 3 . . . 4
+. 6 3 2 1 .
+1 . 5 6 4 .
+. . 6 . . .
+5 1 . . . .
+
+# puzzle#163 (difficulty: easy, empty_cells: 18)
+. . . . 6 3
+1 . . . . 4
+5 . 6 . . 2
+. . 4 6 1 .
+6 . 5 3 2 .
+2 . 1 . 4 6
+
+# puzzle#164 (difficulty: easy, empty_cells: 18)
+5 2 3 4 . .
+. 4 . 2 . 5
+. . 5 . . 2
+4 1 2 . 5 .
+6 3 . . . .
+2 . . 6 1 .
+
+# puzzle#165 (difficulty: easy, empty_cells: 18)
+5 2 4 . 6 .
+6 . . 2 4 5
+. . . 3 1 .
+. 6 3 . 5 .
+2 4 6 5 . .
+3 . . . . .
+
+# puzzle#166 (difficulty: easy, empty_cells: 18)
+. 2 4 . . 1
+5 . 1 . 4 .
+6 4 5 . 2 3
+. 1 . 4 5 .
+. . 6 2 1 .
+. . . . . 4
+
+# puzzle#167 (difficulty: easy, empty_cells: 18)
+. 4 1 . . .
+. 2 3 4 1 .
+. . . 3 6 1
+3 . 6 . 2 .
+. . 2 . 4 .
+4 6 . . 3 2
+
+# puzzle#168 (difficulty: easy, empty_cells: 18)
+. 1 6 4 5 3
+. . 5 . . .
+. 5 4 3 2 .
+3 . 2 1 . 5
+6 . . . 3 .
+. . . . 6 1
+
+# puzzle#169 (difficulty: easy, empty_cells: 18)
+5 . 3 . 6 4
+. . . 3 5 .
+6 . 4 . . .
+. 1 . 6 4 .
+. 4 . 5 3 .
+. 5 6 4 2 .
+
+# puzzle#170 (difficulty: easy, empty_cells: 18)
+1 . . 2 5 3
+3 2 5 . . .
+. 4 . . . 6
+5 . . . . .
+6 5 2 . 4 1
+. . 1 6 . 5
+
+# puzzle#171 (difficulty: easy, empty_cells: 18)
+. . 2 5 4 6
+. . . 3 . 2
+. . 4 . . .
+3 5 1 2 . .
+. 6 3 4 . .
+. 1 5 6 . 3
+
+# puzzle#172 (difficulty: easy, empty_cells: 18)
+1 4 5 3 . .
+3 6 . 1 . 4
+. . 1 5 6 .
+2 . . 4 . 1
+. 2 . . . 3
+6 . 3 . . .
+
+# puzzle#173 (difficulty: easy, empty_cells: 18)
+. . 5 . . .
+. . 3 . 2 .
+3 . 1 2 5 6
+. 6 2 4 . .
+. . . 5 . 2
+2 5 4 1 . 3
+
+# puzzle#174 (difficulty: easy, empty_cells: 18)
+. 2 . 6 5 .
+6 . . 1 . 2
+. . . 3 . 6
+. . . 4 . .
+1 . 2 5 6 .
+5 3 6 2 4 .
+
+# puzzle#175 (difficulty: easy, empty_cells: 18)
+. . 4 . 5 .
+1 . 5 . 2 4
+. 3 . . 1 5
+. . . 2 3 6
+2 . . 1 4 .
+. . . 5 6 2
+
+# puzzle#176 (difficulty: easy, empty_cells: 18)
+. . 3 5 6 .
+4 . . 3 . 2
+. 3 5 4 2 1
+. . . . 5 3
+5 1 . 2 . .
+. . 2 . . 5
+
+# puzzle#177 (difficulty: easy, empty_cells: 18)
+. . 1 . 3 6
+2 3 . 1 . 5
+. . 2 3 . 1
+3 . . . . .
+6 . 4 . 1 3
+. 5 3 4 . .
+
+# puzzle#178 (difficulty: easy, empty_cells: 18)
+. 5 1 . . 3
+. . 3 . 4 1
+3 2 . 4 . 6
+6 . 4 3 5 .
+. 3 . 1 2 .
+. . 2 . . .
+
+# puzzle#179 (difficulty: easy, empty_cells: 18)
+4 2 . . . 1
+1 . 5 . 2 4
+5 1 . . . 3
+. 6 . 1 . .
+3 4 2 . . .
+6 5 . 4 . .
+
+# puzzle#180 (difficulty: easy, empty_cells: 18)
+6 4 3 . 5 1
+. . 2 . . 3
+3 . 5 . 4 6
+4 6 1 . . .
+2 3 . . . .
+. 1 . 3 . .
+
+# puzzle#181 (difficulty: easy, empty_cells: 18)
+. 4 2 5 . .
+. 1 . 6 . 2
+2 . . . 5 4
+. 5 1 . 3 .
+3 . . 4 . 1
+. 2 . . 6 5
+
+# puzzle#182 (difficulty: easy, empty_cells: 18)
+. . . 3 2 .
+. . 2 . 5 6
+4 . 1 . . .
+. . 6 . 1 .
+6 5 . 2 4 1
+2 1 . . 6 3
+
+# puzzle#183 (difficulty: easy, empty_cells: 18)
+6 . . 3 1 2
+1 . 2 4 6 .
+2 1 4 . . .
+. 5 . 1 2 .
+5 . 1 2 . .
+. . 3 . . .
+
+# puzzle#184 (difficulty: easy, empty_cells: 18)
+. . 4 . 2 .
+5 2 . 6 . .
+3 . . 2 . 6
+. . . 1 3 .
+4 6 . 5 1 3
+. 3 5 4 . .
+
+# puzzle#185 (difficulty: easy, empty_cells: 18)
+3 . 6 . 4 .
+2 4 1 5 . 3
+. . . . . .
+. . 3 . . 5
+4 . 5 6 1 .
+6 1 . 3 . 4
+
+# puzzle#186 (difficulty: easy, empty_cells: 18)
+. 6 4 . 2 1
+2 5 1 . 4 6
+. 3 . 6 1 5
+6 . . . . .
+. . . . . .
+. 2 3 . 6 4
+
+# puzzle#187 (difficulty: easy, empty_cells: 18)
+2 . . . 4 6
+6 . . . 2 .
+. 2 . . 3 1
+1 3 6 . . .
+5 1 . 3 . 4
+3 6 . 2 . .
+
+# puzzle#188 (difficulty: easy, empty_cells: 18)
+. . . 6 . .
+4 . . . 2 1
+3 5 . 2 . 4
+6 . . . 1 .
+2 4 5 . . 6
+. . 3 4 5 2
+
+# puzzle#189 (difficulty: easy, empty_cells: 18)
+. . . . 1 6
+1 4 . . 2 3
+3 2 1 6 . .
+6 5 . . . 1
+. . 3 1 . 4
+. 1 . . . 2
+
+# puzzle#190 (difficulty: easy, empty_cells: 18)
+2 . . 1 . 4
+6 . 1 5 . .
+. . 5 6 . 1
+1 . . 3 5 2
+. . 6 . 1 .
+. . 2 4 3 .
+
+# puzzle#191 (difficulty: easy, empty_cells: 18)
+. 3 . . . 2
+2 4 . 3 1 6
+. . 3 . 6 5
+. 2 . . . 3
+. 5 . . 2 .
+1 6 2 5 . .
+
+# puzzle#192 (difficulty: easy, empty_cells: 18)
+. 2 . . . 1
+. . 6 5 2 3
+3 6 5 . . 2
+1 . . . . .
+. 3 1 . . 4
+2 5 . 3 1 .
+
+# puzzle#193 (difficulty: easy, empty_cells: 18)
+3 5 . . . 1
+. 1 2 . . 4
+. . . 2 1 6
+1 2 . 4 . 3
+. . . . . 5
+5 . 1 3 4 .
+
+# puzzle#194 (difficulty: easy, empty_cells: 18)
+. 2 . . . .
+. 6 4 . 3 1
+2 . . 1 . 4
+4 1 5 3 . .
+3 5 1 6 . .
+6 . . . . 3
+
+# puzzle#195 (difficulty: easy, empty_cells: 18)
+1 5 . 2 . .
+4 6 2 . 5 .
+5 . 1 6 . 4
+. . . . . 5
+. 3 4 5 1 .
+2 . 5 . . .
+
+# puzzle#196 (difficulty: easy, empty_cells: 18)
+. 1 . 2 . 6
+4 6 2 1 . 5
+3 . . . 6 2
+2 . . 3 1 .
+. 2 4 . . .
+. 3 5 . . .
+
+# puzzle#197 (difficulty: easy, empty_cells: 18)
+6 . . . 3 .
+. . 1 2 6 4
+. 4 . . . 3
+5 . . 4 1 2
+. 1 3 5 . 6
+. . . 3 2 .
+
+# puzzle#198 (difficulty: easy, empty_cells: 18)
+. 1 . 5 4 6
+. . 4 1 2 .
+. 2 6 . . .
+1 . . 4 . .
+5 . 1 . 3 .
+3 4 . . 5 1
+
+# puzzle#199 (difficulty: easy, empty_cells: 18)
+4 . . . . .
+1 . 3 . . .
+. . 5 . 1 3
+. 6 1 2 5 .
+5 3 2 4 . 1
+. . . 3 2 5
+
+# puzzle#200 (difficulty: easy, empty_cells: 18)
+. . 1 . . 6
+. 5 3 2 . .
+. 1 6 4 . 3
+3 . . . 6 5
+. 6 4 . 3 .
+2 3 . . . 4
+
+# puzzle#201 (difficulty: easy, empty_cells: 18)
+. . 2 . 3 .
+3 . 1 4 . 2
+. 2 . 5 . .
+. 5 . . 1 3
+2 . 5 6 . .
+6 . 4 . 2 5
+
+# puzzle#202 (difficulty: easy, empty_cells: 18)
+4 . 2 5 6 .
+. . 1 . . 2
+. . . . . 5
+6 . 5 2 1 3
+. 5 . 1 . 6
+2 1 . 3 . .
+
+# puzzle#203 (difficulty: easy, empty_cells: 18)
+6 3 4 . . .
+5 2 . . . 6
+1 6 . 3 5 .
+. . 5 6 1 .
+. 1 . . 4 .
+4 . . . 6 1
+
+# puzzle#204 (difficulty: easy, empty_cells: 18)
+4 1 . 6 3 .
+. 2 . 5 . 1
+. 3 . . . .
+. 5 2 3 6 4
+. 4 . . 5 6
+5 . 1 . . .
+
+# puzzle#205 (difficulty: easy, empty_cells: 18)
+2 . 1 . . .
+4 . 6 1 2 .
+. 1 3 . 4 .
+6 . 4 3 . .
+1 . 5 4 . .
+. 4 2 5 . .
+
+# puzzle#206 (difficulty: easy, empty_cells: 18)
+. 2 . 6 1 .
+1 4 . 2 . .
+. . 3 . 6 .
+. . . 4 . 3
+. . 2 3 4 .
+6 . 4 5 2 1
+
+# puzzle#207 (difficulty: easy, empty_cells: 18)
+. . . 4 . .
+. 4 1 5 . 2
+6 2 . 1 5 3
+. 5 3 . . 6
+. 1 6 . . 5
+. . 5 6 . .
+
+# puzzle#208 (difficulty: easy, empty_cells: 18)
+1 3 2 . 4 5
+6 4 . 3 1 2
+5 . 3 . . 4
+. . . 5 3 .
+. . . 2 . .
+. 2 . 4 . .
+
+# puzzle#209 (difficulty: easy, empty_cells: 18)
+2 . . 6 5 .
+. 6 5 . 3 2
+. 2 . . 1 4
+5 . . 2 6 3
+6 . . . 4 .
+. . . 3 . 6
+
+# puzzle#210 (difficulty: easy, empty_cells: 18)
+. . 3 . . .
+2 6 4 3 . 1
+. 4 1 2 3 .
+. 2 . 1 4 .
+. . 2 6 . .
+1 . 6 . . 4
+
+# puzzle#211 (difficulty: easy, empty_cells: 18)
+6 3 2 5 1 .
+. . 5 6 3 .
+. . . 4 5 .
+5 . 4 . . 1
+. 5 . 1 4 3
+. . 1 . . .
+
+# puzzle#212 (difficulty: easy, empty_cells: 18)
+3 1 . 6 . 2
+. . . 1 4 3
+. 5 . . . 1
+1 6 . . . 4
+2 4 6 3 . .
+. . . 4 2 .
+
+# puzzle#213 (difficulty: easy, empty_cells: 18)
+4 . 1 . . .
+3 2 . . . .
+. . 2 4 . 5
+. 5 4 . . 1
+5 4 6 2 1 .
+2 . . 6 . 4
+
+# puzzle#214 (difficulty: easy, empty_cells: 18)
+3 2 5 1 . 4
+1 . 6 . 5 .
+6 . . . 2 .
+. . . . . 1
+. 6 2 . 1 .
+. 1 . 2 4 6
+
+# puzzle#215 (difficulty: easy, empty_cells: 18)
+. . . 4 3 .
+3 . . 1 2 .
+. 6 5 3 . .
+4 . 1 6 5 2
+. . . . 4 1
+1 . . 2 6 .
+
+# puzzle#216 (difficulty: easy, empty_cells: 18)
+. 4 3 1 . 6
+. 2 . 5 4 .
+. . 5 . . .
+6 . 2 . 1 .
+2 . 1 . 5 4
+3 . . 2 . 1
+
+# puzzle#217 (difficulty: easy, empty_cells: 18)
+3 5 . . 2 .
+4 6 2 . 1 3
+1 4 . . . 2
+. . . 6 . .
+. 1 . . 3 5
+5 . . . 6 4
+
+# puzzle#218 (difficulty: easy, empty_cells: 18)
+5 . . . . 6
+. 6 1 5 3 2
+3 . 4 6 1 .
+. . 6 . . 3
+2 1 5 . . .
+. 4 . . . 1
+
+# puzzle#219 (difficulty: easy, empty_cells: 18)
+6 1 2 . . .
+. 5 . 2 6 .
+. 3 5 . . .
+1 4 . 5 . 3
+. . 1 6 . 4
+5 . . 1 3 .
+
+# puzzle#220 (difficulty: easy, empty_cells: 18)
+. 4 . . 2 1
+2 5 . 6 4 .
+. . 2 . . 5
+1 . 5 4 . .
+6 2 . . . .
+5 . 4 2 . 6
+
+# puzzle#221 (difficulty: easy, empty_cells: 18)
+. . 2 6 3 4
+. 6 . . 1 .
+1 . . . . 2
+. 4 3 5 . .
+. . 5 . 2 6
+6 2 1 4 . .
+
+# puzzle#222 (difficulty: easy, empty_cells: 18)
+1 6 . 3 5 .
+. . 5 . . .
+. 1 6 . 4 5
+2 . 4 . . 1
+6 . 3 . 1 .
+5 2 . . 6 .
+
+# puzzle#223 (difficulty: easy, empty_cells: 18)
+2 . . 6 . .
+5 . 6 . 2 1
+. . 2 . 4 .
+1 . . . . 5
+. 6 . 4 1 .
+4 2 1 5 . 6
+
+# puzzle#224 (difficulty: easy, empty_cells: 18)
+. . . 2 1 .
+. . . . 5 4
+6 1 . . 3 2
+3 . . . 4 1
+1 2 3 4 . 5
+. 4 . 1 . .
+
+# puzzle#225 (difficulty: easy, empty_cells: 18)
+. 3 6 . . .
+1 . 4 2 . .
+. . 1 3 . .
+. 4 . 1 2 .
+5 6 . 4 3 1
+4 1 . . . 2
+
+# puzzle#226 (difficulty: easy, empty_cells: 18)
+. . . 1 4 2
+2 4 1 . . .
+5 . 6 . . 4
+. 1 . . 3 5
+. . 3 4 2 .
+1 . . 5 . 3
+
+# puzzle#227 (difficulty: easy, empty_cells: 18)
+2 . . 6 4 5
+4 . . . 2 1
+1 2 . . . 6
+. . . . 1 .
+. 5 1 2 6 .
+6 4 . . 5 .
+
+# puzzle#228 (difficulty: easy, empty_cells: 18)
+4 . 2 . . 5
+. . 1 3 2 .
+. 5 . . . .
+1 . . 5 3 .
+3 2 . 6 . 1
+6 . 5 2 . 3
+
+# puzzle#229 (difficulty: easy, empty_cells: 18)
+5 6 4 3 2 .
+. 1 . . 6 5
+4 . 6 . . .
+. 3 2 . . 4
+. 4 . 5 . 2
+. 2 . . . 6
+
+# puzzle#230 (difficulty: easy, empty_cells: 18)
+6 3 5 4 1 .
+1 . 2 5 . .
+3 . 4 2 . 1
+2 . . . 6 .
+. 2 . . . .
+. . 3 . 2 5
+
+# puzzle#231 (difficulty: easy, empty_cells: 18)
+5 . . 4 . .
+. . 3 1 . 5
+. 2 1 5 . .
+4 . 5 2 1 .
+6 . . . . .
+1 3 2 6 . 4
+
+# puzzle#232 (difficulty: easy, empty_cells: 18)
+3 . 5 1 . 6
+4 . . . 3 5
+. . 2 . 6 .
+. 3 . . . .
+2 4 . . 5 1
+. 6 1 3 2 .
+
+# puzzle#233 (difficulty: easy, empty_cells: 18)
+3 . 5 6 . .
+1 . . 5 . .
+. . 4 3 5 2
+5 2 . 4 1 .
+4 . . 2 . 5
+2 . . . . 4
+
+# puzzle#234 (difficulty: easy, empty_cells: 18)
+3 . 4 . . .
+1 5 2 3 . 6
+. . 6 . 5 .
+5 3 1 . 6 .
+. . . . . 2
+. 2 . 4 1 5
+
+# puzzle#235 (difficulty: easy, empty_cells: 18)
+4 . 3 1 . 5
+. . 6 . 3 .
+3 . 1 6 . .
+. . . . 5 1
+. 6 5 . 1 .
+. . 4 5 2 6
+
+# puzzle#236 (difficulty: easy, empty_cells: 18)
+2 . . 3 . 6
+. . 1 2 . 5
+6 . 2 . . 3
+. . . 4 . 2
+. 3 5 . . 1
+1 . 6 . 3 4
+
+# puzzle#237 (difficulty: easy, empty_cells: 18)
+2 . 6 3 . .
+5 3 . . . .
+1 2 5 6 . 4
+. 6 4 . . 2
+. 1 3 4 . .
+. . . 1 6 .
+
+# puzzle#238 (difficulty: easy, empty_cells: 18)
+. . 5 1 3 6
+. 1 . . . 2
+5 3 . 6 . 1
+1 . 6 . . 4
+3 . . . 1 5
+. . 1 . 6 .
+
+# puzzle#239 (difficulty: easy, empty_cells: 18)
+1 5 4 . 6 .
+. . 2 1 . .
+. 6 3 5 4 .
+4 1 5 . . 3
+. 2 1 4 . .
+. 4 . . . .
+
+# puzzle#240 (difficulty: easy, empty_cells: 18)
+1 5 . . 3 .
+. . . 1 5 6
+3 . 1 . . 5
+. 4 . . . .
+. 1 4 . 2 .
+. 6 3 5 4 1
+
+# puzzle#241 (difficulty: easy, empty_cells: 18)
+5 . . . . 4
+. 3 . . 5 6
+3 . . 4 . 2
+4 1 . . 3 5
+. 2 3 . . 1
+1 4 5 . . .
+
+# puzzle#242 (difficulty: easy, empty_cells: 18)
+. 4 2 . . 3
+1 . 3 . 6 2
+4 . . 2 3 5
+2 . . . . .
+. 2 . . . 1
+5 1 . . 2 4
+
+# puzzle#243 (difficulty: easy, empty_cells: 18)
+5 3 . 4 . .
+1 . . 6 . .
+6 . . . . 1
+2 . . 3 . 4
+3 . 2 . . .
+4 1 5 2 3 6
+
+# puzzle#244 (difficulty: easy, empty_cells: 18)
+4 3 . 6 . 1
+1 . . 4 3 5
+. . . . . .
+. 6 . 2 4 3
+. . 2 . 1 4
+. . 4 5 6 .
+
+# puzzle#245 (difficulty: easy, empty_cells: 18)
+. 2 3 . 5 1
+1 . . 3 . 2
+5 . 2 . 1 4
+4 6 . 5 2 .
+. . . . 4 .
+2 . 5 . . .
+
+# puzzle#246 (difficulty: easy, empty_cells: 18)
+. 6 5 . . 1
+. . . . 6 .
+6 2 1 . . 3
+5 . 4 . 1 6
+4 . . 6 3 5
+. . . 1 2 .
+
+# puzzle#247 (difficulty: easy, empty_cells: 18)
+. . . 2 5 .
+. . . . 6 .
+3 4 . 5 . 6
+. 5 . 3 4 .
+. 2 . 6 3 5
+5 6 3 . . 2
+
+# puzzle#248 (difficulty: easy, empty_cells: 18)
+. . 1 6 . 3
+6 . 4 1 . .
+. 6 3 . 2 .
+4 . 2 3 6 .
+3 . . 2 . 5
+. 1 . 4 . .
+
+# puzzle#249 (difficulty: easy, empty_cells: 18)
+4 . 1 3 6 .
+2 3 . . . 4
+. . . 2 4 .
+. 4 2 . 1 .
+. . . 6 3 1
+6 1 . . . 5
+
+# puzzle#250 (difficulty: easy, empty_cells: 18)
+2 4 . . . 5
+. . . . . 4
+. 6 5 . . .
+. 3 2 . 5 6
+6 5 . 4 . 3
+3 2 4 . . 1
+
+# puzzle#251 (difficulty: easy, empty_cells: 18)
+1 . 6 4 . 3
+3 4 . . 5 .
+. . 3 5 . .
+4 1 5 . 3 .
+. . 4 1 . .
+5 . 1 3 . .
+
+# puzzle#252 (difficulty: easy, empty_cells: 18)
+5 . 1 6 . .
+. . 3 . 1 5
+1 . . 5 . .
+6 3 5 1 . 4
+. . 6 . 5 .
+2 . . 3 . 1
+
+# puzzle#253 (difficulty: easy, empty_cells: 18)
+5 . 2 3 . .
+. . 1 6 . 2
+1 5 4 . . 3
+2 . . 4 . .
+4 2 5 . . .
+. 1 . 5 . 4
+
+# puzzle#254 (difficulty: easy, empty_cells: 18)
+. . . . 1 .
+1 5 . . 3 6
+4 . 5 3 6 2
+. 6 2 4 5 .
+2 3 . . 4 .
+. . . 1 . .
+
+# puzzle#255 (difficulty: easy, empty_cells: 18)
+4 . . . . 5
+3 5 . . 4 .
+. . 3 . 1 2
+. 2 5 4 . 3
+. 6 . 2 . 4
+. 3 . 1 5 .
+
+# puzzle#256 (difficulty: easy, empty_cells: 18)
+2 3 . 5 . .
+5 4 1 . 3 .
+. . 2 1 5 .
+. 1 . 2 . 3
+1 . 3 4 . .
+. . 4 3 . .
+
+# puzzle#257 (difficulty: easy, empty_cells: 18)
+. . 4 1 2 5
+1 . 5 . . .
+5 . 6 4 . 2
+. 1 . 5 . .
+. 5 3 2 . 1
+. . . 3 5 .
+
+# puzzle#258 (difficulty: easy, empty_cells: 18)
+3 4 1 . 5 .
+. 5 . 1 . .
+. 2 4 3 1 .
+5 . . 4 2 .
+. 6 . 5 3 .
+. . . . 6 4
+
+# puzzle#259 (difficulty: easy, empty_cells: 18)
+5 . 4 . 2 1
+. 6 . 5 . .
+3 . 2 . 5 .
+. . 5 2 3 .
+. 5 3 4 6 .
+. . . 3 . 5
+
+# puzzle#260 (difficulty: easy, empty_cells: 18)
+5 3 1 . . 4
+4 2 6 3 1 .
+. . . . 2 .
+2 . 5 . . 1
+. . . . 4 .
+1 . 3 . 5 2
+
+# puzzle#261 (difficulty: easy, empty_cells: 18)
+2 3 . 4 1 5
+1 5 4 . 2 .
+. . . 2 . .
+4 . 3 1 5 .
+6 . . . . .
+3 . . 5 . 1
+
+# puzzle#262 (difficulty: easy, empty_cells: 18)
+. . 4 2 . .
+2 . 3 . . .
+. 2 5 1 . 4
+. 4 . 3 . .
+. . 1 4 2 5
+4 . 2 . 3 1
+
+# puzzle#263 (difficulty: easy, empty_cells: 18)
+1 4 . . . 5
+3 . . 6 1 .
+. 6 . 5 4 1
+5 . . . . 2
+. 3 5 1 2 .
+6 . 1 . . .
+
+# puzzle#264 (difficulty: easy, empty_cells: 18)
+6 . . . 1 .
+1 . . 4 2 .
+2 6 1 5 . .
+5 4 3 2 . 1
+4 . 2 6 . .
+. . . 1 . .
+
+# puzzle#265 (difficulty: easy, empty_cells: 18)
+2 . 6 . . .
+3 4 . . . 1
+6 5 2 . . 3
+. 3 . 6 . .
+5 . 4 3 . 6
+1 . 3 5 . .
+
+# puzzle#266 (difficulty: easy, empty_cells: 18)
+. . . . . .
+5 . . 1 2 3
+2 1 . . 3 6
+. 3 4 . . 1
+4 . 3 6 1 2
+1 . . . . 5
+
+# puzzle#267 (difficulty: easy, empty_cells: 18)
+. 6 1 4 . 2
+4 2 . 5 . .
+. 4 2 6 . .
+6 3 . 2 . .
+. 1 4 3 . .
+. . 6 . . 4
+
+# puzzle#268 (difficulty: easy, empty_cells: 18)
+. 2 6 3 . .
+1 4 . . . .
+. 5 2 . . 3
+4 3 1 . . 5
+3 6 4 . 2 1
+. . . . . 6
+
+# puzzle#269 (difficulty: easy, empty_cells: 18)
+. . . 3 . .
+1 6 . . 4 .
+6 4 . . . 2
+3 . 2 6 5 4
+5 3 6 . . .
+. 2 . . 6 3
+
+# puzzle#270 (difficulty: easy, empty_cells: 18)
+. 6 . 3 . 2
+2 . 3 . 5 .
+1 5 . . . 3
+. . . . 6 .
+4 2 . . 3 1
+6 . . 5 2 4
+
+# puzzle#271 (difficulty: easy, empty_cells: 18)
+. . 4 . 2 .
+3 . 1 6 4 .
+4 1 3 5 6 2
+. 6 . . . .
+. . . . 5 6
+5 . . 2 . 3
+
+# puzzle#272 (difficulty: easy, empty_cells: 18)
+3 6 5 . 2 1
+1 . . . . 3
+4 . . 6 1 2
+. . 1 . . 5
+. . . 2 . 6
+2 . 6 . 5 .
+
+# puzzle#273 (difficulty: easy, empty_cells: 18)
+1 4 5 . . .
+3 . . . 1 .
+6 . . 4 3 .
+. 3 . . 2 .
+4 6 . 2 5 .
+2 5 . . 4 6
+
+# puzzle#274 (difficulty: easy, empty_cells: 18)
+. 1 . . . .
+. 6 5 4 2 .
+. 4 2 3 1 .
+1 3 . 2 4 5
+. . . 5 . 4
+4 . . . 6 .
+
+# puzzle#275 (difficulty: easy, empty_cells: 18)
+3 . . . 6 2
+6 5 . . . 4
+. . 1 . 5 .
+5 . . 3 4 1
+. . 3 . 2 5
+. 4 5 . 1 .
+
+# puzzle#276 (difficulty: easy, empty_cells: 18)
+. 5 . . . .
+. 4 . 3 5 6
+. 6 . . 3 4
+4 3 1 . 6 5
+. 1 6 . . .
+5 . . . 1 3
+
+# puzzle#277 (difficulty: easy, empty_cells: 18)
+5 . . 3 . 2
+. . 4 . . 5
+. 1 5 . . .
+. 3 6 . 5 4
+1 5 . . . 3
+6 4 . 5 . 1
+
+# puzzle#278 (difficulty: easy, empty_cells: 18)
+. 1 5 3 . .
+. 6 2 5 4 .
+. 5 . . 1 .
+. 4 . . 3 5
+5 3 1 . . 4
+. 2 . 1 . .
+
+# puzzle#279 (difficulty: easy, empty_cells: 18)
+3 2 4 . . .
+. . 6 2 3 4
+1 . 2 3 . .
+. 5 3 6 . 2
+6 4 . 1 . .
+. 3 . . . .
+
+# puzzle#280 (difficulty: easy, empty_cells: 18)
+. . . . . 2
+2 5 . 6 . .
+5 2 1 3 6 .
+4 3 . 1 2 5
+. . . 2 . .
+6 1 . 5 . .
+
+# puzzle#281 (difficulty: easy, empty_cells: 18)
+. 2 1 . . 3
+. 6 4 . . 5
+. . . . . 2
+. 5 . 3 4 6
+2 1 . . 3 4
+. 3 . . 5 1
+
+# puzzle#282 (difficulty: easy, empty_cells: 18)
+. 1 6 4 2 3
+4 3 . . . 1
+. 6 . 1 . .
+. . . . 4 .
+. 2 5 . . .
+6 4 3 5 . 2
+
+# puzzle#283 (difficulty: easy, empty_cells: 18)
+1 4 2 . . 3
+3 . . . . 1
+. 3 5 1 6 2
+. . 1 . . .
+. 2 3 . 1 4
+. . 4 . 2 .
+
+# puzzle#284 (difficulty: easy, empty_cells: 18)
+. . . 3 2 .
+2 1 . . 5 6
+3 4 1 . 6 5
+. . . . . 4
+6 2 . . 1 3
+. 3 . . 4 .
+
+# puzzle#285 (difficulty: easy, empty_cells: 18)
+5 2 6 . . .
+. . . 6 2 .
+. . 4 5 . 2
+. . . . 6 4
+4 1 . 2 . .
+2 6 . 4 5 1
+
+# puzzle#286 (difficulty: easy, empty_cells: 18)
+. . . 4 . 2
+4 . 2 6 . .
+. . 6 . 2 4
+. 2 4 1 . 3
+. . 5 . . .
+3 6 1 . 4 5
+
+# puzzle#287 (difficulty: easy, empty_cells: 18)
+5 . . 3 . 1
+. . 2 . 4 .
+. . 1 4 6 3
+6 3 4 5 . .
+. 2 . 1 . .
+1 . 3 . 5 .
+
+# puzzle#288 (difficulty: easy, empty_cells: 18)
+4 5 6 . 3 .
+1 3 . . 5 4
+. . . 3 . .
+. 4 5 1 6 .
+. . . 4 2 6
+6 . 4 . . .
+
+# puzzle#289 (difficulty: easy, empty_cells: 18)
+. 3 2 . . 4
+. . 4 . 2 3
+. 4 5 . 6 .
+2 1 6 . 3 .
+. . 1 3 5 .
+. 5 . . . 1
+
+# puzzle#290 (difficulty: easy, empty_cells: 18)
+2 6 . . 4 .
+. . 4 3 6 2
+1 5 6 . 2 .
+. . 2 . . 6
+. . . . . 5
+. 2 5 6 . 4
+
+# puzzle#291 (difficulty: easy, empty_cells: 18)
+6 . 1 . 2 3
+. 5 3 4 6 .
+. . 6 3 . .
+3 2 . . 5 .
+. 3 2 . 1 .
+1 6 . . . .
+
+# puzzle#292 (difficulty: easy, empty_cells: 18)
+4 . . 6 3 .
+. 6 . . . .
+6 . 4 . . .
+. 3 2 5 4 .
+. . 6 1 5 3
+5 . . 4 6 2
+
+# puzzle#293 (difficulty: easy, empty_cells: 18)
+. 6 4 2 . .
+. . 5 6 1 4
+. 4 . . . 1
+2 . . . 3 6
+4 3 2 . . 5
+5 . . . 4 .
+
+# puzzle#294 (difficulty: easy, empty_cells: 18)
+6 . 2 3 . .
+. 4 5 1 . 6
+1 . . 2 . .
+2 6 . 4 5 .
+. . 6 5 . 2
+. . 1 . . 4
+
+# puzzle#295 (difficulty: easy, empty_cells: 18)
+3 . . 5 2 .
+. . . . 4 .
+6 . . 1 . 2
+. . 1 4 5 .
+4 . 3 2 1 .
+1 . . 3 6 4
+
+# puzzle#296 (difficulty: easy, empty_cells: 18)
+6 3 . . 4 .
+. . 5 6 . .
+2 5 4 1 6 3
+. . 6 5 . 4
+. . . . 1 6
+. 6 3 . . .
+
+# puzzle#297 (difficulty: easy, empty_cells: 18)
+. . . . 1 5
+. 1 . . . 6
+. 5 1 3 6 2
+. 2 . . 5 4
+. . 6 . . .
+5 3 2 6 4 .
+
+# puzzle#298 (difficulty: easy, empty_cells: 18)
+5 . . . . 4
+. . 3 6 5 .
+. . . . 2 6
+. . 1 4 3 .
+. 1 2 . 4 .
+4 3 . 2 6 1
+
+# puzzle#299 (difficulty: easy, empty_cells: 18)
+5 2 3 . 1 6
+4 . 6 5 . 2
+. 6 5 . 4 .
+2 . . . . .
+. . 2 . . 4
+6 . 4 . . 3
+
+# puzzle#300 (difficulty: easy, empty_cells: 18)
+. 4 6 . 2 .
+5 3 . 4 . 6
+. 6 . 1 . 2
+2 . . . 3 .
+3 . . . . 1
+. 1 5 2 . 3
+
+# puzzle#301 (difficulty: easy, empty_cells: 18)
+4 2 3 . . 5
+1 . . . 4 2
+2 1 6 4 5 .
+3 . . . 2 .
+. . . . . .
+. . 1 2 6 4
+
+# puzzle#302 (difficulty: easy, empty_cells: 18)
+. 4 1 5 . .
+6 5 . . 4 1
+4 . . 1 2 .
+. . . . . 4
+. . 4 . 5 2
+5 6 2 . 1 .
+
+# puzzle#303 (difficulty: easy, empty_cells: 18)
+. 1 . 6 . 5
+. 5 2 . 1 .
+2 . 1 5 3 .
+. . 5 . . 1
+5 . 6 1 . 2
+. . . 3 5 .
+
+# puzzle#304 (difficulty: easy, empty_cells: 18)
+1 2 . . . .
+5 . 6 . . 3
+3 1 . 6 5 .
+. 6 . . 1 2
+6 . . 2 . .
+2 . 1 . 6 5
+
+# puzzle#305 (difficulty: easy, empty_cells: 18)
+4 6 1 . 2 5
+. . 2 1 . 6
+. 1 . . 3 4
+2 3 . . 5 1
+. . . . . .
+6 2 . . 1 .
+
+# puzzle#306 (difficulty: easy, empty_cells: 18)
+. 2 6 1 5 .
+. 1 . 3 6 2
+5 . . . . 1
+. . 1 . . 5
+2 6 . . . 3
+1 5 . 2 . .
+
+# puzzle#307 (difficulty: easy, empty_cells: 18)
+4 1 . . 5 6
+. 6 2 1 . 3
+6 . 4 . 1 .
+. 2 . . 6 .
+. . . 6 . .
+. 3 6 4 2 .
+
+# puzzle#308 (difficulty: easy, empty_cells: 18)
+6 . 1 . . 3
+. . . . 4 1
+. . 6 . . 4
+2 . 4 . 3 .
+. 6 2 3 1 .
+1 5 3 . . 2
+
+# puzzle#309 (difficulty: easy, empty_cells: 18)
+5 . . 1 . 6
+4 . 6 2 . .
+2 6 . . . .
+3 5 1 6 . 4
+. 3 . . 6 2
+. . . . 5 1
+
+# puzzle#310 (difficulty: easy, empty_cells: 18)
+1 6 5 . . .
+. 3 4 . . 5
+3 1 . 5 2 .
+5 . . . 1 6
+. . . 6 5 .
+6 5 . . . 2
+
+# puzzle#311 (difficulty: easy, empty_cells: 18)
+. . . 6 2 5
+2 . . . . .
+6 . 4 . . .
+1 5 3 4 . .
+. 4 . 5 . .
+5 1 6 2 4 3
+
+# puzzle#312 (difficulty: easy, empty_cells: 18)
+. 4 2 . . 6
+. . . 2 . 4
+6 5 . . . .
+4 2 3 . 6 .
+. . 5 6 4 1
+1 . . 5 . 2
+
+# puzzle#313 (difficulty: easy, empty_cells: 18)
+. 1 . . 5 2
+. . . 1 . 6
+. 2 6 4 3 5
+3 4 5 . . .
+4 6 . . . 3
+. . 2 . . 4
+
+# puzzle#314 (difficulty: easy, empty_cells: 18)
+. 4 5 1 3 2
+. 1 . 4 . .
+. . 2 . . 1
+. 6 . 5 2 3
+4 3 . . . 6
+. 2 6 . . .
+
+# puzzle#315 (difficulty: easy, empty_cells: 18)
+5 . . 3 . 6
+. . . . . 4
+2 6 . . . 1
+. . 1 5 6 2
+4 5 6 1 2 .
+. . . 6 4 .
+
+# puzzle#316 (difficulty: easy, empty_cells: 18)
+4 . . . . .
+. . 5 3 1 .
+. . 4 2 . .
+. . 1 6 4 3
+5 4 . 1 . 2
+1 . 2 4 6 .
+
+# puzzle#317 (difficulty: easy, empty_cells: 18)
+6 . . . 1 .
+. 4 . 5 . 6
+. 6 . 1 3 .
+2 3 . . 4 .
+. 2 . 4 5 1
+. . 4 2 6 .
+
+# puzzle#318 (difficulty: easy, empty_cells: 18)
+4 5 2 . . 6
+. 3 6 4 . .
+2 . . . . .
+5 1 3 6 4 2
+. 4 . 2 . .
+6 . . . 3 .
+
+# puzzle#319 (difficulty: easy, empty_cells: 18)
+1 . . 5 3 2
+. . 2 . 1 6
+. 4 . 6 2 .
+. . 5 3 . 1
+. . . 2 5 3
+2 . 3 . . .
+
+# puzzle#320 (difficulty: easy, empty_cells: 18)
+. . . 5 . 4
+6 4 5 1 . 2
+4 6 . 2 . .
+2 5 1 . . 6
+5 . . . . .
+1 . . 4 . 5
+
+# puzzle#321 (difficulty: easy, empty_cells: 18)
+3 6 . 5 4 2
+2 4 . . 6 1
+5 . 4 6 1 .
+. . . . . 5
+1 3 6 . . .
+. . 2 . . .
+
+# puzzle#322 (difficulty: easy, empty_cells: 18)
+4 . 5 . . .
+. 2 1 3 5 4
+. . 2 5 . .
+1 . . 2 3 6
+. 4 3 6 1 .
+. . . . 2 .
+
+# puzzle#323 (difficulty: easy, empty_cells: 18)
+. 3 . . 1 .
+. . 6 2 4 .
+. . 3 . 5 .
+1 5 4 3 6 .
+6 2 . . . 1
+. 4 . . 2 6
+
+# puzzle#324 (difficulty: easy, empty_cells: 18)
+. . . . 5 4
+3 4 . 6 2 .
+. . . 1 4 .
+. . 6 . . 2
+6 5 . . 1 3
+. 2 3 4 . 5
+
+# puzzle#325 (difficulty: easy, empty_cells: 18)
+. 2 6 . . 4
+3 4 5 . . .
+2 6 4 . . .
+5 . . . 2 .
+6 1 2 . . 3
+. 5 3 . 1 .
+
+# puzzle#326 (difficulty: easy, empty_cells: 18)
+1 3 . . . .
+. . 5 1 . 4
+. 2 3 6 . 1
+6 . 1 4 . .
+. 1 . 3 . 6
+. 4 . . 1 5
+
+# puzzle#327 (difficulty: easy, empty_cells: 18)
+4 6 5 2 . .
+. 2 3 . . .
+6 4 . . 2 5
+. 5 . 1 . .
+. . 6 5 4 3
+. 3 . . . 2
+
+# puzzle#328 (difficulty: easy, empty_cells: 18)
+. . 3 . . 4
+. 6 2 5 . 1
+1 3 5 2 4 6
+. . 4 . . .
+3 . . 4 . 2
+. . 1 3 . .
+
+# puzzle#329 (difficulty: easy, empty_cells: 18)
+. 4 . 1 . .
+5 . 3 . 4 .
+. . 5 . 6 .
+2 6 1 . 5 3
+. 2 . 5 1 .
+. . 6 3 2 .
+
+# puzzle#330 (difficulty: easy, empty_cells: 18)
+. 5 4 . 3 1
+. 6 . 5 4 2
+. . . . 2 .
+. . . 1 6 5
+5 . . . 1 3
+3 4 . . . 6
+
+# puzzle#331 (difficulty: easy, empty_cells: 18)
+2 4 3 6 1 .
+. 6 . 4 . .
+. 5 . 3 4 1
+1 . . . 2 .
+. 1 . 2 . .
+3 . . . 5 4
+
+# puzzle#332 (difficulty: easy, empty_cells: 18)
+6 5 2 . . 3
+3 . . . 2 6
+4 . 5 1 . .
+. . 1 3 . 4
+5 . 6 . 3 1
+. . . 6 . .
+
+# puzzle#333 (difficulty: easy, empty_cells: 18)
+. 5 . 1 4 6
+6 . . . 2 .
+1 . 3 6 . 4
+. . 6 3 . .
+. 3 5 2 . .
+. . 1 4 3 .
+
+# puzzle#334 (difficulty: easy, empty_cells: 18)
+. . 5 . . 2
+3 1 . 4 . 6
+. . . . . .
+2 4 3 . 6 .
+. . 1 5 . 3
+5 3 4 . 2 1
+
+# puzzle#335 (difficulty: easy, empty_cells: 18)
+5 . . . 2 .
+. 3 2 . 4 .
+. 5 3 2 . .
+6 2 1 . . 5
+3 4 5 6 1 .
+. . . . . 4
+
+# puzzle#336 (difficulty: easy, empty_cells: 18)
+3 4 1 6 . 5
+. . 5 1 3 .
+. 3 . . 4 1
+. 1 . . 6 .
+1 . 4 3 . .
+. 5 . . . 2
+
+# puzzle#337 (difficulty: easy, empty_cells: 18)
+3 2 5 . . .
+. 1 4 3 2 .
+. . 1 5 . .
+. 3 2 . 4 1
+. . . 2 5 .
+. 5 . . 1 3
+
+# puzzle#338 (difficulty: easy, empty_cells: 18)
+2 . . . 1 3
+. 3 5 . . 2
+. 2 1 . . 6
+6 5 3 4 . 1
+5 . . . 3 4
+. . . 2 . .
+
+# puzzle#339 (difficulty: easy, empty_cells: 18)
+4 . 6 2 . 3
+. 5 3 1 . .
+. . . . . 1
+1 . . 3 . 6
+6 3 2 . 1 5
+. . 1 6 . .
+
+# puzzle#340 (difficulty: easy, empty_cells: 18)
+5 . . . 2 1
+. . . . 4 6
+3 . . . 1 5
+4 1 5 . . 3
+. 2 3 1 5 .
+. . 4 . 3 .
+
+# puzzle#341 (difficulty: easy, empty_cells: 18)
+2 5 6 . 3 4
+. . . 6 2 .
+. 6 1 3 4 .
+. 2 4 . . .
+6 1 . . . 3
+. 3 . . . 6
+
+# puzzle#342 (difficulty: easy, empty_cells: 18)
+4 5 3 . 2 .
+. . . 4 5 .
+1 2 . . . 6
+5 . . 1 . .
+3 6 . 2 . 4
+2 . . . 6 5
+
+# puzzle#343 (difficulty: easy, empty_cells: 18)
+2 4 5 . . .
+. . 3 2 . .
+3 5 . 4 . 6
+. 6 . 5 . 3
+5 3 6 1 . .
+. . 1 6 . .
+
+# puzzle#344 (difficulty: easy, empty_cells: 18)
+. 5 2 . 4 .
+4 . . 6 . 5
+. . . 4 . .
+2 6 4 3 5 1
+3 2 . . . .
+5 4 . 2 . .
+
+# puzzle#345 (difficulty: easy, empty_cells: 18)
+. . 6 4 2 .
+4 3 . . 6 .
+2 5 . . . 6
+. . 3 . 1 5
+. 6 4 . . 2
+. 2 . 6 3 .
+
+# puzzle#346 (difficulty: easy, empty_cells: 18)
+. . 4 . 3 2
+. 6 . 4 1 5
+. . . 2 . .
+3 . 2 1 6 .
+. . 1 5 . 6
+6 . . . 4 1
+
+# puzzle#347 (difficulty: easy, empty_cells: 18)
+. . 3 2 5 .
+5 . . 3 . 6
+. 2 . 5 . 4
+3 5 4 6 . 2
+. 4 . . 6 .
+6 . . 4 . .
+
+# puzzle#348 (difficulty: easy, empty_cells: 18)
+2 5 . . . .
+. . 4 . . 5
+3 1 5 6 4 2
+. 2 . . . .
+. 4 . 5 . .
+5 3 2 1 . 4
+
+# puzzle#349 (difficulty: easy, empty_cells: 18)
+. . 6 . . 3
+4 . . . 1 6
+. 5 . . . 2
+1 . 2 . 6 .
+3 4 5 . . 1
+2 6 . . 5 4
+
+# puzzle#350 (difficulty: easy, empty_cells: 18)
+. . . 6 . 1
+6 . . 4 5 3
+5 . . . . .
+2 1 6 3 . .
+1 6 . 5 3 .
+3 . . . 6 4
+
+# puzzle#351 (difficulty: easy, empty_cells: 18)
+. 3 . 2 . .
+. . 6 . 3 .
+. 1 . 3 6 .
+. 6 2 . 5 4
+2 . . 6 1 .
+6 5 . 4 . 3
+
+# puzzle#352 (difficulty: easy, empty_cells: 18)
+3 . 5 . . 6
+1 . 6 . 4 .
+. 3 4 . 5 .
+5 1 . . 3 4
+. 5 . . 6 .
+2 . . . 1 5
+
+# puzzle#353 (difficulty: easy, empty_cells: 18)
+1 . 5 4 6 3
+. 6 3 . . 1
+. . . 5 . 2
+. 5 . 6 . 4
+. 1 . 3 . .
+. 4 . . 2 5
+
+# puzzle#354 (difficulty: easy, empty_cells: 18)
+. 4 2 5 . .
+5 3 . . . 4
+. . . . 5 .
+2 . . 1 4 3
+4 2 . . 6 5
+6 . 3 . . 1
+
+# puzzle#355 (difficulty: easy, empty_cells: 18)
+. . . 5 2 .
+. 4 . . . .
+1 . . 6 3 2
+3 2 . 4 1 5
+. 6 . . . 1
+5 3 . 2 . 6
+
+# puzzle#356 (difficulty: easy, empty_cells: 18)
+. . 6 . 4 .
+. . 5 3 . 6
+. . . 6 3 .
+1 . 3 . 5 2
+. 2 4 1 6 .
+6 . 1 . 2 .
+
+# puzzle#357 (difficulty: easy, empty_cells: 18)
+1 5 . . . .
+. . . . 5 2
+2 . 3 6 1 .
+5 . 1 2 3 4
+. 2 . . . .
+. 1 . 5 2 6
+
+# puzzle#358 (difficulty: easy, empty_cells: 18)
+. . . . 1 2
+2 . . . 5 .
+. 5 2 6 . 1
+. 1 6 . 4 .
+6 . 5 . . .
+1 . 4 5 6 3
+
+# puzzle#359 (difficulty: easy, empty_cells: 18)
+. 2 4 . . 6
+. . 6 1 4 .
+6 . . 3 2 .
+3 4 . . 1 5
+2 6 1 4 . 3
+. . . . . .
+
+# puzzle#360 (difficulty: easy, empty_cells: 18)
+4 1 . . . .
+6 . 5 . . 1
+. . 6 2 1 3
+1 . 2 6 . 5
+. . 4 . . 6
+2 6 . . 5 .
+
+# puzzle#361 (difficulty: easy, empty_cells: 18)
+1 . . . 3 .
+3 4 6 . 2 .
+. 1 . 3 6 .
+4 . 3 1 5 .
+. . 4 . 1 .
+5 2 . . 4 .
+
+# puzzle#362 (difficulty: easy, empty_cells: 18)
+. 3 6 . 1 .
+. . . 6 . .
+. 6 . . 4 1
+1 . 2 5 . 6
+. . 3 . 6 .
+6 1 4 3 . 2
+
+# puzzle#363 (difficulty: easy, empty_cells: 18)
+1 2 3 4 . .
+5 . . . . 1
+6 3 . . . 5
+. . . 6 2 .
+3 6 . 5 1 2
+. . 1 3 . .
+
+# puzzle#364 (difficulty: easy, empty_cells: 18)
+. . 4 1 6 .
+. 6 . . 3 4
+1 5 . 6 4 .
+2 . 6 . . .
+. . 5 . 2 3
+4 . 2 . . 6
+
+# puzzle#365 (difficulty: easy, empty_cells: 18)
+. . 4 3 . 2
+5 3 . 1 . 6
+. 5 . 2 . 3
+3 . 6 . . 5
+. 4 . . 2 .
+2 . . 6 3 .
+
+# puzzle#366 (difficulty: easy, empty_cells: 18)
+. 4 5 . 3 .
+3 6 1 . 4 .
+4 2 . 5 . .
+. . . . 6 .
+5 . 4 . . 6
+. 1 2 3 5 .
+
+# puzzle#367 (difficulty: easy, empty_cells: 18)
+. 5 . 2 6 .
+6 . 2 1 3 5
+. 6 5 . . .
+. . . 6 5 3
+5 . . 3 . .
+4 . . 5 . 2
+
+# puzzle#368 (difficulty: easy, empty_cells: 18)
+. . . 4 5 2
+2 . 4 6 3 .
+3 . 2 5 . 6
+. . 5 . . .
+. . 1 2 6 4
+. 2 . 3 . .
+
+# puzzle#369 (difficulty: easy, empty_cells: 18)
+. . . 6 2 5
+. . 6 . . 4
+4 1 2 . . 6
+. . 5 4 1 .
+6 . . 2 4 3
+. 3 . . 6 .
+
+# puzzle#370 (difficulty: easy, empty_cells: 18)
+. . 1 . 2 .
+. 2 6 . . 1
+2 3 5 . . .
+1 . . . . 3
+. 1 3 5 6 .
+. 5 . 3 1 4
+
+# puzzle#371 (difficulty: easy, empty_cells: 18)
+. 5 6 . . 1
+1 . . 3 . 6
+. . . 4 . 2
+6 2 4 5 1 3
+. 6 . . 3 .
+. . 3 . . 5
+
+# puzzle#372 (difficulty: easy, empty_cells: 18)
+. 3 6 1 5 4
+. 1 . . . .
+. . . . 4 .
+. . 1 . . 2
+. 2 3 4 . 5
+. 5 4 2 1 3
+
+# puzzle#373 (difficulty: easy, empty_cells: 18)
+2 . . . . .
+. . 5 . 3 6
+4 . 3 5 . .
+. 6 1 . 2 4
+6 . 2 . 1 3
+3 1 4 . . .
+
+# puzzle#374 (difficulty: easy, empty_cells: 18)
+3 . . 2 . 4
+. 2 . 3 6 1
+2 3 1 5 . .
+6 4 . . . .
+. . 2 . 1 3
+. . . . 2 5
+
+# puzzle#375 (difficulty: easy, empty_cells: 18)
+4 . 3 . . .
+1 . . . . .
+3 4 . 2 5 .
+2 5 1 . . 6
+5 . . . 4 3
+6 3 . 1 . 5
+
+# puzzle#376 (difficulty: easy, empty_cells: 18)
+6 3 . 2 . .
+. . . 3 . .
+. . 5 1 4 .
+. 4 . 6 5 3
+. 5 3 . 2 6
+4 . 6 5 . .
+
+# puzzle#377 (difficulty: easy, empty_cells: 18)
+. 3 2 . . .
+. 5 . 1 3 .
+3 6 4 . . 1
+2 . . 4 . .
+. . . 2 1 .
+6 2 1 . 5 4
+
+# puzzle#378 (difficulty: easy, empty_cells: 18)
+. 1 3 4 . .
+. 5 6 1 2 3
+. . . 6 5 4
+. . . . . .
+. 3 2 5 . 6
+. 4 5 . 3 .
+
+# puzzle#379 (difficulty: easy, empty_cells: 18)
+. . 3 . . 5
+1 . 5 . 2 .
+5 . . . . 2
+. . 4 6 5 1
+4 1 2 . . .
+3 5 6 . . 4
+
+# puzzle#380 (difficulty: easy, empty_cells: 18)
+. . . 2 . 3
+2 1 . 5 . .
+6 5 1 3 . 2
+4 . . . . 6
+1 . 4 . 3 .
+. 6 . 4 . 1
+
+# puzzle#381 (difficulty: easy, empty_cells: 18)
+3 . 5 . . 1
+. 2 1 . 4 5
+5 . . . . .
+2 . . . 3 6
+1 6 . 4 . 2
+. 5 2 1 . .
+
+# puzzle#382 (difficulty: easy, empty_cells: 18)
+. . 6 . 5 .
+4 5 . . . 2
+6 . 3 2 1 .
+5 1 . 4 6 3
+. . 5 3 . .
+3 . . . 2 .
+
+# puzzle#383 (difficulty: easy, empty_cells: 18)
+4 . . . 2 .
+. 2 6 1 . 4
+6 . . 2 . 1
+. . . . 6 3
+. 6 3 4 . 2
+2 1 . . 3 .
+
+# puzzle#384 (difficulty: easy, empty_cells: 18)
+5 2 4 . 3 6
+. . . 5 . .
+. 6 . . 1 .
+. . . 2 6 5
+4 . . . 5 .
+1 5 6 4 2 .
+
+# puzzle#385 (difficulty: easy, empty_cells: 18)
+. 3 1 2 5 .
+5 . . 1 . 6
+2 . . 3 . .
+. 5 . . . .
+4 6 . 5 . 1
+. . 5 6 4 3
+
+# puzzle#386 (difficulty: easy, empty_cells: 18)
+2 3 1 6 4 .
+. . 4 1 . 2
+. . 6 . . 4
+. . . . 6 1
+5 . 3 . 2 .
+4 6 . 5 . .
+
+# puzzle#387 (difficulty: easy, empty_cells: 18)
+4 2 . 6 1 3
+3 . 1 5 . 2
+. 4 . . . .
+5 . . . 6 4
+. . 3 . . .
+6 . 4 . 2 1
+
+# puzzle#388 (difficulty: easy, empty_cells: 18)
+. 6 . 3 . 5
+. 3 . . 1 6
+. 4 . 2 . 1
+1 . . . 5 4
+2 5 4 . . .
+3 1 . . 4 .
+
+# puzzle#389 (difficulty: easy, empty_cells: 18)
+4 . 1 . 6 .
+. . 3 5 1 4
+. . . 1 5 6
+. . . . 4 3
+. . 2 . . .
+3 4 5 6 2 .
+
+# puzzle#390 (difficulty: easy, empty_cells: 18)
+3 4 . . . 5
+5 . 2 . . 4
+. . 6 . . .
+1 3 4 . 2 6
+. . 3 6 . .
+6 2 . 3 . 1
+
+# puzzle#391 (difficulty: easy, empty_cells: 18)
+1 . 2 . . 3
+4 3 . 6 . 1
+3 . . 1 . 5
+5 . . . 6 2
+. . 1 . 3 .
+6 . . 2 . 4
+
+# puzzle#392 (difficulty: easy, empty_cells: 18)
+. . . . 4 1
+5 1 4 . 3 6
+. 3 6 . . .
+. 2 5 . . 3
+2 4 . 1 . .
+. . 1 3 2 .
+
+# puzzle#393 (difficulty: easy, empty_cells: 18)
+. 5 4 . 6 3
+2 6 3 5 . .
+3 1 6 4 5 .
+. . 2 . . 6
+. 3 5 . . 4
+. . . . . .
+
+# puzzle#394 (difficulty: easy, empty_cells: 18)
+2 3 . 5 6 .
+4 . 5 3 . .
+. 2 6 . 5 1
+5 . . . . .
+. . . 1 . .
+1 5 3 2 . 6
+
+# puzzle#395 (difficulty: easy, empty_cells: 18)
+4 2 . . . 1
+5 . . . . 6
+3 6 5 1 4 .
+1 . . . 6 .
+6 5 . . 1 .
+2 . 1 6 . .
+
+# puzzle#396 (difficulty: easy, empty_cells: 18)
+1 . . . . .
+6 3 . . . 2
+2 1 6 4 5 .
+. 5 3 . . .
+. 2 1 . 3 4
+3 . 4 5 . .
+
+# puzzle#397 (difficulty: easy, empty_cells: 18)
+. . 2 . 1 3
+. 1 4 5 6 2
+1 2 5 . . 6
+. . 3 . . .
+. . . 1 3 5
+5 . . . 2 .
+
+# puzzle#398 (difficulty: easy, empty_cells: 18)
+. 6 4 5 . .
+1 . . . 6 3
+4 . 6 1 2 .
+5 2 . 6 3 4
+6 4 3 . . .
+. . . . . .
+
+# puzzle#399 (difficulty: easy, empty_cells: 18)
+. 2 1 . . .
+. 3 6 . . 2
+. 1 . 2 . .
+. . 2 1 5 6
+2 6 3 5 4 .
+. 5 . . 2 .
+
+# puzzle#400 (difficulty: easy, empty_cells: 18)
+. . . 2 6 .
+2 4 6 3 5 .
+6 5 . . . .
+3 . . 6 . .
+5 . 2 1 4 .
+. . . 5 2 6
+
+# puzzle#401 (difficulty: easy, empty_cells: 18)
+. . 5 6 4 1
+6 . . . . .
+4 6 . . . .
+. . 2 3 . 4
+3 1 . . 5 .
+5 2 4 1 . 6
+
+# puzzle#402 (difficulty: easy, empty_cells: 18)
+. . 2 . . 6
+. . . 2 3 .
+2 4 1 . 6 .
+5 . 3 1 . .
+3 . . . 2 4
+4 . 6 . 1 5
+
+# puzzle#403 (difficulty: easy, empty_cells: 18)
+6 . . 4 . .
+. 2 . . . .
+. 5 6 1 2 .
+1 4 . 5 3 6
+4 6 . 2 1 .
+. 3 . . . 5
+
+# puzzle#404 (difficulty: easy, empty_cells: 18)
+. . 5 . . .
+. 3 . 5 1 .
+3 1 2 . . .
+4 5 6 1 3 2
+5 2 1 3 . .
+. . 3 . . .
+
+# puzzle#405 (difficulty: easy, empty_cells: 18)
+6 3 1 . . 2
+. . 4 . 6 .
+4 1 . 5 . .
+. . . 3 1 4
+1 . . 2 . 5
+3 5 . . 4 .
+
+# puzzle#406 (difficulty: easy, empty_cells: 18)
+1 6 . 4 5 .
+. 4 . . . .
+. . 6 5 2 4
+. 5 . 3 6 1
+4 2 . . 1 .
+6 . . . . 5
+
+# puzzle#407 (difficulty: easy, empty_cells: 18)
+. 4 3 1 2 5
+5 1 2 4 . .
+. . 5 . 1 2
+. . . . . .
+. 3 . . 5 1
+. 5 6 . 3 .
+
+# puzzle#408 (difficulty: easy, empty_cells: 18)
+1 . 6 5 2 .
+5 . 3 . . 6
+6 . . 1 . .
+. 5 . 6 . .
+2 . 5 . 4 1
+. 1 4 . 6 .
+
+# puzzle#409 (difficulty: easy, empty_cells: 18)
+5 . . 2 . .
+. . 2 . 4 .
+3 2 . 4 . 6
+4 1 6 5 . 2
+. . 3 1 . 4
+. . 1 6 . .
+
+# puzzle#410 (difficulty: easy, empty_cells: 18)
+. 6 5 2 . 1
+. . . 6 4 .
+. . 1 . 2 .
+5 2 . . . 3
+2 . 3 . 6 .
+6 . 4 . 5 2
+
+# puzzle#411 (difficulty: easy, empty_cells: 18)
+6 3 . 4 . .
+. 4 . 6 . 3
+. . 4 5 . 1
+. . 6 . 3 .
+4 6 3 . . 5
+2 . 1 . 4 .
+
+# puzzle#412 (difficulty: easy, empty_cells: 18)
+. . 1 2 3 .
+. . 2 4 . .
+6 . . 1 4 .
+4 1 . 5 . 2
+1 . 6 3 . .
+. 3 . 6 . 5
+
+# puzzle#413 (difficulty: easy, empty_cells: 18)
+. . . 1 4 2
+. . . . 5 .
+6 . 4 2 1 .
+2 3 1 . 6 4
+. 2 5 . 3 .
+. . . . 2 5
+
+# puzzle#414 (difficulty: easy, empty_cells: 18)
+6 . . . . .
+. 5 3 . 6 1
+1 . . 3 4 .
+3 6 4 . 5 2
+5 1 6 2 . .
+. 3 . . . .
+
+# puzzle#415 (difficulty: easy, empty_cells: 18)
+1 4 . 5 . 6
+2 . 5 . . .
+. . 6 1 4 .
+4 . 2 6 . .
+. 2 . 3 5 .
+3 . 4 . . 1
+
+# puzzle#416 (difficulty: easy, empty_cells: 18)
+. . . 6 . 1
+5 . 1 . . 3
+. 5 6 . . .
+3 . 4 5 1 .
+6 4 3 . 2 5
+2 . . . 6 .
+
+# puzzle#417 (difficulty: easy, empty_cells: 18)
+2 4 6 . . 1
+1 . . . 6 .
+6 . . 3 . 4
+4 . 2 6 1 5
+3 2 . . . 6
+. . . 2 . .
+
+# puzzle#418 (difficulty: easy, empty_cells: 18)
+. 3 1 4 6 .
+. 2 . 5 . .
+. . 3 1 5 6
+. 6 . 2 . 3
+6 . . . 2 5
+. 5 . . . 4
+
+# puzzle#419 (difficulty: easy, empty_cells: 18)
+2 . 6 . 1 4
+4 . 5 2 3 6
+. 4 . 3 6 .
+6 . . 4 . 1
+1 5 . . . .
+. . . . 4 .
+
+# puzzle#420 (difficulty: easy, empty_cells: 18)
+. . 1 . 4 3
+. . 5 . . 2
+. . . 4 6 .
+. 4 . 2 3 .
+1 . 4 3 . .
+. 2 3 1 5 4
+
+# puzzle#421 (difficulty: easy, empty_cells: 18)
+. 6 1 . 4 5
+4 2 . 1 . 3
+5 . 4 3 . .
+. . 2 5 . .
+1 . . . . .
+. 5 . 4 3 1
+
+# puzzle#422 (difficulty: easy, empty_cells: 18)
+5 3 . 4 2 .
+. 4 6 3 1 5
+4 . . 5 . .
+. . 3 . 4 2
+. . . . 5 .
+. . 5 6 . 4
+
+# puzzle#423 (difficulty: easy, empty_cells: 18)
+. 5 . . . .
+. . . 1 6 .
+. 3 . 4 5 .
+. . 5 2 3 6
+5 1 . 6 4 3
+3 . . 5 . 2
+
+# puzzle#424 (difficulty: easy, empty_cells: 18)
+4 . 2 3 . .
+1 3 6 . 4 .
+. . . 5 . .
+. 1 . 4 6 .
+. 2 3 . 5 .
+5 . 1 6 . 2
+
+# puzzle#425 (difficulty: easy, empty_cells: 18)
+. . 2 1 . 3
+3 1 4 5 . .
+. . . . 3 4
+. 4 3 . 5 1
+. . 6 . 1 .
+4 2 . . 6 .
+
+# puzzle#426 (difficulty: easy, empty_cells: 18)
+. . 3 . 6 .
+. . 4 1 . 3
+6 . 5 . 1 4
+4 . . . 3 .
+. 1 2 . . 6
+. 4 6 3 . 1
+
+# puzzle#427 (difficulty: easy, empty_cells: 18)
+5 3 4 2 . 6
+1 . . . 3 4
+2 . . . 4 .
+6 4 . . . 1
+. . 2 1 5 3
+. . 1 . . .
+
+# puzzle#428 (difficulty: easy, empty_cells: 18)
+5 1 4 . 3 .
+6 . . 4 5 1
+4 . . . . 3
+. . 2 . 6 .
+. . . . 4 .
+3 4 . 2 1 6
+
+# puzzle#429 (difficulty: easy, empty_cells: 18)
+. 1 6 . 3 4
+. . 4 . 6 .
+. 4 3 6 5 .
+. . 1 . . 2
+. 6 . 4 2 .
+4 . . . 1 6
+
+# puzzle#430 (difficulty: easy, empty_cells: 18)
+. . 1 . 5 3
+3 . . . . 2
+5 3 4 2 . 1
+1 . 2 5 . .
+. 4 . . . .
+. 1 3 4 . 5
+
+# puzzle#431 (difficulty: easy, empty_cells: 18)
+. 2 . . 5 .
+. 4 1 . 2 3
+4 . . 2 . .
+6 . 2 1 . 4
+. . . 3 4 2
+2 3 . 5 . .
+
+# puzzle#432 (difficulty: easy, empty_cells: 18)
+1 . . . . .
+. 3 . 6 1 .
+. 5 6 . 2 .
+2 1 . . . 5
+6 . . 1 . 2
+3 2 1 5 4 .
+
+# puzzle#433 (difficulty: easy, empty_cells: 18)
+. 1 2 . . 4
+5 3 4 . 6 1
+1 6 5 . 3 2
+. . . . 1 6
+. . . 1 . .
+. 4 1 . . .
+
+# puzzle#434 (difficulty: easy, empty_cells: 18)
+6 5 1 4 . 3
+3 . . . 6 .
+1 . 4 3 5 .
+5 . 6 . 1 .
+. 1 . 6 . .
+4 . . . 3 .
+
+# puzzle#435 (difficulty: easy, empty_cells: 18)
+. 6 5 3 2 .
+. 1 . . 5 .
+. 3 . 2 . .
+. . . 1 . .
+1 . 3 6 4 2
+2 . 6 5 1 .
+
+# puzzle#436 (difficulty: easy, empty_cells: 18)
+3 . 2 . . 6
+6 1 . 3 . .
+. 6 . 5 1 4
+. 5 . 6 . 3
+. . 6 . 3 1
+. . 1 . . 5
+
+# puzzle#437 (difficulty: easy, empty_cells: 18)
+. . . 6 . 3
+. 5 3 4 . .
+5 . 6 2 . 4
+1 . 4 3 6 5
+4 . 5 . . 2
+. 1 . . . .
+
+# puzzle#438 (difficulty: easy, empty_cells: 18)
+2 . . . 5 .
+5 4 1 . 2 .
+. 6 5 . 1 .
+. . . 5 6 3
+. . 4 6 3 5
+. . 3 2 . .
+
+# puzzle#439 (difficulty: easy, empty_cells: 18)
+5 . . 2 . 6
+4 . . 5 . .
+. 5 4 3 6 .
+. . . 4 5 .
+3 . 5 1 . 4
+2 4 1 . . .
+
+# puzzle#440 (difficulty: easy, empty_cells: 18)
+. . 1 2 . .
+. . . 1 3 6
+. . 2 . 1 .
+5 . . 4 . .
+3 . 4 6 2 .
+1 . 6 3 4 5
+
+# puzzle#441 (difficulty: easy, empty_cells: 18)
+4 2 . 6 . 1
+. . 6 . 4 3
+6 . . 1 . 4
+2 . . 3 . 5
+. 4 . . 1 .
+5 6 . . . 2
+
+# puzzle#442 (difficulty: easy, empty_cells: 18)
+2 1 . 4 . .
+. 3 4 . 5 .
+. 2 . 6 . 4
+4 . . 1 2 5
+3 . 2 5 1 .
+. . 6 . . .
+
+# puzzle#443 (difficulty: easy, empty_cells: 18)
+. . 2 . . 1
+6 . 1 5 4 2
+. . 6 2 5 4
+2 . 5 . . .
+. 6 . 3 2 .
+. . 3 . 1 .
+
+# puzzle#444 (difficulty: easy, empty_cells: 18)
+5 . 2 4 1 .
+. 3 . 2 5 .
+. 1 6 . . .
+. 4 5 . 6 .
+1 . 3 6 . 5
+. . . . 3 2
+
+# puzzle#445 (difficulty: easy, empty_cells: 18)
+. 2 . 4 . 1
+. 3 . 5 . 2
+3 . . 6 . 4
+4 . 2 1 5 .
+. 4 3 . . 5
+. 1 . . . 6
+
+# puzzle#446 (difficulty: easy, empty_cells: 18)
+5 . 1 . . 6
+. . 3 5 . 1
+. . 6 1 . .
+3 1 . . 6 .
+. 6 . 3 . 2
+2 3 5 6 . .
+
+# puzzle#447 (difficulty: easy, empty_cells: 18)
+4 . 5 6 . 1
+. 6 . 5 4 3
+. 4 1 . . .
+5 . 6 . . .
+. 1 . . . 2
+. 5 4 1 3 .
+
+# puzzle#448 (difficulty: easy, empty_cells: 18)
+. 6 3 . . .
+. 4 2 . . .
+. . 5 . 6 4
+4 . 6 2 . 3
+. 5 . 6 2 1
+6 . 1 4 . .
+
+# puzzle#449 (difficulty: easy, empty_cells: 18)
+. 5 . . 6 2
+1 . 6 . 5 4
+. . 1 . . 5
+. 3 5 4 . 1
+. . 3 2 4 6
+4 . . . . .
+
+# puzzle#450 (difficulty: easy, empty_cells: 18)
+1 . 2 6 4 3
+6 4 3 . . 5
+4 . 1 5 . .
+5 3 . 2 . .
+. . 5 . 6 .
+. . 4 . . .
+
+# puzzle#451 (difficulty: easy, empty_cells: 18)
+6 5 . . . .
+1 2 . 3 . 6
+. 3 1 . 4 5
+5 . . . . .
+. . 5 2 . 3
+3 1 . 5 6 .
+
+# puzzle#452 (difficulty: easy, empty_cells: 18)
+. . 5 . . 4
+3 . 4 . 5 1
+5 . 3 . . .
+2 4 1 . 6 5
+. 5 . . . 3
+4 . . . 1 6
+
+# puzzle#453 (difficulty: easy, empty_cells: 18)
+1 2 . . 5 .
+5 3 . . . 1
+4 5 . . . 3
+. . 1 2 . 5
+. . 5 . . 4
+. 4 3 . 1 2
+
+# puzzle#454 (difficulty: easy, empty_cells: 18)
+3 5 1 4 6 .
+4 2 . 1 . .
+5 . . . 1 .
+. . . 3 . 5
+. 4 5 6 . 1
+. 1 3 . . .
+
+# puzzle#455 (difficulty: easy, empty_cells: 18)
+. 1 2 . . .
+5 . . . 2 4
+2 5 4 . . .
+. . 3 . 4 .
+. 2 1 4 . 3
+3 . 5 . 6 1
+
+# puzzle#456 (difficulty: easy, empty_cells: 18)
+. . . . 2 .
+2 . . 4 . 3
+. 2 6 1 4 .
+1 . 4 . . 2
+. . 2 5 . 4
+. 4 3 2 1 .
+
+# puzzle#457 (difficulty: easy, empty_cells: 18)
+. . 4 . 6 .
+. . . . . 5
+. . . 2 . 4
+5 4 . . 3 6
+2 . 5 6 4 1
+4 1 6 . 2 .
+
+# puzzle#458 (difficulty: easy, empty_cells: 18)
+. . 5 6 4 3
+4 . . 5 1 .
+. 3 . 4 6 .
+. 4 . . . 5
+. 5 1 2 . .
+3 . . 1 . 6
+
+# puzzle#459 (difficulty: easy, empty_cells: 18)
+. . . . 3 5
+3 . 4 . . 6
+5 3 . . . 2
+. . . 3 5 .
+6 . 3 5 2 .
+4 . . 1 6 3
+
+# puzzle#460 (difficulty: easy, empty_cells: 18)
+. . 3 6 4 .
+. 6 . 1 2 3
+6 4 5 . . .
+3 . 1 . . 4
+. 3 . 4 . .
+. 5 6 . . 2
+
+# puzzle#461 (difficulty: easy, empty_cells: 18)
+1 4 3 . . 5
+. 5 2 . 3 .
+. . 6 2 . .
+4 2 . 5 . .
+. . 4 3 5 .
+. 6 . 4 1 .
+
+# puzzle#462 (difficulty: easy, empty_cells: 18)
+2 . . . . .
+. 1 5 . . 6
+3 2 . 1 . 4
+. . 1 . 3 2
+6 . . 4 . .
+1 3 4 2 . 5
+
+# puzzle#463 (difficulty: easy, empty_cells: 18)
+6 5 . 3 . .
+3 . 2 . 5 1
+2 6 . 1 . 3
+4 1 . 5 . .
+5 . . . 1 .
+. 2 . . 3 .
+
+# puzzle#464 (difficulty: easy, empty_cells: 18)
+4 . . 2 . .
+1 2 5 . . .
+. . 4 . 2 .
+2 1 . 5 4 3
+. . 2 . . 6
+6 5 . 4 3 .
+
+# puzzle#465 (difficulty: easy, empty_cells: 18)
+. 4 . . . 1
+5 1 6 . . .
+1 6 . 4 2 .
+. 2 . 1 3 6
+. 5 . . . 3
+. 3 . . 6 4
+
+# puzzle#466 (difficulty: easy, empty_cells: 18)
+6 3 5 4 . 2
+. . . . . .
+. 4 . . 2 6
+. 2 6 3 . 5
+. . 4 5 . .
+. 5 1 2 . 4
+
+# puzzle#467 (difficulty: easy, empty_cells: 18)
+3 . . . . 5
+5 . 4 . . .
+6 . . 3 1 4
+1 4 . . . 2
+. 3 6 4 5 1
+. . 1 . 2 .
+
+# puzzle#468 (difficulty: easy, empty_cells: 18)
+. 3 5 1 . .
+4 . . 5 . .
+1 . 3 6 . 2
+6 5 2 . 1 .
+. 6 . . 3 1
+. . . . 6 5
+
+# puzzle#469 (difficulty: easy, empty_cells: 18)
+3 4 . 2 . 5
+. 2 1 . . 4
+. . . . . 3
+6 . 3 . 2 1
+1 6 . . 3 2
+2 . 5 . . .
+
+# puzzle#470 (difficulty: easy, empty_cells: 18)
+. 6 . 2 . .
+2 3 5 . 4 .
+. . . . 1 .
+3 1 . . 6 2
+. . 6 1 2 3
+. 2 3 . . 6
+
+# puzzle#471 (difficulty: easy, empty_cells: 18)
+1 . . . . 5
+5 6 . 2 1 3
+2 1 . 6 . .
+6 . . 5 . 1
+4 2 . . . 6
+. . 6 . . 2
+
+# puzzle#472 (difficulty: easy, empty_cells: 18)
+. . 5 3 . .
+2 3 4 . 1 6
+4 . . . 6 3
+6 . . . . .
+3 1 6 . . 2
+. 4 2 6 . .
+
+# puzzle#473 (difficulty: easy, empty_cells: 18)
+. 5 . 4 . 2
+. 2 4 . 1 6
+2 . 5 . 4 3
+. 4 3 . . .
+. 3 . . 5 .
+. . 6 3 2 .
+
+# puzzle#474 (difficulty: easy, empty_cells: 18)
+5 . 6 4 . 1
+. . . 2 . 5
+. . 2 1 . 6
+. 1 4 3 5 2
+. . 3 . . .
+1 . 5 6 . .
+
+# puzzle#475 (difficulty: easy, empty_cells: 18)
+. . 4 . . 2
+2 5 . . . .
+. 4 3 . 1 6
+. . 2 4 3 5
+. . . 3 6 1
+6 3 1 . . .
+
+# puzzle#476 (difficulty: easy, empty_cells: 18)
+3 2 . . 4 1
+4 1 6 . 5 .
+. 4 . 5 2 6
+5 . . 4 1 .
+6 . . . . .
+2 . . 1 . .
+
+# puzzle#477 (difficulty: easy, empty_cells: 18)
+6 . . 1 . .
+5 4 . . . .
+4 . . 3 1 2
+1 3 . . 4 5
+. . . 5 . 6
+3 5 6 4 . .
+
+# puzzle#478 (difficulty: easy, empty_cells: 18)
+. . 2 . 1 6
+6 3 . . . 2
+. 2 . . 3 .
+1 4 3 . 2 .
+. 1 . 5 6 .
+. . 5 . 4 1
+
+# puzzle#479 (difficulty: easy, empty_cells: 18)
+. 2 6 1 . 4
+3 1 4 . . 2
+. . 1 3 . 6
+. 3 . 4 1 .
+. . . 6 5 1
+. . . . 4 .
+
+# puzzle#480 (difficulty: easy, empty_cells: 18)
+5 . . . . 6
+. . . 2 . 5
+1 2 . . . 3
+. 6 5 1 . 4
+2 . 3 4 6 .
+. 4 . 5 3 .
+
+# puzzle#481 (difficulty: easy, empty_cells: 18)
+. 6 5 . 3 2
+2 . . . . 6
+1 4 . 2 5 .
+. . 2 4 6 1
+6 . 1 . . .
+. . 4 . 1 .
+
+# puzzle#482 (difficulty: easy, empty_cells: 18)
+4 2 . 6 . 5
+. . . 1 . 2
+. 4 . . 5 .
+2 5 . 4 . 6
+5 . . 3 6 4
+6 . . 5 . .
+
+# puzzle#483 (difficulty: easy, empty_cells: 18)
+2 3 5 6 . 1
+. 6 . 3 5 2
+. 4 2 . 1 6
+. 1 . . 2 3
+. . 3 . . .
+. 2 . . . .
+
+# puzzle#484 (difficulty: easy, empty_cells: 18)
+. . . . . .
+. . . 4 5 2
+3 . . 1 4 5
+. . 4 . 2 6
+. . 6 2 1 3
+. 2 3 5 . 4
+
+# puzzle#485 (difficulty: easy, empty_cells: 18)
+2 . . 6 1 5
+6 . 1 . 4 .
+. . 5 2 . .
+3 6 2 . . 1
+. 2 . 1 6 .
+4 1 . . . .
+
+# puzzle#486 (difficulty: easy, empty_cells: 18)
+4 . 2 1 . .
+. 3 1 2 . .
+1 . . . . 6
+6 2 . . . 3
+2 4 . 3 5 .
+. 1 . 6 . 2
+
+# puzzle#487 (difficulty: easy, empty_cells: 18)
+. 2 4 . . 1
+. . . 4 . 2
+. . 6 2 . 5
+5 . . 3 4 6
+. 4 5 . . 3
+. 6 3 5 . .
+
+# puzzle#488 (difficulty: easy, empty_cells: 18)
+. 1 6 . 5 .
+2 . 4 3 . .
+1 2 . 6 . 3
+. 6 . . . 1
+. 4 2 . . .
+5 3 . 4 6 .
+
+# puzzle#489 (difficulty: easy, empty_cells: 18)
+3 . 6 . . .
+. 1 . 6 5 .
+. . 4 . 6 1
+. . . 3 4 2
+5 . 3 4 . 6
+. . . 2 3 5
+
+# puzzle#490 (difficulty: easy, empty_cells: 18)
+. 6 . 2 5 4
+. 4 . . 6 .
+1 . . 4 3 .
+. . 3 . . 2
+6 . 2 . . .
+5 1 4 . 2 6
+
+# puzzle#491 (difficulty: easy, empty_cells: 18)
+. 4 6 1 3 5
+3 5 . 2 . .
+4 . 5 . . .
+1 . 3 . . 2
+. 3 . . 2 1
+6 . . 4 . .
+
+# puzzle#492 (difficulty: easy, empty_cells: 18)
+. . . . 2 6
+. 5 2 . . .
+5 . . 2 6 .
+2 3 . 1 . 5
+3 6 1 . 5 2
+4 . . . 3 .
+
+# puzzle#493 (difficulty: easy, empty_cells: 18)
+1 6 . . 4 2
+. 4 . . . 6
+. 5 . 1 . 3
+. 2 . 6 . 4
+. . 5 . 6 1
+4 . 6 . 3 .
+
+# puzzle#494 (difficulty: easy, empty_cells: 18)
+. 6 1 . . 4
+. 4 2 . . .
+. . . 6 3 .
+6 1 3 4 . .
+4 . 6 5 . .
+. 2 . 3 4 6
+
+# puzzle#495 (difficulty: easy, empty_cells: 18)
+. 2 3 . . 5
+5 4 . . . 3
+. 1 . . 3 2
+2 3 4 . . 1
+4 . 2 . . .
+3 . . 2 . 4
+
+# puzzle#496 (difficulty: easy, empty_cells: 18)
+5 . . . 6 1
+1 . . 3 4 .
+2 . 3 . . .
+4 . . . . .
+3 1 . 6 . .
+6 4 5 1 2 3
+
+# puzzle#497 (difficulty: easy, empty_cells: 18)
+1 4 5 . . 2
+3 . 2 . . 5
+5 3 4 . 2 .
+2 . . . 3 4
+. . . 2 1 .
+. . 1 . . 3
+
+# puzzle#498 (difficulty: easy, empty_cells: 18)
+. 3 1 2 . 4
+5 . 4 . . .
+4 5 2 . 3 1
+. 6 3 . . .
+. 1 5 . . 3
+. . 6 . . 5
+
+# puzzle#499 (difficulty: easy, empty_cells: 18)
+4 . . 1 6 .
+. . 1 4 . 5
+. . 2 6 5 4
+5 . 4 3 2 1
+. . . . . .
+1 3 . . . 6
+
+# puzzle#500 (difficulty: easy, empty_cells: 18)
+6 3 4 . 5 2
+. 5 . 3 . 4
+. 6 . . . .
+. . 2 . 3 5
+4 1 3 . . .
+. . 6 4 . 3
+
+# puzzle#501 (difficulty: easy, empty_cells: 18)
+4 . . 2 . 6
+. . . 4 . 5
+2 4 . 6 5 .
+3 5 . . . 2
+. 3 2 5 . .
+. . 4 . 2 1
+
+# puzzle#502 (difficulty: easy, empty_cells: 18)
+4 . 3 . 6 .
+. 6 . 3 1 .
+. . 2 5 . 1
+5 . . . . .
+. . 4 . . 6
+1 5 6 4 3 2
+
+# puzzle#503 (difficulty: easy, empty_cells: 18)
+5 . 2 . . .
+. 6 1 5 . .
+. 1 4 6 5 .
+6 3 5 . . 4
+. . 3 . . 5
+. 5 6 . 2 .
+
+# puzzle#504 (difficulty: easy, empty_cells: 18)
+. . 1 . 6 4
+. 6 5 2 . 1
+5 . . 6 . 2
+2 1 6 . 4 5
+1 . . . . .
+6 . 4 . . .
+
+# puzzle#505 (difficulty: easy, empty_cells: 18)
+. . 1 2 . 3
+2 . . 1 . .
+. 1 . 6 . 4
+. 6 . 3 1 .
+3 . 5 4 . 1
+. . . 5 3 2
+
+# puzzle#506 (difficulty: easy, empty_cells: 18)
+2 . . 6 4 .
+. . . 1 3 .
+1 . . 4 6 .
+. 3 6 5 2 1
+. . 2 . 1 6
+. 6 . . . 4
+
+# puzzle#507 (difficulty: easy, empty_cells: 18)
+3 . 2 5 4 .
+. 4 . 2 3 6
+. . . . . 4
+4 . 5 1 . .
+. 5 4 . . 3
+. 2 3 . . 5
+
+# puzzle#508 (difficulty: easy, empty_cells: 18)
+6 . 1 . 2 .
+. 5 2 . 4 6
+4 . 5 . . .
+2 . 6 . 5 .
+. 2 . 5 . 3
+. 6 3 . . 4
+
+# puzzle#509 (difficulty: easy, empty_cells: 18)
+3 . 2 . . 1
+1 4 . 2 3 .
+4 . . . . 6
+6 2 . 3 . .
+. 6 4 . 5 .
+. . 1 . 4 2
+
+# puzzle#510 (difficulty: easy, empty_cells: 18)
+2 . . . . 6
+1 4 . 2 3 5
+3 . 1 5 . 4
+4 6 . . . .
+5 . . . . 3
+6 3 4 . . .
+
+# puzzle#511 (difficulty: easy, empty_cells: 18)
+2 4 3 1 6 5
+. . . 4 . 3
+. . 6 . . .
+. 1 4 . 5 .
+. . 2 6 3 1
+6 . . . 4 .
+
+# puzzle#512 (difficulty: easy, empty_cells: 18)
+2 . . . 3 5
+. 3 6 1 4 .
+3 . . . 6 .
+6 1 . . 5 4
+. 6 5 . 2 .
+4 . . 5 . .
+
+# puzzle#513 (difficulty: easy, empty_cells: 18)
+3 . . 4 6 .
+2 . . . 3 .
+5 . 1 3 . .
+4 . . 1 2 5
+. . 2 6 5 .
+. . 3 . 1 4
+
+# puzzle#514 (difficulty: easy, empty_cells: 18)
+. . 4 . 1 .
+. 6 1 . 4 2
+6 3 . 4 2 .
+4 . . 3 . 6
+. . . . 6 5
+5 . 6 . . 4
+
+# puzzle#515 (difficulty: easy, empty_cells: 18)
+2 5 3 . . .
+4 6 . 3 . .
+3 1 2 . 5 6
+. . . . . .
+5 3 . 2 4 1
+. 2 . . . 3
+
+# puzzle#516 (difficulty: easy, empty_cells: 18)
+2 6 4 1 . 3
+. 1 . 4 2 .
+. 2 5 . . .
+4 . 1 . 6 .
+1 5 2 . . .
+. . 6 5 . .
+
+# puzzle#517 (difficulty: easy, empty_cells: 18)
+1 . 3 . 5 .
+2 . 4 . . .
+. 2 . 5 4 3
+3 . 5 . . 6
+4 . . . 3 5
+. 3 2 . 1 .
+
+# puzzle#518 (difficulty: easy, empty_cells: 18)
+6 2 3 . 4 .
+5 . . 2 6 3
+. 4 . . . 5
+. . . 3 1 4
+1 . 6 . 5 .
+4 5 . . . .
+
+# puzzle#519 (difficulty: easy, empty_cells: 18)
+6 . 1 3 . 2
+. 2 . 4 1 .
+. 6 . . 3 .
+5 . . . . .
+4 5 2 1 . .
+1 3 6 2 . .
+
+# puzzle#520 (difficulty: easy, empty_cells: 18)
+4 . 5 . . 2
+2 6 . 5 . 4
+1 . . 3 6 .
+. . . 4 2 .
+. . 6 . 4 .
+. 1 4 . 5 6
+
+# puzzle#521 (difficulty: easy, empty_cells: 18)
+5 . 6 . 1 3
+. . . . . 6
+3 4 5 . . 1
+. . . 3 . .
+6 . 4 . . 2
+1 3 . 6 4 5
+
+# puzzle#522 (difficulty: easy, empty_cells: 18)
+. 3 . 5 . .
+. . 4 3 . 2
+1 4 . . 3 .
+3 2 . . . .
+6 5 . . 2 4
+4 1 . . 5 3
+
+# puzzle#523 (difficulty: easy, empty_cells: 18)
+. 4 3 . 6 2
+. 2 . . 3 .
+2 1 . . 5 3
+. 6 5 2 . 4
+4 5 . . . 6
+. . . . . 5
+
+# puzzle#524 (difficulty: easy, empty_cells: 18)
+2 1 4 3 . .
+3 . 6 . 2 .
+. 6 3 4 . .
+. 2 . . 3 .
+. . . 5 . 1
+1 . 5 2 . 3
+
+# puzzle#525 (difficulty: easy, empty_cells: 18)
+3 . . . 2 6
+. . 6 1 . .
+4 5 . 6 1 .
+1 . . 4 . 5
+. . . 2 5 4
+. . 5 3 . 1
+
+# puzzle#526 (difficulty: easy, empty_cells: 18)
+5 . 4 2 1 .
+. 1 3 . . 6
+1 . 5 . . .
+. . 2 . . 4
+4 2 . 6 . .
+3 5 . . 2 1
+
+# puzzle#527 (difficulty: easy, empty_cells: 18)
+. 3 . 1 . 5
+1 . . 3 . .
+3 1 4 . 5 .
+2 . 6 4 . .
+. 4 . 6 3 .
+. 2 3 . 4 .
+
+# puzzle#528 (difficulty: easy, empty_cells: 18)
+4 . . . . 1
+5 . . 3 2 .
+. 1 4 . . 5
+2 5 3 4 . 6
+. . 6 5 4 3
+. . . 1 . .
+
+# puzzle#529 (difficulty: easy, empty_cells: 18)
+3 . . . . 4
+4 . 5 . 1 .
+. 5 6 4 3 .
+1 . 3 . 5 .
+. 3 4 1 . .
+. . 1 . 4 6
+
+# puzzle#530 (difficulty: easy, empty_cells: 18)
+3 5 6 . 4 .
+2 . 1 5 6 .
+1 2 . . . .
+. . 4 3 . .
+. 3 . 2 1 .
+6 . 2 4 . .
+
+# puzzle#531 (difficulty: easy, empty_cells: 18)
+4 . . 3 2 .
+3 . 2 . . 5
+. . . . . 6
+. 2 5 1 . .
+. . 3 4 1 2
+. 4 1 5 6 .
+
+# puzzle#532 (difficulty: easy, empty_cells: 18)
+. 2 . . . 6
+1 5 6 3 . .
+. 6 . 4 . .
+5 4 . . 6 .
+4 . 2 . 5 3
+. 3 . 2 . 1
+
+# puzzle#533 (difficulty: easy, empty_cells: 18)
+. 4 . 6 5 .
+. 6 . . 4 1
+6 . 4 . . 5
+. 1 2 . . 6
+. . 3 . 6 4
+4 . 6 . . 2
+
+# puzzle#534 (difficulty: easy, empty_cells: 18)
+. 2 . . . .
+5 6 . . . 2
+. 5 1 4 6 .
+. 4 6 2 1 5
+. 3 . . . 1
+. 1 . . 2 6
+
+# puzzle#535 (difficulty: easy, empty_cells: 18)
+6 3 1 . . .
+4 2 5 . 1 3
+. . . 5 . .
+1 . 2 3 . 6
+. . 4 . . 5
+. . 3 . 6 4
+
+# puzzle#536 (difficulty: easy, empty_cells: 18)
+1 5 . 6 3 4
+. 3 4 1 2 5
+2 6 . 4 . .
+4 1 3 . . .
+5 . . . 6 .
+. . . . . .
+
+# puzzle#537 (difficulty: easy, empty_cells: 18)
+1 . . 6 3 4
+. . 6 . . .
+4 . 3 . 2 .
+. 1 . 5 4 3
+. . 1 . 6 .
+2 6 . 3 . 1
+
+# puzzle#538 (difficulty: easy, empty_cells: 18)
+2 3 . 6 . 5
+5 6 . 2 4 .
+. 1 . . . 6
+6 2 3 . 5 1
+. . . . . .
+3 . 2 . . 4
+
+# puzzle#539 (difficulty: easy, empty_cells: 18)
+4 6 3 5 . .
+2 5 1 . . .
+5 . 4 6 . 2
+. . . 1 . .
+6 . 2 . 1 5
+. 3 . . 4 .
+
+# puzzle#540 (difficulty: easy, empty_cells: 18)
+1 2 4 . . 6
+3 . . 4 . .
+4 3 2 . . .
+5 6 . . 4 2
+2 1 . . 5 .
+6 . 5 . . .
+
+# puzzle#541 (difficulty: easy, empty_cells: 18)
+5 . 2 3 . 6
+6 1 . . . .
+1 . 4 . . 5
+. . . 4 6 .
+. 5 6 1 2 .
+4 . 1 . . 3
+
+# puzzle#542 (difficulty: easy, empty_cells: 18)
+1 . 2 . 3 .
+3 5 4 . . 2
+4 . 1 . 5 6
+. . 5 2 1 .
+. . 3 . . .
+. . 6 5 . 3
+
+# puzzle#543 (difficulty: easy, empty_cells: 18)
+1 2 6 . . .
+3 . 5 1 . 6
+6 3 . 2 . .
+. 1 . . 6 3
+. 6 . 5 4 .
+4 . 1 . . .
+
+# puzzle#544 (difficulty: easy, empty_cells: 18)
+. . . 4 1 .
+4 2 . . . .
+2 . 3 6 . .
+6 5 . . 2 1
+. 4 . 2 . 6
+. 6 . 1 4 5
+
+# puzzle#545 (difficulty: easy, empty_cells: 18)
+. . . . . 3
+. . . 2 . .
+6 . 3 . 1 2
+. 4 . 3 6 .
+. 1 6 5 3 .
+4 . 5 1 2 6
+
+# puzzle#546 (difficulty: easy, empty_cells: 18)
+2 . . 3 . 1
+3 1 . 4 . .
+5 4 6 . 2 .
+. . 3 6 . .
+6 3 2 5 1 .
+. . . . 3 .
+
+# puzzle#547 (difficulty: easy, empty_cells: 18)
+3 1 . 4 . .
+5 . . . . 2
+4 . 5 6 1 3
+6 . . 2 . 4
+1 5 4 3 . .
+. . . . 4 .
+
+# puzzle#548 (difficulty: easy, empty_cells: 18)
+4 3 1 2 . .
+6 . 5 3 . .
+5 . . 1 . 6
+. 6 2 . 5 .
+2 . 4 . . .
+. . . 5 4 2
+
+# puzzle#549 (difficulty: easy, empty_cells: 18)
+. . 2 . 4 1
+. 4 . . 6 2
+. 2 . 1 . .
+3 5 . 4 2 .
+6 . . 2 . 4
+2 . 4 . . 3
+
+# puzzle#550 (difficulty: easy, empty_cells: 18)
+5 . . 2 1 .
+. . . . 5 .
+4 6 5 . . .
+1 3 2 . . 4
+2 1 . . 3 5
+3 5 6 . . .
+
+# puzzle#551 (difficulty: easy, empty_cells: 18)
+. . 4 . 5 1
+2 5 . . 3 4
+3 . . . 2 .
+. . . 3 . 5
+1 4 2 . . 3
+. 6 . 1 4 .
+
+# puzzle#552 (difficulty: easy, empty_cells: 18)
+. . . 6 . 1
+. 4 6 . 5 .
+4 5 1 . . 6
+2 6 . . 1 .
+5 . . 4 6 .
+. 3 4 . 2 .
+
+# puzzle#553 (difficulty: easy, empty_cells: 18)
+1 2 5 4 6 .
+. 6 4 1 5 .
+. 3 2 . . 1
+4 . . 2 . .
+. . . . . 6
+6 5 1 . . .
+
+# puzzle#554 (difficulty: easy, empty_cells: 18)
+2 4 6 . 3 5
+. . 5 6 2 .
+6 1 . . 5 .
+. . . 4 1 6
+3 . . . . .
+. . 2 3 . 1
+
+# puzzle#555 (difficulty: easy, empty_cells: 18)
+3 2 . 6 . 4
+. 1 4 5 3 .
+. . . . 5 .
+. 5 . 3 . 6
+. . 2 1 . 3
+. 3 . . 4 5
+
+# puzzle#556 (difficulty: easy, empty_cells: 18)
+. 3 5 2 4 .
+. . 6 . 1 5
+. . 4 . 3 .
+6 . 3 1 . .
+4 6 1 . 2 .
+. 5 2 . . .
+
+# puzzle#557 (difficulty: easy, empty_cells: 18)
+. 1 6 . 5 3
+5 3 . 6 . .
+1 . . 3 2 .
+. 6 . . 1 .
+. 5 . . 3 .
+3 2 4 1 . .
+
+# puzzle#558 (difficulty: easy, empty_cells: 18)
+. 4 . 2 . 6
+. . . . . 3
+3 6 . . 2 4
+5 2 . . . .
+. . 5 1 . 2
+4 1 . 6 3 5
+
+# puzzle#559 (difficulty: easy, empty_cells: 18)
+2 . . 6 . 4
+4 1 . . 2 3
+. . 3 . 6 .
+6 2 . 1 3 .
+3 . . . . 6
+5 6 . . 4 .
+
+# puzzle#560 (difficulty: easy, empty_cells: 18)
+1 6 . . . .
+. 2 . . 6 3
+. 3 6 2 4 1
+. 1 . 6 . 5
+. . . . . .
+3 4 . 5 1 6
+
+# puzzle#561 (difficulty: easy, empty_cells: 18)
+. 2 4 . 1 3
+. . 5 . . .
+5 6 1 . 3 4
+. . 2 . 5 1
+2 . 3 . 6 .
+. 5 6 . . .
+
+# puzzle#562 (difficulty: easy, empty_cells: 18)
+2 . . . . .
+5 1 . . . 6
+6 5 1 . 2 3
+. 4 . 6 5 1
+. 2 3 5 . .
+4 6 . . . .
+
+# puzzle#563 (difficulty: easy, empty_cells: 18)
+2 . 3 . 5 4
+. 1 . . 3 .
+5 . . 4 . 6
+6 . 2 . 1 5
+. . . . . 1
+1 5 . 2 6 .
+
+# puzzle#564 (difficulty: easy, empty_cells: 18)
+. . . 1 . .
+3 1 . 4 5 .
+. 3 2 . 4 .
+4 . . . 3 5
+6 . . 3 . .
+1 4 3 5 2 .
+
+# puzzle#565 (difficulty: easy, empty_cells: 18)
+. . . . 1 .
+. . . 6 3 .
+6 . . 2 . 5
+. 4 . 1 6 3
+. . 4 . . 1
+3 5 1 4 2 6
+
+# puzzle#566 (difficulty: easy, empty_cells: 18)
+5 4 . 2 6 .
+. . . . . .
+4 . 5 6 . 1
+. 3 . 5 4 2
+. . 3 1 . 4
+2 . . 3 . 6
+
+# puzzle#567 (difficulty: easy, empty_cells: 18)
+. . . . . .
+. . 2 6 4 5
+1 . . 4 . .
+2 3 . 5 6 .
+4 2 1 . . 6
+6 5 3 1 . .
+
+# puzzle#568 (difficulty: easy, empty_cells: 18)
+. 1 6 . 3 .
+3 . . . 6 .
+. . 5 . 1 4
+1 3 4 . 5 .
+. 6 . . 2 1
+. 5 . . 4 3
+
+# puzzle#569 (difficulty: easy, empty_cells: 18)
+. . 1 3 4 .
+. . 5 . . 2
+. . 6 . . 3
+3 . 2 4 . 1
+. 1 4 5 . 6
+5 . 3 . . 4
+
+# puzzle#570 (difficulty: easy, empty_cells: 18)
+. . 4 . 3 2
+. . 1 5 6 4
+. 2 . 6 4 .
+. 1 6 . 2 5
+. . . . . 3
+3 . 5 . 1 .
+
+# puzzle#571 (difficulty: easy, empty_cells: 18)
+. . 1 4 . .
+5 4 . . 3 6
+. . 4 6 2 .
+6 . 3 . 4 1
+. 1 . . . 4
+4 3 . . . 5
+
+# puzzle#572 (difficulty: easy, empty_cells: 18)
+. . 1 4 . 3
+. 6 . . 1 2
+1 . 5 . 3 .
+. . 2 . 5 4
+2 . 6 . . .
+3 . 4 . 2 5
+
+# puzzle#573 (difficulty: easy, empty_cells: 18)
+. 6 2 . . 4
+4 . 3 . 5 2
+1 3 . . . .
+2 . 4 . 3 .
+. 2 1 . . 3
+3 . . 2 6 .
+
+# puzzle#574 (difficulty: easy, empty_cells: 18)
+1 5 . 2 . .
+. . 2 5 . 1
+3 1 5 6 4 .
+. 2 . . . 3
+. . . . 2 6
+. 6 3 4 . .
+
+# puzzle#575 (difficulty: easy, empty_cells: 18)
+. . 1 5 . .
+. 4 . 6 2 .
+. 5 . 1 . .
+3 . 2 . 5 .
+4 . 6 . 1 .
+. 3 5 2 6 4
+
+# puzzle#576 (difficulty: easy, empty_cells: 18)
+. . 5 . 3 .
+. 1 3 6 . 4
+. . . 2 6 3
+6 3 . 5 4 1
+. 2 . . . 5
+. 5 . . . 6
+
+# puzzle#577 (difficulty: easy, empty_cells: 18)
+. 5 . 4 3 6
+3 . . 2 . 1
+1 4 . 5 2 3
+. . . . 6 .
+. . . . 4 .
+4 2 3 6 . .
+
+# puzzle#578 (difficulty: easy, empty_cells: 18)
+4 . 5 . . .
+2 . 1 . . .
+. 5 4 1 6 2
+1 . 6 . 5 4
+6 . . . 4 .
+5 . . . 2 1
+
+# puzzle#579 (difficulty: easy, empty_cells: 18)
+. 1 4 5 2 6
+. . 6 . . .
+4 3 1 . . .
+2 6 . 4 1 .
+. . 2 1 . .
+. 5 . . 6 4
+
+# puzzle#580 (difficulty: easy, empty_cells: 18)
+6 . 4 . 3 .
+3 1 5 4 . .
+. . . . . 2
+2 4 . . . 3
+. 6 . 3 . 5
+5 3 . . 6 4
+
+# puzzle#581 (difficulty: easy, empty_cells: 18)
+3 4 . 1 5 .
+1 . . . . 4
+. . . . . .
+. . . 4 2 5
+. 3 5 2 . 1
+. 6 1 5 4 3
+
+# puzzle#582 (difficulty: easy, empty_cells: 18)
+. 5 2 . . 4
+6 . . 1 . 5
+2 1 . 5 6 .
+. . 6 4 . .
+. 2 . . 5 .
+3 . 5 2 4 .
+
+# puzzle#583 (difficulty: easy, empty_cells: 18)
+2 4 . 6 . .
+. . . . . 3
+4 . 2 . . .
+. 3 6 4 1 2
+. . 4 1 2 5
+1 . 5 3 . .
+
+# puzzle#584 (difficulty: easy, empty_cells: 18)
+6 . 2 . 3 .
+1 . 4 2 . .
+. . 6 5 4 .
+4 . . 6 1 .
+. . 3 4 . 1
+. 4 1 . 2 .
+
+# puzzle#585 (difficulty: easy, empty_cells: 18)
+4 . 6 . . 1
+1 3 5 2 . .
+6 . . 1 . 5
+. . 3 6 . 4
+. . 1 . 6 2
+. . . 5 . 3
+
+# puzzle#586 (difficulty: easy, empty_cells: 18)
+. 2 . 6 3 .
+6 . . 5 . .
+1 . . 3 6 4
+4 3 6 2 . .
+3 4 . 1 2 .
+2 . . . . .
+
+# puzzle#587 (difficulty: easy, empty_cells: 18)
+. 1 4 . 3 2
+3 . 5 . 4 1
+. . 6 . . .
+4 . . 3 1 6
+5 . 1 . . .
+. . 3 1 . 4
+
+# puzzle#588 (difficulty: easy, empty_cells: 18)
+. 5 . 4 3 2
+. 3 . 5 6 1
+3 . 6 2 1 .
+. 1 . . 4 .
+. . . . . 4
+. 2 4 . . 6
+
+# puzzle#589 (difficulty: easy, empty_cells: 18)
+. 1 3 . 4 .
+. . . . 1 .
+1 2 4 3 . .
+. . 5 4 . .
+3 6 1 . . 4
+. 5 2 . 3 6
+
+# puzzle#590 (difficulty: easy, empty_cells: 18)
+. 4 . 3 . 2
+. 2 6 . 5 .
+. . 5 2 . .
+6 3 . . 1 5
+2 . . . . 1
+. 5 . 6 2 3
+
+# puzzle#591 (difficulty: easy, empty_cells: 18)
+3 . . . . 5
+. 6 1 . 2 .
+6 5 . 3 . .
+1 4 . 6 . .
+4 3 . 2 1 .
+. 1 6 . . 4
+
+# puzzle#592 (difficulty: easy, empty_cells: 18)
+4 . 5 1 . .
+1 . 3 5 . 2
+5 . 4 2 . 6
+. . . 4 3 .
+. 5 1 . 2 .
+3 . . . . 1
+
+# puzzle#593 (difficulty: easy, empty_cells: 18)
+. . . 6 . 1
+1 6 . 3 . 2
+3 . 1 5 . 4
+. 4 . . 2 3
+6 . . 4 1 .
+. . 5 2 . .
+
+# puzzle#594 (difficulty: easy, empty_cells: 18)
+6 1 4 3 . .
+. . . . . .
+3 . 5 2 1 .
+2 6 . 4 . 5
+1 5 . . 4 3
+4 . . . . 1
+
+# puzzle#595 (difficulty: easy, empty_cells: 18)
+3 4 . . 6 2
+5 2 . . 1 4
+. . . . . .
+1 6 . . 3 .
+4 . 2 6 5 1
+. 1 5 . . .
+
+# puzzle#596 (difficulty: easy, empty_cells: 18)
+. 1 2 . . 4
+. . . . . .
+3 2 . 5 1 6
+1 6 . 2 . 3
+4 . 6 . . 1
+. 3 . 4 . 5
+
+# puzzle#597 (difficulty: easy, empty_cells: 18)
+1 4 5 6 2 3
+3 . . 4 . 5
+6 5 . 2 . .
+4 . 1 5 . .
+. . 6 3 . .
+. . . . . 2
+
+# puzzle#598 (difficulty: easy, empty_cells: 18)
+2 . . 6 . .
+. . 3 4 . 5
+. . 6 1 . .
+4 . . 3 . 2
+6 4 . 5 3 .
+. 3 1 . 4 6
+
+# puzzle#599 (difficulty: easy, empty_cells: 18)
+. . . 3 6 2
+6 . . . 1 .
+4 . . 1 2 3
+1 . 2 . 5 6
+. . 4 . . 5
+. . 5 2 4 .
+
+# puzzle#600 (difficulty: easy, empty_cells: 18)
+. . . 3 1 4
+4 . 1 . 2 .
+. 1 3 . . 2
+. . 2 6 . 1
+. . . 1 6 .
+. 6 . 2 4 3
+
+# puzzle#601 (difficulty: easy, empty_cells: 18)
+6 . 2 3 1 .
+. . 5 . . 4
+3 . . . . 2
+2 5 6 . . 3
+. . 1 4 . 6
+4 . . . 5 1
+
+# puzzle#602 (difficulty: easy, empty_cells: 18)
+. 5 2 4 . 1
+4 6 . 5 . 2
+2 . 4 . . .
+. 3 6 . . 4
+6 . . 2 1 .
+. . 5 6 . .
+
+# puzzle#603 (difficulty: easy, empty_cells: 18)
+5 2 4 . . .
+1 . . 5 2 .
+2 . . . . 3
+4 3 6 1 5 2
+. . 2 6 4 .
+. . 5 . . .
+
+# puzzle#604 (difficulty: easy, empty_cells: 18)
+3 . 6 . . 1
+4 . 5 6 3 .
+2 . 1 3 6 4
+. 3 . . 1 5
+. 4 . . . .
+. 6 . . 5 .
+
+# puzzle#605 (difficulty: easy, empty_cells: 18)
+. . 3 4 2 .
+. 5 . . 6 3
+. 3 4 5 1 2
+5 2 . . 4 .
+3 . . 2 5 4
+. . . . . .
+
+# puzzle#606 (difficulty: easy, empty_cells: 18)
+. 2 . 1 . 5
+. 3 . . 2 .
+. . . . . 3
+3 6 . . 4 1
+. 4 3 5 1 2
+. 5 . 3 6 .
+
+# puzzle#607 (difficulty: easy, empty_cells: 18)
+. . . . 6 .
+. 3 4 2 5 1
+. 1 3 . . 5
+. 4 . . . 3
+. . 1 5 3 .
+. 5 2 4 1 .
+
+# puzzle#608 (difficulty: easy, empty_cells: 18)
+. . 1 3 5 .
+. . 3 1 2 .
+6 1 . . . 2
+2 3 5 . . .
+1 . 2 . 6 3
+. . . 2 1 .
+
+# puzzle#609 (difficulty: easy, empty_cells: 18)
+6 . . . . .
+1 . 5 . 4 .
+. 4 . 1 . 5
+5 . . . 3 2
+. . 6 5 2 4
+4 . 2 3 . 6
+
+# puzzle#610 (difficulty: easy, empty_cells: 18)
+. . 1 6 . .
+5 . . . . 3
+1 6 3 5 . .
+. . 4 . 3 6
+. 1 . 2 6 .
+. . 2 3 5 1
+
+# puzzle#611 (difficulty: easy, empty_cells: 18)
+. 2 5 . . 6
+3 6 4 . . 5
+. . . . 4 .
+4 3 2 . 6 1
+2 . 3 . . 4
+5 . . . 2 .
+
+# puzzle#612 (difficulty: easy, empty_cells: 18)
+2 3 . . 1 4
+. 1 . . 5 .
+. 4 . 5 3 6
+6 . . 1 . .
+3 . 1 4 . .
+. 6 . 3 . 1
+
+# puzzle#613 (difficulty: easy, empty_cells: 18)
+6 . 2 . . 4
+. 4 5 . 3 2
+. 1 . . 6 .
+5 . 4 . . 1
+3 5 . 2 . .
+4 2 . . 5 .
+
+# puzzle#614 (difficulty: easy, empty_cells: 18)
+. 2 . . 3 5
+. . 5 6 . .
+4 . . . . 2
+1 . 2 3 6 .
+2 3 4 . 1 6
+. . 6 . 4 .
+
+# puzzle#615 (difficulty: easy, empty_cells: 18)
+1 . 2 . . .
+. 6 3 . 1 .
+. . . . 6 1
+. . 4 3 5 .
+3 . 6 . . 5
+. 5 1 6 2 3
+
+# puzzle#616 (difficulty: easy, empty_cells: 18)
+6 1 2 5 . .
+. . . . . 1
+4 . 3 6 . 5
+. 6 . 3 . 4
+2 . 1 4 . .
+. . 6 1 5 .
+
+# puzzle#617 (difficulty: easy, empty_cells: 18)
+. 6 5 . 3 4
+. . 2 . . 6
+2 4 1 5 . .
+3 5 . . 1 .
+. . . 6 . 1
+6 1 4 . . .
+
+# puzzle#618 (difficulty: easy, empty_cells: 18)
+. 5 2 3 . .
+. . 4 2 . 1
+2 . 3 5 . 4
+5 . . . . .
+4 . . 1 6 3
+3 . 6 4 . .
+
+# puzzle#619 (difficulty: easy, empty_cells: 18)
+1 6 . . . 3
+3 4 . 2 1 .
+. . . 3 2 .
+. 1 . 6 . 5
+5 . 6 . . .
+. 3 1 5 6 .
+
+# puzzle#620 (difficulty: easy, empty_cells: 18)
+4 6 2 3 . .
+. 5 1 . 4 6
+1 4 . . . .
+5 . . . 3 4
+. . . 4 . 1
+. 1 . . 2 3
+
+# puzzle#621 (difficulty: easy, empty_cells: 18)
+. 4 . 2 . .
+2 5 . 6 . .
+. . . 4 3 .
+. . 4 1 2 6
+. 6 5 . . 2
+3 2 . . 6 4
+
+# puzzle#622 (difficulty: easy, empty_cells: 18)
+. . 2 . . .
+. 1 5 . . 4
+1 . 6 2 . 5
+5 . . 3 6 .
+. 4 . 5 3 .
+6 . 3 4 1 .
+
+# puzzle#623 (difficulty: easy, empty_cells: 18)
+2 3 . 4 . .
+6 . . . 2 3
+. . . . . .
+1 . 4 . 6 5
+4 1 . 5 3 2
+. 5 . 6 . 4
+
+# puzzle#624 (difficulty: easy, empty_cells: 18)
+. . . . 2 .
+1 6 . 3 . .
+3 5 1 4 6 2
+. 2 4 . . 1
+. 1 . . 5 .
+5 . 6 2 . .
+
+# puzzle#625 (difficulty: easy, empty_cells: 18)
+2 . 1 . 3 .
+. . . . 1 .
+4 . 3 6 . 1
+. 2 6 3 . 4
+3 . . 2 6 5
+. 6 2 . . .
+
+# puzzle#626 (difficulty: easy, empty_cells: 18)
+. . 3 5 1 .
+5 1 . 6 . 3
+. . . 2 3 4
+. 2 . . . 5
+. 3 1 4 5 .
+4 6 . . . .
+
+# puzzle#627 (difficulty: easy, empty_cells: 18)
+1 . 2 . 6 .
+. 5 6 2 . 4
+5 . . 4 . 6
+. 2 . 1 . 3
+2 . . . 4 .
+. . 5 6 . 2
+
+# puzzle#628 (difficulty: easy, empty_cells: 18)
+2 . . 4 . 6
+. . 6 5 . .
+1 4 . . . .
+3 . 2 . 4 5
+. . 1 2 5 .
+5 . 4 6 . 1
+
+# puzzle#629 (difficulty: easy, empty_cells: 18)
+2 . . 1 . .
+1 . 5 . 3 2
+. . 3 . . 4
+4 . . . 2 6
+3 . . 6 . .
+5 1 6 2 4 .
+
+# puzzle#630 (difficulty: easy, empty_cells: 18)
+3 . 5 4 . .
+4 1 6 . . 5
+. 4 3 6 5 .
+5 . . 1 3 .
+. 3 . . 6 1
+. 5 . . . .
+
+# puzzle#631 (difficulty: easy, empty_cells: 18)
+. 4 6 . . 1
+. . . 4 2 6
+5 6 1 . . 4
+4 2 3 6 . .
+1 . . . . .
+6 . 2 . 4 .
+
+# puzzle#632 (difficulty: easy, empty_cells: 18)
+. 5 . 3 6 .
+. 6 3 2 1 .
+. . . 6 . 1
+. . 1 5 4 2
+. . 6 . . 3
+. . 4 1 5 .
+
+# puzzle#633 (difficulty: easy, empty_cells: 18)
+6 . 5 . . .
+3 . 1 4 . .
+5 . 3 2 . 4
+4 6 2 . 3 .
+1 3 . 5 . .
+. 5 . . . 3
+
+# puzzle#634 (difficulty: easy, empty_cells: 18)
+1 . . 2 6 4
+4 . . . . .
+5 . . . 1 2
+3 . 2 . 5 .
+2 5 . . 4 .
+6 . 3 . 2 1
+
+# puzzle#635 (difficulty: easy, empty_cells: 18)
+. 4 . . 6 3
+. 6 . 1 2 .
+1 2 4 . 3 .
+3 5 . . 4 .
+6 . . 4 1 .
+4 1 . . . .
+
+# puzzle#636 (difficulty: easy, empty_cells: 18)
+5 . 2 . 4 .
+. . . . . .
+2 4 5 3 . .
+1 3 6 5 . 4
+4 2 3 . 1 .
+. . 1 4 . .
+
+# puzzle#637 (difficulty: easy, empty_cells: 18)
+5 3 2 . . .
+4 . . . 3 5
+. . 5 . . .
+2 4 . 5 6 .
+1 5 . . . .
+3 . 6 1 5 4
+
+# puzzle#638 (difficulty: easy, empty_cells: 18)
+. . . 5 4 1
+1 . . . 3 .
+4 2 3 1 5 .
+. 1 6 . . .
+. 5 1 . 6 3
+. 6 4 . . .
+
+# puzzle#639 (difficulty: easy, empty_cells: 18)
+3 4 5 2 . 6
+. 6 . 3 . .
+. . 3 . 6 2
+6 . 1 . . 3
+. . 4 . 2 1
+. . . . 3 5
+
+# puzzle#640 (difficulty: easy, empty_cells: 18)
+6 4 . . . .
+1 2 3 5 4 6
+5 . 1 3 . .
+4 . . . . .
+3 1 4 2 . .
+2 5 . . . .
+
+# puzzle#641 (difficulty: easy, empty_cells: 18)
+3 4 5 1 . 2
+. . . 5 . 4
+. . . 3 . 6
+6 . 1 . . 5
+. . 3 4 . 1
+. 2 4 . 5 .
+
+# puzzle#642 (difficulty: easy, empty_cells: 18)
+. . 4 . 1 .
+6 1 . . 4 .
+1 . . . . .
+4 . 2 6 3 1
+. . . 1 . 3
+3 6 1 4 . 5
+
+# puzzle#643 (difficulty: easy, empty_cells: 18)
+2 . 5 . . 4
+. . 4 2 1 .
+1 5 3 . . .
+4 6 . . 3 1
+. . 1 . . 2
+5 2 . 1 . .
+
+# puzzle#644 (difficulty: easy, empty_cells: 18)
+. 6 . 3 4 .
+1 3 4 5 . 2
+. . 3 . 1 .
+. . 1 2 . .
+2 . . . 5 .
+. 1 5 . 2 4
+
+# puzzle#645 (difficulty: easy, empty_cells: 18)
+1 2 . . 4 5
+. 5 . . . .
+. 1 . . . 3
+6 3 4 1 . .
+3 . 2 . . 6
+. . 1 3 2 4
+
+# puzzle#646 (difficulty: easy, empty_cells: 18)
+2 . 1 3 5 4
+. . . . 1 .
+4 1 2 5 6 .
+5 . 6 . . 2
+1 . 4 . . .
+6 . . . . 1
+
+# puzzle#647 (difficulty: easy, empty_cells: 18)
+. . 1 3 6 .
+. . 6 . . 2
+1 3 . . 5 .
+6 4 . 2 3 .
+. 1 . . 4 6
+5 . 4 . 2 .
+
+# puzzle#648 (difficulty: easy, empty_cells: 18)
+. . . . 6 .
+2 6 . 3 5 .
+. 2 1 6 . .
+3 4 . . . .
+6 3 5 4 1 2
+4 . 2 . . .
+
+# puzzle#649 (difficulty: easy, empty_cells: 18)
+. . 2 5 1 .
+. . 5 . . .
+6 2 . 1 . 4
+5 . 4 . . 3
+. 3 1 . 6 5
+2 5 . . 4 .
+
+# puzzle#650 (difficulty: easy, empty_cells: 18)
+5 . 2 6 . .
+1 . 6 . 5 .
+. . . . 3 6
+. . . 5 1 4
+3 6 . . 2 5
+2 . 5 . . 3
+
+# puzzle#651 (difficulty: easy, empty_cells: 18)
+. 5 2 . 6 4
+. . . . 3 5
+. 6 5 . 4 .
+. 4 3 6 5 1
+5 3 . . . .
+. 2 6 . . .
+
+# puzzle#652 (difficulty: easy, empty_cells: 18)
+5 . . . 2 1
+1 . . . 4 6
+3 2 . 1 6 .
+. 6 1 . 3 5
+. . . . . 2
+2 5 . . . 3
+
+# puzzle#653 (difficulty: easy, empty_cells: 18)
+3 6 . 2 . 4
+5 . . 6 3 .
+1 . 5 3 . 2
+. . . . 4 5
+. . 2 4 . .
+4 . . 5 2 .
+
+# puzzle#654 (difficulty: easy, empty_cells: 18)
+2 5 . . 4 .
+. . 4 . . .
+3 . . . 1 .
+. 1 5 6 . 2
+. 2 3 1 6 4
+6 . . 5 . 3
+
+# puzzle#655 (difficulty: easy, empty_cells: 18)
+2 6 . 4 5 .
+. . . . . 6
+4 2 . 1 . .
+3 1 6 5 . 2
+1 . 4 . 2 5
+. . 2 . . .
+
+# puzzle#656 (difficulty: easy, empty_cells: 18)
+2 3 . . 1 .
+5 . 1 3 . 2
+. 1 . 6 3 .
+3 6 . 4 . .
+. . 3 2 . .
+6 . 4 . 5 .
+
+# puzzle#657 (difficulty: easy, empty_cells: 18)
+6 3 2 . . .
+1 . . 2 6 .
+. . . . 5 .
+. . . 4 2 1
+3 . 6 . 4 5
+. . 5 6 3 2
+
+# puzzle#658 (difficulty: easy, empty_cells: 18)
+. 2 1 4 5 6
+5 4 . . . 2
+. . . 2 . .
+. . 5 6 4 .
+. 5 2 3 6 1
+. . . . 2 .
+
+# puzzle#659 (difficulty: easy, empty_cells: 18)
+. . . 5 . 3
+2 5 . . . 1
+. 6 4 2 1 5
+1 . . . 3 4
+5 . 2 3 . .
+. . 6 1 . .
+
+# puzzle#660 (difficulty: easy, empty_cells: 18)
+. . . 3 1 .
+. . 2 . . .
+5 . . . 3 .
+2 3 1 5 6 4
+6 . 5 1 . 3
+. 2 3 4 . .
+
+# puzzle#661 (difficulty: easy, empty_cells: 18)
+6 . . 3 . 5
+2 . 3 6 . .
+. . . 4 5 .
+5 . 6 1 3 .
+4 . . 2 . 3
+. 3 2 5 . .
+
+# puzzle#662 (difficulty: easy, empty_cells: 18)
+. . 2 . 3 .
+3 6 1 5 . 2
+. 1 . . . .
+. . . 1 . 4
+6 5 4 2 . 3
+1 . . 4 . 5
+
+# puzzle#663 (difficulty: easy, empty_cells: 18)
+. . 5 2 . .
+. . . . 1 5
+. 4 1 5 2 .
+3 . 2 4 6 1
+2 . . 3 . .
+. 3 . . 4 2
+
+# puzzle#664 (difficulty: easy, empty_cells: 18)
+. 6 1 . . .
+2 4 5 . . 6
+. 3 6 . 5 .
+. . 2 . . .
+6 . 4 1 . 2
+1 2 . 5 6 .
+
+# puzzle#665 (difficulty: easy, empty_cells: 18)
+2 1 5 4 3 .
+6 . . . 5 .
+3 2 . 5 . .
+. 4 6 3 . 2
+. . 2 . 4 .
+. 6 . . . 5
+
+# puzzle#666 (difficulty: easy, empty_cells: 18)
+. 1 . 5 . 4
+. 5 . . 1 .
+. 4 1 . 6 3
+3 2 . 1 4 .
+. . . . . .
+4 3 2 6 . 1
+
+# puzzle#667 (difficulty: easy, empty_cells: 18)
+6 . 1 . . 2
+4 2 . . 1 6
+5 . 6 1 2 .
+. 1 3 6 . .
+3 . . . . .
+1 . 2 5 . .
+
+# puzzle#668 (difficulty: easy, empty_cells: 18)
+. 6 2 . 1 3
+. . 5 . . .
+6 5 . 2 3 .
+. . 3 . 5 4
+3 2 6 . . 5
+. . . 3 6 .
+
+# puzzle#669 (difficulty: easy, empty_cells: 18)
+. . . . . .
+2 6 5 . . .
+. 4 . 5 1 .
+6 5 1 . 4 2
+5 2 . 4 . 1
+. . 6 . 5 3
+
+# puzzle#670 (difficulty: easy, empty_cells: 18)
+. . 5 . . .
+6 4 . . 3 5
+4 . . . 6 .
+2 6 1 5 4 .
+. . . 3 1 .
+. 3 4 . 5 2
+
+# puzzle#671 (difficulty: easy, empty_cells: 18)
+. . 5 . . 1
+1 . . 5 4 .
+5 1 . . . 3
+. . 3 1 . 4
+3 . 6 . . .
+4 5 . 6 3 2
+
+# puzzle#672 (difficulty: easy, empty_cells: 18)
+3 6 5 . . 2
+1 4 . . . 3
+. . . . . .
+. 1 3 4 2 .
+2 . 1 3 . .
+6 3 4 . 1 .
+
+# puzzle#673 (difficulty: easy, empty_cells: 18)
+3 . . . 1 2
+4 1 . 5 3 .
+. . . . . .
+5 4 . 2 . 1
+2 3 6 . . 5
+. . 4 6 . 3
+
+# puzzle#674 (difficulty: easy, empty_cells: 18)
+2 3 . . 6 1
+6 . 5 . . 4
+4 . . 1 5 3
+3 . . . 4 .
+. . 6 4 . .
+5 . 3 . . 2
+
+# puzzle#675 (difficulty: easy, empty_cells: 18)
+. . . . 3 1
+. . 6 . 2 .
+1 . . . . 6
+6 . 4 2 1 3
+5 6 . 3 . .
+. 4 . 1 6 5
+
+# puzzle#676 (difficulty: easy, empty_cells: 18)
+3 2 4 6 1 5
+6 . . 4 . 2
+. 5 . 1 . 3
+. 4 . . . .
+5 3 . 2 . .
+. 6 . 3 . .
+
+# puzzle#677 (difficulty: easy, empty_cells: 18)
+6 . . 4 . 5
+2 4 5 . 6 .
+. 2 . 5 . 4
+. . 4 6 3 .
+. . 3 . . 6
+5 . . . 4 3
+
+# puzzle#678 (difficulty: easy, empty_cells: 18)
+1 . . 6 3 .
+. 5 3 . . .
+. 1 . 4 2 .
+. . 2 5 . .
+5 3 . 2 6 4
+2 . . 3 5 .
+
+# puzzle#679 (difficulty: easy, empty_cells: 18)
+4 . 3 5 2 .
+. . 5 . . .
+2 . . 4 6 3
+. . 6 2 . 5
+6 3 . . . 2
+5 . . 6 3 .
+
+# puzzle#680 (difficulty: easy, empty_cells: 18)
+. . 1 . 6 4
+3 . 4 . . .
+. . . 6 3 .
+. . 3 . . 1
+5 4 6 1 2 3
+1 . . 5 4 .
+
+# puzzle#681 (difficulty: easy, empty_cells: 18)
+6 . . 3 . .
+. 3 4 6 1 2
+4 . . 5 . 1
+2 5 . . 6 .
+. 2 6 1 . 4
+. . . . . 6
+
+# puzzle#682 (difficulty: easy, empty_cells: 18)
+3 . 4 . 2 .
+1 . 2 4 6 .
+. 2 . 6 3 .
+6 . 5 . 4 .
+. 4 . . . 6
+2 . 6 . . 4
+
+# puzzle#683 (difficulty: easy, empty_cells: 18)
+1 5 . 2 4 .
+. 4 3 . 1 .
+. . . . 3 .
+3 1 . 4 6 5
+. 2 . 3 . 1
+. . 1 6 . .
+
+# puzzle#684 (difficulty: easy, empty_cells: 18)
+. . . 3 6 1
+. 3 1 . . 4
+. 6 5 . 4 .
+. 1 . 6 . 2
+3 2 . . . 5
+. 5 4 . . 6
+
+# puzzle#685 (difficulty: easy, empty_cells: 18)
+4 6 . 2 . 1
+. . . 3 4 6
+2 4 . . . 5
+. . . 4 6 2
+. 5 . . 2 4
+. 2 . . 1 .
+
+# puzzle#686 (difficulty: easy, empty_cells: 18)
+. 4 . 5 . 1
+. . 1 3 6 4
+5 . 4 . . .
+1 . 6 . . 2
+. 6 . 1 . 5
+4 . . . 3 6
+
+# puzzle#687 (difficulty: easy, empty_cells: 18)
+6 . 3 2 1 5
+2 . 5 3 . .
+. . 1 . 3 2
+. . . . . 4
+3 . . 4 5 .
+1 . 4 6 . .
+
+# puzzle#688 (difficulty: easy, empty_cells: 18)
+. . 3 . 6 .
+4 . 6 . 1 5
+. . 5 1 3 4
+3 1 . 5 . 6
+5 3 . . 4 .
+. . . . . 3
+
+# puzzle#689 (difficulty: easy, empty_cells: 18)
+1 . . . 5 .
+. . 3 . 6 .
+. 1 . 4 . 5
+4 . 5 . 1 2
+3 . 1 5 2 .
+. . 2 3 4 .
+
+# puzzle#690 (difficulty: easy, empty_cells: 18)
+. 6 2 . . 1
+. . 4 . 6 2
+4 . 3 . 5 6
+6 1 5 . 2 .
+2 4 . . . .
+5 . . 2 . .
+
+# puzzle#691 (difficulty: easy, empty_cells: 18)
+. 2 6 . . .
+5 . . 2 6 .
+. . 5 . 4 .
+. . 4 1 . 3
+. 3 2 4 . .
+4 5 1 . 2 6
+
+# puzzle#692 (difficulty: easy, empty_cells: 18)
+1 . . 5 2 4
+. . 4 1 . 3
+6 2 . 4 . .
+. . 1 . 5 .
+4 . 3 2 . 5
+. 1 . . . 6
+
+# puzzle#693 (difficulty: easy, empty_cells: 18)
+. . 5 . 6 1
+6 . 3 . 2 .
+. 6 1 4 3 5
+. . . 2 1 6
+5 . 6 1 4 .
+. . . . . .
+
+# puzzle#694 (difficulty: easy, empty_cells: 18)
+. 2 . . 4 6
+. 4 . 5 2 .
+. 5 . 6 . .
+2 6 . . 3 .
+. 3 2 1 . 4
+. . 6 2 . 3
+
+# puzzle#695 (difficulty: easy, empty_cells: 18)
+4 1 . . 2 .
+3 . 2 . . 1
+. . . 3 . 2
+5 . 3 . 1 6
+. 3 . 2 6 5
+. 5 . 1 . .
+
+# puzzle#696 (difficulty: easy, empty_cells: 18)
+6 . 3 . 2 1
+. 2 1 6 . .
+. 6 . . 5 .
+. . 5 2 . .
+. . 6 4 3 5
+. . 4 . 6 2
+
+# puzzle#697 (difficulty: easy, empty_cells: 18)
+1 . 5 . . 2
+2 . . . 5 .
+. 6 . . . 4
+4 . 3 6 . .
+3 2 1 5 4 6
+. 5 . . . 1
+
+# puzzle#698 (difficulty: easy, empty_cells: 18)
+6 . 1 2 3 5
+2 . . . . .
+4 . . . 5 2
+5 . . 6 1 .
+3 . 5 . 4 6
+. . . 5 . 3
+
+# puzzle#699 (difficulty: easy, empty_cells: 18)
+1 . 5 . 2 3
+2 3 . 4 . 1
+4 6 . . . .
+. . 3 1 . .
+. . 2 3 4 5
+. . 4 2 . .
+
+# puzzle#700 (difficulty: easy, empty_cells: 18)
+. . 4 . . .
+. 3 1 . 2 6
+4 6 3 1 . .
+. . . . 4 3
+1 . 6 2 3 4
+. . 2 . . 1
+
+# puzzle#701 (difficulty: easy, empty_cells: 18)
+. . . . . 4
+. 6 5 . . .
+1 4 . . 3 5
+2 . 3 . . 6
+6 1 . 4 5 .
+. 3 4 6 . 2
+
+# puzzle#702 (difficulty: easy, empty_cells: 18)
+. . . 3 . 2
+2 . 3 . 4 5
+5 . 6 . 2 3
+3 4 . . . 6
+. . . 6 3 .
+. 3 4 2 . .
+
+# puzzle#703 (difficulty: easy, empty_cells: 18)
+. . . . . .
+. . 1 2 3 6
+3 . 6 . 1 .
+. . . 6 . 3
+1 6 . 3 2 4
+. 3 4 . 6 1
+
+# puzzle#704 (difficulty: easy, empty_cells: 18)
+. . . 5 . 6
+. 5 . 2 4 .
+5 4 . 6 . 1
+1 . . 4 3 5
+. . . 3 . 2
+. 6 . . 5 4
+
+# puzzle#705 (difficulty: easy, empty_cells: 18)
+. 3 . 4 2 .
+. . 4 6 5 .
+. . . 2 6 .
+4 6 2 . 3 .
+6 . 5 3 . .
+. 2 3 . . 6
+
+# puzzle#706 (difficulty: easy, empty_cells: 18)
+. . 4 . 1 3
+1 . . . 2 4
+. 1 6 . . .
+5 4 . 3 6 1
+. 6 3 . . .
+2 . 1 . . 6
+
+# puzzle#707 (difficulty: easy, empty_cells: 18)
+6 . . 3 . .
+4 5 3 2 . 1
+5 4 . 1 . .
+. . 2 . . .
+2 . . 6 . 4
+3 6 4 5 . .
+
+# puzzle#708 (difficulty: easy, empty_cells: 18)
+1 3 4 . 6 .
+. 2 6 . 3 .
+. 1 5 4 . .
+6 . 2 . . 3
+4 . 1 . . .
+. . 3 . 4 1
+
+# puzzle#709 (difficulty: easy, empty_cells: 18)
+. . . . . 2
+2 . 3 4 5 1
+5 . 2 . 4 6
+4 1 . . . 5
+. . . 6 1 4
+. 4 . . 2 .
+
+# puzzle#710 (difficulty: easy, empty_cells: 18)
+. 5 . 6 3 2
+2 3 . 1 . 4
+. 2 4 3 . 6
+. . . . 4 .
+1 4 . . 6 .
+3 . 5 . . .
+
+# puzzle#711 (difficulty: easy, empty_cells: 18)
+5 1 . . . .
+6 . 2 1 . .
+1 6 4 2 . 3
+2 3 . 6 1 4
+. . 6 . . .
+. . 1 . 2 .
+
+# puzzle#712 (difficulty: easy, empty_cells: 18)
+. 4 . . . 6
+. . 6 . 5 4
+4 . . 5 . 1
+. 5 . 6 4 3
+6 . . . 3 2
+3 . . 1 . 5
+
+# puzzle#713 (difficulty: easy, empty_cells: 18)
+. 2 . . . .
+. 4 3 . . .
+. 3 6 1 2 .
+2 1 5 6 . 3
+1 . 2 3 6 4
+. . . 2 . .
+
+# puzzle#714 (difficulty: easy, empty_cells: 18)
+3 . 5 4 1 6
+. 1 . . 3 .
+. 6 . 1 . 3
+5 . . 6 . .
+. . 2 3 . 1
+. 4 3 . . 2
+
+# puzzle#715 (difficulty: easy, empty_cells: 18)
+. . 1 . . 5
+5 . . . 6 1
+. . . 6 4 .
+4 3 6 5 . 2
+2 . 4 . . .
+. 1 3 2 5 .
+
+# puzzle#716 (difficulty: easy, empty_cells: 18)
+. 5 . 4 6 .
+6 3 . 2 5 .
+3 . 5 6 1 4
+. . . . . 2
+. . 6 3 . 5
+. . 3 . 2 .
+
+# puzzle#717 (difficulty: easy, empty_cells: 18)
+4 1 2 . 5 6
+. . . 4 . 1
+. 5 1 2 . 4
+. 4 6 . 3 .
+. 3 . . 1 .
+1 . . . 4 .
+
+# puzzle#718 (difficulty: easy, empty_cells: 18)
+5 . 3 . . 1
+. . 1 5 4 3
+. . 5 3 . 4
+. . . . 5 2
+6 . 2 4 . 5
+. 5 . 2 . .
+
+# puzzle#719 (difficulty: easy, empty_cells: 18)
+. . 6 2 3 4
+. . 4 6 . 5
+4 1 . . 2 .
+2 . 3 4 . .
+5 . 2 . 6 .
+. . . . 4 2
+
+# puzzle#720 (difficulty: easy, empty_cells: 18)
+3 . . 6 . 5
+. 6 . 4 1 3
+. . 1 . . .
+. 4 . . 5 6
+1 . 5 . 6 4
+. 2 6 5 . .
+
+# puzzle#721 (difficulty: easy, empty_cells: 18)
+5 4 . . . .
+2 6 . 4 1 .
+6 . . . 5 1
+3 1 . . . 6
+. . . . 6 4
+4 5 6 . . 2
+
+# puzzle#722 (difficulty: easy, empty_cells: 18)
+4 3 . 1 5 .
+. 5 . . 3 2
+. 2 4 5 . .
+. . 3 . 4 .
+2 . . . . .
+3 1 5 6 2 .
+
+# puzzle#723 (difficulty: easy, empty_cells: 18)
+. 4 . 5 . .
+5 . 2 . 6 .
+2 . . . 4 .
+. 1 3 6 . 5
+. 6 4 . 5 3
+3 2 . . . 6
+
+# puzzle#724 (difficulty: easy, empty_cells: 18)
+5 3 . 2 . .
+4 . 2 5 3 1
+. . . 4 . .
+2 1 4 . . 3
+1 . . 3 . 4
+. . 3 . . 5
+
+# puzzle#725 (difficulty: easy, empty_cells: 18)
+5 4 . . 6 2
+. 6 . . 5 3
+. 5 . . . .
+. . 1 3 4 .
+4 . 5 2 3 .
+. 3 6 . 1 .
+
+# puzzle#726 (difficulty: easy, empty_cells: 18)
+. 3 . . 6 2
+6 . 2 . . 4
+. 1 . . 5 .
+5 . 6 . 1 .
+. 6 4 3 2 .
+3 . . 6 . 1
+
+# puzzle#727 (difficulty: easy, empty_cells: 18)
+. 1 5 . 6 2
+. . 6 1 . .
+. . 4 5 . 6
+. 6 3 . . .
+4 3 . . 2 5
+. . 2 . 4 1
+
+# puzzle#728 (difficulty: easy, empty_cells: 18)
+. 6 4 5 . .
+1 3 5 . 2 .
+. 5 3 . 1 .
+. 2 . 4 . .
+3 . 2 . 6 .
+. . 6 3 . 2
+
+# puzzle#729 (difficulty: easy, empty_cells: 18)
+3 5 . . . .
+2 . 1 5 6 3
+. . . . 5 4
+. . . . . .
+4 . . 3 2 1
+1 2 3 6 . 5
+
+# puzzle#730 (difficulty: easy, empty_cells: 18)
+. . . 4 3 6
+. . . . 5 2
+6 5 . 3 2 1
+1 . 3 6 . 5
+. . . . 1 .
+2 4 . . . 3
+
+# puzzle#731 (difficulty: easy, empty_cells: 18)
+2 6 1 4 . .
+. 3 5 . 1 6
+1 2 . 3 5 4
+. 5 . . . .
+5 . . . . 1
+. . . . 4 3
+
+# puzzle#732 (difficulty: easy, empty_cells: 18)
+. 6 3 . 4 .
+4 . . 6 5 3
+6 . . 4 3 2
+. . 4 . . 5
+3 . . . . .
+. 4 5 . 2 6
+
+# puzzle#733 (difficulty: easy, empty_cells: 18)
+1 5 6 3 4 .
+3 2 . 6 . .
+. 3 1 2 . .
+4 . . . . 5
+. . 3 5 1 .
+6 1 . . . .
+
+# puzzle#734 (difficulty: easy, empty_cells: 18)
+4 . 6 5 . .
+2 . 1 . . 3
+6 4 2 3 5 1
+. . . . . 4
+. 6 4 . . 5
+1 . 5 . . .
+
+# puzzle#735 (difficulty: easy, empty_cells: 18)
+. . 1 . . 6
+4 6 2 . 3 .
+. 4 3 . . 1
+2 . 5 . 6 .
+. 5 . 4 1 .
+1 2 . . . 3
+
+# puzzle#736 (difficulty: easy, empty_cells: 18)
+5 . . 6 . .
+. . . . 5 1
+. 6 4 . . .
+3 . 5 2 . 4
+4 . 3 5 1 6
+. . . 3 4 2
+
+# puzzle#737 (difficulty: easy, empty_cells: 18)
+. 4 2 3 . .
+. 1 . 4 2 6
+2 5 6 . . .
+4 3 . 2 6 .
+. . . . 1 .
+. 6 3 . 4 .
+
+# puzzle#738 (difficulty: easy, empty_cells: 18)
+2 6 . . . .
+. . 1 2 3 6
+. . 6 . . 1
+3 1 5 . . 4
+. . 2 1 4 .
+1 . . 5 . 2
+
+# puzzle#739 (difficulty: easy, empty_cells: 18)
+. 2 . . . 3
+. 4 3 . 5 .
+. . 4 5 . .
+. . 6 . 3 4
+5 6 . 3 4 1
+4 . 1 6 . .
+
+# puzzle#740 (difficulty: easy, empty_cells: 18)
+. 2 . 5 6 .
+. . 1 . . 4
+. . 5 6 1 3
+. . . 4 5 2
+. . 4 . 3 6
+3 6 . . 4 .
+
+# puzzle#741 (difficulty: easy, empty_cells: 18)
+1 . 5 . 4 .
+6 . . 1 . 5
+5 2 . . 1 4
+. . . 3 5 .
+3 . . 5 . 1
+2 . 1 . . 3
+
+# puzzle#742 (difficulty: easy, empty_cells: 18)
+2 . . 5 . 1
+3 5 . . . .
+5 3 . 1 . 4
+. 4 2 6 . .
+. 1 3 . . 5
+. . 5 3 1 .
+
+# puzzle#743 (difficulty: easy, empty_cells: 18)
+. . 4 . 1 3
+. 3 . 6 4 5
+6 1 . . . .
+. 2 5 3 6 .
+2 . 6 . . 4
+. . . 5 . 6
+
+# puzzle#744 (difficulty: easy, empty_cells: 18)
+3 . . . 5 .
+2 . . 3 1 4
+. 3 . . . 5
+4 . 2 . 3 .
+. 2 6 . . 3
+. 4 . 2 6 1
+
+# puzzle#745 (difficulty: easy, empty_cells: 18)
+2 . 4 5 . .
+. 1 3 . 6 .
+. 3 2 6 . 4
+4 . . 2 3 .
+. . 5 . . 6
+6 4 1 . . .
+
+# puzzle#746 (difficulty: easy, empty_cells: 18)
+1 4 5 . . .
+6 2 . 1 . .
+5 . 2 . . .
+. . 1 5 2 3
+. . . . 5 6
+2 5 . . 3 1
+
+# puzzle#747 (difficulty: easy, empty_cells: 18)
+. 2 . . . .
+1 . 6 . . .
+6 3 1 4 5 .
+. . . 3 . 6
+5 6 4 1 2 3
+. 1 . . . 4
+
+# puzzle#748 (difficulty: easy, empty_cells: 18)
+. 4 . 6 . .
+1 3 6 2 . 5
+5 . 2 3 6 .
+. . 3 . . .
+. 5 . 4 2 6
+. . . 5 3 .
+
+# puzzle#749 (difficulty: easy, empty_cells: 18)
+. 4 5 1 6 .
+. . . . 3 .
+. . . 6 4 5
+4 5 . 3 . 1
+2 . 3 4 . .
+. . . 2 1 3
+
+# puzzle#750 (difficulty: easy, empty_cells: 18)
+4 3 . . 2 5
+5 2 6 . 1 .
+2 . 3 . 5 4
+. . . . 6 .
+6 5 4 . . 1
+. 1 . . . .
+
+# puzzle#751 (difficulty: easy, empty_cells: 18)
+6 5 . . . .
+. 3 . 6 . 2
+3 6 . 2 . 5
+4 2 . . . 3
+. 4 . . 1 6
+. 1 6 3 . .
+
+# puzzle#752 (difficulty: easy, empty_cells: 18)
+2 1 3 . 5 4
+. . 4 . . 1
+. . 2 3 . .
+3 5 1 . 6 2
+. . . . 4 .
+4 . 5 1 . .
+
+# puzzle#753 (difficulty: easy, empty_cells: 18)
+. 5 6 2 . 4
+3 2 4 . . 6
+4 6 1 5 . 3
+2 3 . . 4 .
+. . . . . .
+5 . . 4 . .
+
+# puzzle#754 (difficulty: easy, empty_cells: 18)
+. . . . . .
+5 1 3 . 2 .
+3 6 5 . . 2
+2 . . 3 6 5
+1 3 . . 5 6
+. . . . 4 3
+
+# puzzle#755 (difficulty: easy, empty_cells: 18)
+. 1 . . 5 6
+. . . . 1 2
+3 . 4 1 2 .
+. . . 6 3 4
+4 5 . 2 . .
+6 . 2 . . 1
+
+# puzzle#756 (difficulty: easy, empty_cells: 18)
+2 . 3 . . 1
+1 . . 3 . .
+. 2 . 1 4 .
+. 1 4 . 5 2
+5 3 . 4 . .
+. . 1 . 3 5
+
+# puzzle#757 (difficulty: easy, empty_cells: 18)
+. . 5 . 1 3
+1 . 4 5 6 .
+4 . 1 3 . .
+. 6 3 . . .
+. 4 . . 5 .
+. 1 . 2 3 4
+
+# puzzle#758 (difficulty: easy, empty_cells: 18)
+. 6 . . 3 1
+2 . . 5 . .
+. 4 . 6 . 5
+1 . 6 . 2 3
+. 2 3 1 . 6
+. . . 3 4 .
+
+# puzzle#759 (difficulty: easy, empty_cells: 18)
+2 6 . 5 3 .
+5 3 . . 2 .
+4 . . . 6 .
+6 2 3 4 . .
+. . . 3 . .
+3 . . 6 1 5
+
+# puzzle#760 (difficulty: easy, empty_cells: 18)
+2 . 4 . . 3
+. 1 . . 2 .
+6 . 5 3 4 .
+3 . . . 5 2
+. . 6 . . 4
+. 3 2 . 6 5
+
+# puzzle#761 (difficulty: easy, empty_cells: 18)
+5 . 1 3 . .
+6 . 3 . 2 5
+4 . 2 6 . .
+3 . 5 2 4 .
+. . 6 . . .
+. 3 . 5 . 6
+
+# puzzle#762 (difficulty: easy, empty_cells: 18)
+. 3 4 2 . 5
+2 . 5 . 6 3
+5 . . . . .
+. 2 3 . 5 1
+. 5 . . 4 .
+. . 2 . 3 6
+
+# puzzle#763 (difficulty: easy, empty_cells: 18)
+6 . 5 . 1 3
+2 . . 5 6 .
+5 . . . 3 .
+. 1 . 6 5 2
+. 6 . 3 . 5
+. . 4 1 . .
+
+# puzzle#764 (difficulty: easy, empty_cells: 18)
+. 2 6 5 . 1
+4 . . 2 3 .
+. . . . . .
+6 . 2 1 . 3
+2 6 4 3 . .
+. . 5 . 6 2
+
+# puzzle#765 (difficulty: easy, empty_cells: 18)
+. . 4 . 2 .
+1 3 . . . .
+. . 1 5 . 6
+6 . . 2 . 4
+4 2 . . 5 3
+3 . 5 . 6 2
+
+# puzzle#766 (difficulty: easy, empty_cells: 18)
+. . 5 . . .
+1 . . 5 . 2
+5 . . . 1 .
+6 4 . 3 2 5
+4 1 6 . . .
+3 5 . 1 . 4
+
+# puzzle#767 (difficulty: easy, empty_cells: 18)
+3 . . . . 2
+. 2 . 4 3 5
+. 4 . . 6 3
+5 . 6 . . 4
+. . 3 2 5 6
+. 6 . 3 . .
+
+# puzzle#768 (difficulty: easy, empty_cells: 18)
+. 1 . . . 4
+4 . 6 1 5 .
+. 5 2 . . .
+1 . . 5 . 6
+. . . 3 . 2
+2 4 3 6 1 .
+
+# puzzle#769 (difficulty: easy, empty_cells: 18)
+. 6 4 . . 1
+1 . 2 . 4 6
+. 3 6 4 . 5
+. . . . . .
+. 1 3 . 6 .
+6 2 . . 3 4
+
+# puzzle#770 (difficulty: easy, empty_cells: 18)
+5 . 3 . 2 .
+2 . 6 . . .
+1 6 . 4 . .
+. . . 5 . .
+. 3 1 2 6 .
+. 5 2 3 4 1
+
+# puzzle#771 (difficulty: easy, empty_cells: 18)
+. 2 1 . . 5
+3 4 . 1 . 6
+2 . 6 . 5 .
+. 3 . 2 . .
+. 6 . . 1 .
+1 . . 6 3 4
+
+# puzzle#772 (difficulty: easy, empty_cells: 18)
+. . 3 2 . .
+6 1 . . . 4
+4 2 6 1 . 5
+. . . 4 . .
+3 . 4 6 . 1
+. 6 1 . 4 .
+
+# puzzle#773 (difficulty: easy, empty_cells: 18)
+4 6 . 1 2 5
+5 . . 4 . .
+2 . . . . .
+1 3 5 . 6 .
+. 5 . 6 . 2
+6 . 2 . . 3
+
+# puzzle#774 (difficulty: easy, empty_cells: 18)
+3 2 1 4 . 5
+5 . . 3 . 1
+. 3 . . . 2
+. 6 2 5 . .
+2 . 3 1 . .
+. 1 . 2 . .
+
+# puzzle#775 (difficulty: easy, empty_cells: 18)
+. 5 . . . .
+2 6 4 5 . 3
+. . . . . 5
+5 2 . 6 3 4
+6 . . 4 . 1
+4 1 . 3 . .
+
+# puzzle#776 (difficulty: easy, empty_cells: 18)
+. 4 3 6 5 .
+2 . 5 . . .
+. . . . . 1
+5 . . 4 3 6
+6 . 1 2 4 3
+. 2 . . . 5
+
+# puzzle#777 (difficulty: easy, empty_cells: 18)
+. 4 . . 6 1
+1 . 2 4 . 5
+. 1 4 . 2 .
+2 . 6 . . 3
+4 . . 6 . .
+. . 1 . 5 4
+
+# puzzle#778 (difficulty: easy, empty_cells: 18)
+. 6 . 5 3 2
+. . 5 . 6 .
+6 . . 1 . .
+5 . 4 3 . .
+2 . . . 1 5
+1 . 6 2 4 .
+
+# puzzle#779 (difficulty: easy, empty_cells: 18)
+1 . . . . 5
+. 5 . 1 2 .
+. . 4 . 1 .
+5 3 1 . . 4
+2 4 . 3 . 1
+. 1 5 . . 2
+
+# puzzle#780 (difficulty: easy, empty_cells: 18)
+. 1 . 4 . .
+3 . 5 2 . 6
+2 . . . 6 .
+. . 1 3 2 .
+4 2 . . 5 3
+1 5 . . . 2
+
+# puzzle#781 (difficulty: easy, empty_cells: 18)
+. . . . 5 3
+5 6 . 4 . .
+6 . 4 . 1 .
+. 2 5 3 . .
+4 . . 2 3 5
+. . 2 1 . 4
+
+# puzzle#782 (difficulty: easy, empty_cells: 18)
+2 1 3 . 5 4
+4 . . . 1 .
+1 . . . . .
+3 . . . 4 6
+6 2 1 . . .
+5 . . 2 6 1
+
+# puzzle#783 (difficulty: easy, empty_cells: 18)
+3 4 . . . .
+5 6 . 1 4 .
+. . . . . 4
+6 1 4 2 3 5
+. 5 . . 6 .
+. 2 . 3 . 1
+
+# puzzle#784 (difficulty: easy, empty_cells: 18)
+. . . . . 2
+2 1 5 . . 3
+1 . . 2 6 5
+. . . 4 . 1
+6 5 . 3 . .
+. 2 4 . 5 6
+
+# puzzle#785 (difficulty: easy, empty_cells: 18)
+. 2 . 3 . 1
+. 6 3 . . 4
+. 5 . . . 3
+. 3 . 2 . .
+6 1 2 4 3 .
+. . . 6 1 2
+
+# puzzle#786 (difficulty: easy, empty_cells: 18)
+. 3 2 1 5 .
+. . 6 . . .
+6 4 . . . 3
+3 . 1 . 6 .
+1 6 . 3 . 5
+2 . . 6 . 1
+
+# puzzle#787 (difficulty: easy, empty_cells: 18)
+5 . . . 6 .
+2 . 1 4 3 5
+. . 4 3 . .
+. . 2 . 4 6
+. 1 6 . 5 4
+4 . . 6 . .
+
+# puzzle#788 (difficulty: easy, empty_cells: 18)
+3 . . 6 1 4
+. . . . . .
+5 . . 2 . 1
+2 6 . 5 . 3
+4 3 . . 2 5
+. 2 5 4 . .
+
+# puzzle#789 (difficulty: easy, empty_cells: 18)
+. 6 5 . . 1
+4 3 1 . . .
+. . 4 5 6 3
+. . . 4 . 2
+5 . 2 . . 6
+. . 3 2 5 .
+
+# puzzle#790 (difficulty: easy, empty_cells: 18)
+. 6 . 5 4 3
+3 4 5 1 2 .
+. 1 . 4 . .
+. . 4 . 6 .
+1 5 . 6 . .
+4 3 . . . .
+
+# puzzle#791 (difficulty: easy, empty_cells: 18)
+1 . . . . 3
+3 5 . . 2 1
+. 1 5 3 4 2
+. . . . 5 .
+. . 1 . . 4
+. 3 4 6 . 5
+
+# puzzle#792 (difficulty: easy, empty_cells: 18)
+6 . . 4 1 .
+1 . 2 6 3 5
+2 . . 5 4 .
+. 5 . . . .
+. 6 . 3 . .
+3 . 4 1 . 6
+
+# puzzle#793 (difficulty: easy, empty_cells: 18)
+1 . 6 5 . .
+4 . . 2 . 6
+. . . 3 2 5
+2 . 3 . . 1
+3 6 . 4 . 2
+5 . . 1 . .
+
+# puzzle#794 (difficulty: easy, empty_cells: 18)
+1 . . 4 . 2
+. 3 4 . 1 6
+3 . . 1 . 4
+4 5 1 6 . .
+5 . . 2 . .
+6 1 . . . .
+
+# puzzle#795 (difficulty: easy, empty_cells: 18)
+6 . . . . 3
+. . 4 6 . 1
+. 5 1 2 . .
+2 3 6 . 4 .
+5 . . 3 1 .
+1 . . 5 . 2
+
+# puzzle#796 (difficulty: easy, empty_cells: 18)
+. . . 6 . 4
+4 1 6 . . 2
+. 4 5 1 . 3
+2 . . . . .
+3 5 . . 6 .
+1 6 . . 4 5
+
+# puzzle#797 (difficulty: easy, empty_cells: 18)
+6 5 3 2 . .
+. 1 . . . .
+. . 4 . . 3
+. . 1 . 6 .
+1 4 . 3 5 2
+3 . . 6 4 1
+
+# puzzle#798 (difficulty: easy, empty_cells: 18)
+3 1 . . . 6
+. 2 . 1 3 .
+1 6 . 5 . .
+5 3 2 4 . .
+. 5 . . 1 4
+. 4 1 . . .
+
+# puzzle#799 (difficulty: easy, empty_cells: 18)
+5 . . 4 . 2
+2 . . . . .
+1 . 4 3 . .
+6 3 2 . 4 5
+3 . 6 2 . .
+4 . 5 . 3 .
+
+# puzzle#800 (difficulty: easy, empty_cells: 18)
+. 2 4 . . 5
+. . . 1 . 2
+3 4 . . 5 .
+5 6 . . 1 3
+. . 5 3 . .
+. 3 6 . 2 1
+
+# puzzle#801 (difficulty: easy, empty_cells: 18)
+4 5 . 1 . .
+2 . 1 . . 5
+6 . 5 3 2 .
+3 1 . . . .
+. . 4 2 . 6
+1 . . 5 4 .
+
+# puzzle#802 (difficulty: easy, empty_cells: 18)
+5 4 3 . . .
+6 2 . 4 3 .
+. . . . . .
+2 5 . . . 3
+4 . . . 5 .
+3 1 5 6 4 2
+
+# puzzle#803 (difficulty: easy, empty_cells: 18)
+. 3 . 4 . .
+. 6 2 5 3 1
+6 . . 1 . 5
+5 . 4 . . 3
+2 5 . . 1 .
+3 . . . . 2
+
+# puzzle#804 (difficulty: easy, empty_cells: 18)
+1 4 . . 2 .
+3 2 . 5 4 .
+2 . . . 6 5
+5 . . 3 . .
+6 . 3 2 . 4
+. . . . 3 6
+
+# puzzle#805 (difficulty: easy, empty_cells: 18)
+. . . . . .
+2 1 . 6 5 3
+. 4 . 1 . .
+6 . . . 4 5
+. 6 2 5 3 .
+1 3 5 . . 6
+
+# puzzle#806 (difficulty: easy, empty_cells: 18)
+. . 2 1 3 5
+1 5 . 6 . .
+2 . 4 . 1 .
+. 3 1 2 . .
+3 2 . . . .
+4 . . . 5 2
+
+# puzzle#807 (difficulty: easy, empty_cells: 18)
+. . . . . 2
+2 5 1 . . 4
+. 4 . . . 3
+. . 2 . . 5
+3 1 . 2 5 6
+5 2 . 3 4 .
+
+# puzzle#808 (difficulty: easy, empty_cells: 18)
+. . . . 1 2
+. 2 1 . . 4
+3 . 2 1 . 6
+6 1 5 2 . .
+. . . . 6 1
+. . 6 4 . 5
+
+# puzzle#809 (difficulty: easy, empty_cells: 18)
+3 6 . 5 1 .
+. . 1 . . .
+. . 3 6 2 .
+4 2 . . . 5
+. 3 . 2 4 .
+. 4 2 . 5 1
+
+# puzzle#810 (difficulty: easy, empty_cells: 18)
+2 4 . . 1 3
+. 6 . . . 5
+4 . 6 2 5 1
+. . 2 . 6 .
+3 2 . . . .
+. 5 . . 3 2
+
+# puzzle#811 (difficulty: easy, empty_cells: 18)
+6 5 . 4 . .
+4 1 3 6 2 .
+. 2 . 3 5 .
+. . 6 2 4 1
+. . 5 . . 2
+2 . . . . .
+
+# puzzle#812 (difficulty: easy, empty_cells: 18)
+2 6 . 1 3 4
+. . 1 . 6 5
+. . . 4 . 1
+. . . . 2 .
+6 . . 5 . 3
+. 1 3 . 4 2
+
+# puzzle#813 (difficulty: easy, empty_cells: 18)
+. . . . . 5
+3 . . 6 . 1
+5 4 . 3 2 6
+. 3 . 1 . 4
+. . 2 4 1 3
+. 1 . . . 2
+
+# puzzle#814 (difficulty: easy, empty_cells: 18)
+5 . . . . .
+6 2 . 1 . .
+. . 2 . 1 6
+1 4 6 3 . 5
+2 . 3 . 6 4
+. . 5 . . 1
+
+# puzzle#815 (difficulty: easy, empty_cells: 18)
+. . 3 . . 2
+. . . 3 1 5
+. . . 5 . 6
+6 2 5 1 4 3
+. 4 . . 3 1
+. 3 . 6 . .
+
+# puzzle#816 (difficulty: easy, empty_cells: 18)
+. 2 . . . .
+1 . 6 . 3 .
+. 1 4 6 . 3
+6 . 3 4 . 1
+5 6 . . 1 4
+. . . 2 6 .
+
+# puzzle#817 (difficulty: easy, empty_cells: 18)
+. . . 5 6 2
+2 . 5 . . .
+4 5 1 2 . 6
+. 3 2 1 4 .
+. . . . . 1
+1 . 3 . . 4
+
+# puzzle#818 (difficulty: easy, empty_cells: 18)
+. . . . . 4
+. 2 4 1 . 5
+. 3 2 . 5 6
+. . 5 . . 3
+. 6 1 5 . .
+2 5 3 . 4 .
+
+# puzzle#819 (difficulty: easy, empty_cells: 18)
+4 . . . 2 .
+3 1 . . 6 5
+5 . 1 6 4 .
+. 6 . . . .
+6 . 5 3 . 4
+. . 3 . 5 6
+
+# puzzle#820 (difficulty: easy, empty_cells: 18)
+4 . . . 2 6
+. 2 . 4 . .
+3 5 4 . 1 .
+2 . . 3 4 .
+. . 2 . 3 1
+5 1 3 . . .
+
+# puzzle#821 (difficulty: easy, empty_cells: 18)
+2 4 3 1 . 6
+6 5 1 . . 3
+. . 5 3 2 .
+. . . . . 5
+5 1 . . . .
+. 2 6 . 1 .
+
+# puzzle#822 (difficulty: easy, empty_cells: 18)
+5 . . 2 . .
+6 . 2 . . .
+4 . 5 3 . .
+. . 3 . . 6
+. 4 1 6 . 5
+. 5 6 4 1 2
+
+# puzzle#823 (difficulty: easy, empty_cells: 18)
+. . . 6 4 .
+4 5 . 1 . .
+. 6 1 . . .
+5 . 4 3 1 .
+. 3 5 . . 1
+1 . 2 5 . 3
+
+# puzzle#824 (difficulty: easy, empty_cells: 18)
+. 4 5 6 3 2
+2 . . . . 1
+3 6 1 . . .
+4 . . 3 . .
+. . 3 . . 4
+. . 4 2 5 3
+
+# puzzle#825 (difficulty: easy, empty_cells: 18)
+5 4 1 6 . .
+. . . . . .
+. 5 3 2 . 6
+2 1 . . . 5
+. . . 5 . 2
+3 2 5 . 6 1
+
+# puzzle#826 (difficulty: easy, empty_cells: 18)
+. 1 3 . . .
+5 . . 6 . 3
+4 5 . 3 6 1
+. . . 4 . 2
+3 . . 2 . 5
+. 4 . 1 . 6
+
+# puzzle#827 (difficulty: easy, empty_cells: 18)
+. . . . 6 .
+3 . 6 2 . 4
+1 2 3 6 . .
+6 . 5 . . 2
+5 . 1 . . .
+2 . 4 5 . 6
+
+# puzzle#828 (difficulty: easy, empty_cells: 18)
+. 2 . 1 6 3
+3 . . . . 4
+. 4 2 5 3 .
+. 1 . 6 . .
+2 . . 3 . 6
+. 3 6 . . 5
+
+# puzzle#829 (difficulty: easy, empty_cells: 18)
+5 6 4 . . 1
+. . . . . 5
+4 2 . . . .
+. 3 . . 6 .
+3 4 2 . 1 6
+6 . 1 . 2 4
+
+# puzzle#830 (difficulty: easy, empty_cells: 18)
+. . . 6 . 5
+. 4 6 3 1 .
+1 . 3 . 6 .
+. 6 . 1 5 .
+. . . 4 2 1
+. . 2 5 3 .
+
+# puzzle#831 (difficulty: easy, empty_cells: 18)
+. 3 . . 6 1
+. 6 . 5 . .
+4 2 6 1 . .
+1 5 . . . .
+3 . 5 6 4 2
+. . . 3 1 .
+
+# puzzle#832 (difficulty: easy, empty_cells: 18)
+. . . . 1 6
+6 1 . 3 . 2
+. 5 . 6 3 4
+3 . . . . 5
+. 3 . 4 6 1
+. 4 . 2 . .
+
+# puzzle#833 (difficulty: easy, empty_cells: 18)
+. 3 2 5 4 1
+. 4 5 . . .
+5 1 4 3 . 2
+. 6 . . . 4
+3 . 6 . . .
+. . 1 . . 3
+
+# puzzle#834 (difficulty: easy, empty_cells: 18)
+4 6 . 2 . 5
+. . 2 . 6 4
+. . . . 2 .
+2 4 . . . 3
+6 . . 1 4 .
+1 . . 5 3 6
+
+# puzzle#835 (difficulty: easy, empty_cells: 18)
+. . 4 5 . 3
+5 3 . 2 4 .
+. . 3 . . .
+4 . 2 . . 6
+3 4 . . 5 .
+2 6 . 1 . 4
+
+# puzzle#836 (difficulty: easy, empty_cells: 18)
+6 4 3 . 5 .
+. . 2 6 . 3
+. 2 . 5 . 6
+3 6 . . . .
+1 5 4 . . .
+2 . 6 . . 5
+
+# puzzle#837 (difficulty: easy, empty_cells: 18)
+. . 1 . 5 .
+5 . . 4 6 1
+3 . 6 1 . .
+2 . . . 3 6
+. 3 5 . 2 .
+6 . 2 . 1 .
+
+# puzzle#838 (difficulty: easy, empty_cells: 18)
+3 4 . . . .
+1 6 . . . 5
+4 . . 2 6 3
+6 . 3 . . .
+. 1 . 4 . 2
+. 3 4 1 . 6
+
+# puzzle#839 (difficulty: easy, empty_cells: 18)
+3 4 2 5 . .
+6 1 . 2 . 3
+1 . 4 6 . .
+. 3 . 1 . .
+. . 1 . 5 2
+. . 3 . 1 .
+
+# puzzle#840 (difficulty: easy, empty_cells: 18)
+. . . . 2 5
+1 5 . . . 6
+5 . 1 . . 4
+4 . 6 . . 2
+. . 3 . 5 .
+2 1 5 4 6 .
+
+# puzzle#841 (difficulty: easy, empty_cells: 18)
+1 . 5 4 3 .
+. 6 4 . . .
+. 4 1 . 6 .
+. . . 5 . 1
+. . 2 . 5 3
+. 5 3 . 2 4
+
+# puzzle#842 (difficulty: easy, empty_cells: 18)
+. 2 3 4 . .
+. . 5 3 6 2
+. . 1 . . .
+4 5 . . . 3
+3 . . 5 2 .
+. 6 2 1 . 4
+
+# puzzle#843 (difficulty: easy, empty_cells: 18)
+. 3 . 2 . .
+2 1 6 . . 3
+. 2 1 4 . .
+. 6 5 1 . 2
+. . 2 3 . 5
+1 . 3 . . .
+
+# puzzle#844 (difficulty: easy, empty_cells: 18)
+3 4 . 6 5 .
+. . . 4 3 2
+. 1 3 2 . .
+. . 4 . 6 .
+. 3 1 . . .
+2 . 5 . 1 4
+
+# puzzle#845 (difficulty: easy, empty_cells: 18)
+2 . 3 1 . 5
+. 5 1 . . .
+. . 6 . 1 .
+. 3 5 . 2 .
+. 1 4 . . 2
+5 6 . 3 . 1
+
+# puzzle#846 (difficulty: easy, empty_cells: 18)
+. 3 1 . . 2
+. . . 1 . .
+6 . 5 . 4 1
+3 . . 6 . 5
+1 . 3 2 . .
+5 . 2 . 1 3
+
+# puzzle#847 (difficulty: easy, empty_cells: 18)
+. . 2 . . .
+5 . 1 . 2 3
+. . . 3 . 1
+. 3 . 4 6 .
+. 5 3 2 1 6
+. . . 5 3 4
+
+# puzzle#848 (difficulty: easy, empty_cells: 18)
+1 5 . 6 2 .
+. 6 . 1 . .
+5 . . . 6 4
+2 4 . 5 3 1
+. 3 . . 5 2
+. . . . . 6
+
+# puzzle#849 (difficulty: easy, empty_cells: 18)
+3 . . 2 4 5
+. 4 . 3 1 .
+1 . . 6 2 4
+. . 4 . . 3
+. . 2 5 3 .
+. . 1 . . 2
+
+# puzzle#850 (difficulty: easy, empty_cells: 18)
+. 6 3 . 1 .
+5 . . . 3 6
+6 3 . . 2 .
+1 . . 6 . .
+. 4 1 2 . .
+. 5 6 . 4 1
+
+# puzzle#851 (difficulty: easy, empty_cells: 18)
+4 2 . 3 . .
+5 3 1 . . .
+3 . . . 6 .
+2 6 . 4 . 1
+. 4 2 6 5 3
+. . . 1 . .
+
+# puzzle#852 (difficulty: easy, empty_cells: 18)
+3 6 . 2 . 4
+1 2 . . 5 3
+5 . . . 2 1
+. 1 . . 4 6
+. . . . 3 .
+4 . . . 6 5
+
+# puzzle#853 (difficulty: easy, empty_cells: 18)
+. 2 . 1 6 .
+1 . . 2 4 .
+. 1 3 5 2 .
+. . 2 . . .
+2 . . 3 . 6
+5 . 6 4 . 2
+
+# puzzle#854 (difficulty: easy, empty_cells: 18)
+6 . . . 4 .
+4 5 3 . . 6
+. . . 1 . 5
+. . . 6 . 4
+. . 1 4 6 2
+2 4 6 . 5 .
+
+# puzzle#855 (difficulty: easy, empty_cells: 18)
+5 1 3 6 . .
+6 2 . 3 . 1
+4 6 2 1 3 .
+1 . . . 2 .
+3 . . . 1 .
+. . . . . 3
+
+# puzzle#856 (difficulty: easy, empty_cells: 18)
+. . . . 2 1
+. . . . 5 6
+3 6 1 2 . 5
+4 5 . 1 . 3
+. . 3 5 . 2
+2 . 5 . . .
+
+# puzzle#857 (difficulty: easy, empty_cells: 18)
+6 . . 2 1 .
+. . 3 4 . 6
+. 6 . 5 3 .
+3 . . 6 . 4
+. . . 1 4 2
+4 1 2 . . .
+
+# puzzle#858 (difficulty: easy, empty_cells: 18)
+. 3 2 4 . 5
+5 . 4 . 1 2
+. . 3 . . 1
+. 5 . 6 4 .
+4 . . . . .
+3 . . 1 5 4
+
+# puzzle#859 (difficulty: easy, empty_cells: 18)
+6 5 4 2 . 3
+. . . 5 4 6
+. . 2 . 3 4
+. . 1 . 2 .
+1 . . 4 . 2
+. . . . 5 1
+
+# puzzle#860 (difficulty: easy, empty_cells: 18)
+6 2 . 3 1 .
+3 . 4 5 . .
+. . . 1 . .
+. 5 3 4 . 6
+. 3 . . . 1
+5 6 . 2 . 3
+
+# puzzle#861 (difficulty: easy, empty_cells: 18)
+. . 6 4 3 .
+3 . . 5 2 .
+4 5 1 . . 2
+. . . 1 4 .
+. 4 5 6 . .
+1 6 . 2 . .
+
+# puzzle#862 (difficulty: easy, empty_cells: 18)
+. 5 2 . 6 1
+. . . 2 . 5
+. . . . . 3
+1 . . . 2 6
+6 4 . 3 . .
+2 1 3 . 5 4
+
+# puzzle#863 (difficulty: easy, empty_cells: 18)
+. 4 . . 3 2
+. 1 . 4 . 6
+. 2 6 . . .
+1 . 4 6 . 5
+2 . . . . 1
+4 . 1 2 6 .
+
+# puzzle#864 (difficulty: easy, empty_cells: 18)
+. . . . 6 .
+4 6 1 . 3 2
+. . . . . 6
+6 1 . 4 . .
+2 5 6 . . 1
+1 4 3 . . 5
+
+# puzzle#865 (difficulty: easy, empty_cells: 18)
+3 . 1 . 5 2
+. 6 5 3 1 .
+5 . 4 . . 3
+6 1 . 4 2 .
+. . . . . .
+. 5 6 . . 1
+
+# puzzle#866 (difficulty: easy, empty_cells: 18)
+2 . 6 . . .
+. 5 . . 3 6
+6 . 5 3 2 1
+3 . 2 . 6 5
+5 . . . . 3
+1 . . . 4 .
+
+# puzzle#867 (difficulty: easy, empty_cells: 18)
+1 4 2 . . 5
+5 . 3 4 2 1
+. 3 . . 1 .
+4 . . 2 . .
+6 1 . 3 . .
+. . 5 1 . .
+
+# puzzle#868 (difficulty: easy, empty_cells: 18)
+6 . . . 1 .
+2 4 1 . 3 .
+. . 6 . . .
+. 2 5 . . 3
+3 1 . 4 5 6
+. . . 3 2 1
+
+# puzzle#869 (difficulty: easy, empty_cells: 18)
+2 6 . 3 1 .
+. 1 . . 4 2
+. . 1 . 3 .
+4 . . . . 6
+1 5 2 4 6 .
+. . . 2 . 1
+
+# puzzle#870 (difficulty: easy, empty_cells: 18)
+. . 2 4 . .
+3 . 4 . 6 .
+. 2 5 1 . 6
+1 . . . 2 .
+5 3 . 6 . .
+2 . . 3 1 5
+
+# puzzle#871 (difficulty: easy, empty_cells: 18)
+. . 2 . . .
+5 3 . 2 4 .
+2 . 6 4 3 5
+. . . . 2 .
+. . 3 . . 4
+6 4 5 3 1 .
+
+# puzzle#872 (difficulty: easy, empty_cells: 18)
+6 1 5 . 2 4
+. 4 . 1 5 6
+. 6 2 . . .
+4 5 . . . 3
+. 3 . . 1 .
+. 2 6 . . .
+
+# puzzle#873 (difficulty: easy, empty_cells: 18)
+. . . 6 . .
+. . 6 . 5 1
+. . 5 . 1 4
+. 4 . 5 . 6
+. 2 . 1 4 5
+5 1 . 3 6 .
+
+# puzzle#874 (difficulty: easy, empty_cells: 18)
+2 5 . 1 . 6
+4 . 1 . . 5
+5 . . 3 1 .
+. . 4 . 5 2
+3 . 2 . . 1
+. . 5 . . 3
+
+# puzzle#875 (difficulty: easy, empty_cells: 18)
+. . 5 . 4 3
+. . 3 5 1 2
+. 3 2 . . 1
+. 6 4 . 3 .
+3 . 6 . 5 .
+. 5 . . . 6
+
+# puzzle#876 (difficulty: easy, empty_cells: 18)
+. . . 6 . .
+1 2 6 . . .
+. . 1 4 3 .
+6 . 4 1 . .
+. . 3 2 1 .
+4 1 2 . 6 5
+
+# puzzle#877 (difficulty: easy, empty_cells: 18)
+. . . 2 5 .
+5 . 2 . . 6
+6 . . 5 2 4
+2 . 5 . 6 3
+4 . . . . 2
+1 . . 3 . 5
+
+# puzzle#878 (difficulty: easy, empty_cells: 18)
+. 6 . 4 1 .
+2 . 1 5 6 3
+. . 5 1 3 .
+. 3 . . 5 .
+. 1 . . . 5
+. 5 2 3 . .
+
+# puzzle#879 (difficulty: easy, empty_cells: 18)
+. 5 . 3 2 .
+. . . . . .
+. 1 4 2 . 5
+5 2 3 . . 4
+. 4 1 5 . .
+3 6 5 . . 2
+
+# puzzle#880 (difficulty: easy, empty_cells: 18)
+. 1 4 3 2 5
+3 5 . 4 1 .
+. . . . . 4
+. . . 2 3 1
+. 6 1 5 . .
+4 . . . 6 .
+
+# puzzle#881 (difficulty: easy, empty_cells: 18)
+. . 2 . 1 5
+1 3 5 . 6 .
+. 5 . 6 . 1
+6 . 1 5 2 .
+3 . 4 . . .
+5 2 . . . .
+
+# puzzle#882 (difficulty: easy, empty_cells: 18)
+. 3 . . . 4
+. 6 2 . 1 .
+2 4 5 1 . 6
+. . . 5 . 2
+. . . 2 . 3
+. 2 3 . 5 1
+
+# puzzle#883 (difficulty: easy, empty_cells: 18)
+6 . . . . .
+3 1 . 6 . 4
+. 3 5 . 6 .
+2 6 1 . . .
+1 . 6 . 3 5
+. 4 3 . 1 .
+
+# puzzle#884 (difficulty: easy, empty_cells: 18)
+. 6 . 4 . 3
+. 1 3 . . 5
+. . 2 . . .
+. 4 . 1 3 2
+. . . . 6 4
+6 2 . 3 5 1
+
+# puzzle#885 (difficulty: easy, empty_cells: 18)
+1 . 4 . 5 2
+. 5 . . 4 .
+. . 5 . . .
+3 4 . . . .
+4 6 . 2 1 .
+5 . 1 3 6 4
+
+# puzzle#886 (difficulty: easy, empty_cells: 18)
+. 2 1 5 . 6
+5 . . 1 2 .
+. . 4 . . .
+. 5 3 6 . 4
+4 . 5 . 3 .
+1 3 . . . 5
+
+# puzzle#887 (difficulty: easy, empty_cells: 18)
+1 3 . . 4 2
+. . . . 3 .
+4 2 1 . . 5
+6 . 3 . . 4
+2 . 5 . 1 3
+. . 4 2 . .
+
+# puzzle#888 (difficulty: easy, empty_cells: 18)
+. . 1 4 . .
+. . 5 . 6 .
+6 2 3 1 . .
+1 . 4 . 3 .
+3 . 6 5 2 .
+. 4 2 . 1 .
+
+# puzzle#889 (difficulty: easy, empty_cells: 18)
+. . . 1 . .
+. 2 . . 3 6
+. . 3 . . 1
+2 5 1 3 . 4
+5 . 6 . 2 3
+3 4 . . 1 .
+
+# puzzle#890 (difficulty: easy, empty_cells: 18)
+. 4 3 . 1 2
+. 2 5 . 6 4
+. . 1 . . 5
+3 5 . 6 . .
+2 . . 1 . 6
+. 1 . . 2 .
+
+# puzzle#891 (difficulty: easy, empty_cells: 18)
+. 2 . 4 3 1
+. . 1 5 . .
+1 . . 6 2 .
+2 5 . . . .
+. 1 4 . . 6
+. 6 . 3 1 4
+
+# puzzle#892 (difficulty: easy, empty_cells: 18)
+4 . 5 2 . 1
+. 2 . . . .
+6 . 3 4 1 2
+2 . 1 3 . .
+. . . . 2 5
+. 1 2 . 3 .
+
+# puzzle#893 (difficulty: easy, empty_cells: 18)
+2 . . 5 1 .
+. . 1 4 . 2
+. . 4 2 . 5
+3 . . 1 . .
+1 . 2 . 5 .
+4 5 3 . 2 .
+
+# puzzle#894 (difficulty: easy, empty_cells: 18)
+. 5 . . . .
+2 4 6 . 1 .
+1 6 . 2 3 5
+. 3 2 . . 4
+. . . 4 . 1
+. 1 . 3 2 .
+
+# puzzle#895 (difficulty: easy, empty_cells: 18)
+3 . . . 2 .
+2 6 5 . . .
+4 . . . . 2
+1 . . . 6 4
+6 4 2 3 . .
+5 3 . 2 4 .
+
+# puzzle#896 (difficulty: easy, empty_cells: 18)
+2 . . 1 . 5
+. . . . 2 3
+1 . . 6 . 2
+. 6 . 5 . .
+4 1 3 2 5 6
+5 . . . 1 .
+
+# puzzle#897 (difficulty: easy, empty_cells: 18)
+2 . . 4 3 1
+3 1 4 . 2 6
+. 3 2 . . .
+. . 6 . 5 .
+6 2 . . . 5
+4 . . . 1 .
+
+# puzzle#898 (difficulty: easy, empty_cells: 18)
+. . 2 1 . 6
+3 6 . 4 . .
+. 4 3 . . .
+5 2 6 3 4 1
+. . 4 . 5 .
+. 3 . 6 . .
+
+# puzzle#899 (difficulty: easy, empty_cells: 18)
+3 4 . 6 . .
+. . 1 4 . .
+. . . . 6 2
+2 1 . . 5 4
+4 6 . 2 . .
+1 2 3 5 . .
+
+# puzzle#900 (difficulty: easy, empty_cells: 18)
+1 6 . 3 . .
+. 4 3 . . 1
+2 5 . 1 3 6
+. . 6 2 . 5
+. . 5 . . 3
+. . 1 5 . .
+
+# puzzle#901 (difficulty: easy, empty_cells: 18)
+. 3 2 . . 1
+. . . . . 5
+6 . 3 5 1 2
+2 . . 4 . .
+3 5 . . 2 6
+1 . 6 . 5 .
+
+# puzzle#902 (difficulty: easy, empty_cells: 18)
+. 4 1 . . .
+. 6 . 1 . .
+4 . 6 3 . .
+2 1 . . 5 .
+6 2 . . . 1
+1 . 4 2 6 5
+
+# puzzle#903 (difficulty: easy, empty_cells: 18)
+. . . . . 2
+. 6 . 1 4 5
+5 3 4 6 . .
+2 1 6 4 . .
+. . 3 5 . .
+1 . 5 . . 6
+
+# puzzle#904 (difficulty: easy, empty_cells: 18)
+. . . 4 2 5
+2 5 . . 1 .
+1 . . . . 2
+. 4 . 1 . .
+3 . 6 2 . .
+4 2 5 6 3 .
+
+# puzzle#905 (difficulty: easy, empty_cells: 18)
+1 . 6 . . 4
+3 . 4 . . .
+. 1 . 4 . .
+4 6 5 3 1 .
+5 . . 2 4 6
+. . 2 1 . .
+
+# puzzle#906 (difficulty: easy, empty_cells: 18)
+4 5 3 6 . .
+6 . 2 3 . .
+. . . . . 2
+1 . . 4 6 3
+. . 1 . 3 .
+2 3 . . 1 6
+
+# puzzle#907 (difficulty: easy, empty_cells: 18)
+. . . . 1 3
+3 2 . 6 . 4
+4 . . . . 1
+. 1 2 . 3 6
+. 6 . 3 4 2
+. . . 1 6 .
+
+# puzzle#908 (difficulty: easy, empty_cells: 18)
+. . 2 4 . .
+. . . . 6 .
+. 5 . 6 . .
+2 4 . 1 3 5
+1 . 5 3 4 6
+6 3 . . . 1
+
+# puzzle#909 (difficulty: easy, empty_cells: 18)
+6 3 2 . . 1
+1 4 . 3 . 6
+. . . 2 . 3
+2 . . 4 6 .
+. 2 . . . 4
+4 . 1 . . 2
+
+# puzzle#910 (difficulty: easy, empty_cells: 18)
+. 2 5 . . 3
+. 4 6 1 . .
+4 1 . 3 6 5
+. . . . 1 4
+. . . 4 3 .
+6 3 . . . 1
+
+# puzzle#911 (difficulty: easy, empty_cells: 18)
+. . . 2 5 6
+6 2 . . . 3
+. 5 6 . . .
+3 1 . . . .
+5 . 2 . 1 4
+4 3 1 . 6 .
+
+# puzzle#912 (difficulty: easy, empty_cells: 18)
+. . 2 . 5 3
+. 5 . . 1 .
+5 4 . 1 2 6
+2 . . . 4 5
+. . 5 2 . 4
+. 2 4 . . .
+
+# puzzle#913 (difficulty: easy, empty_cells: 18)
+. 3 5 4 1 .
+6 1 4 2 . .
+3 . 6 . . 2
+. 4 . . . 3
+. . . . 2 4
+. . 3 5 . 1
+
+# puzzle#914 (difficulty: easy, empty_cells: 18)
+6 3 . 5 4 .
+. . . . 2 3
+. 6 . . 5 .
+3 4 5 1 . 2
+4 5 . . . .
+1 . 6 4 . .
+
+# puzzle#915 (difficulty: easy, empty_cells: 18)
+. 2 . . . 4
+4 1 3 . . .
+2 6 . . . 3
+5 . 1 . 6 2
+. 4 . 3 2 .
+. 5 . . 4 1
+
+# puzzle#916 (difficulty: easy, empty_cells: 18)
+. 1 . . 2 .
+2 . . 4 . 5
+. 6 . 2 3 4
+. . . 5 . .
+. 4 . 1 5 .
+6 5 1 . 4 2
+
+# puzzle#917 (difficulty: easy, empty_cells: 18)
+2 . . 4 1 .
+4 . . 2 6 3
+1 . . . . 4
+3 . 4 6 2 .
+6 . . . 4 2
+5 4 . . . .
+
+# puzzle#918 (difficulty: easy, empty_cells: 18)
+4 2 . 5 3 1
+3 . . 4 6 .
+. 5 . . 1 4
+. 4 . 2 5 .
+. . . 1 . .
+1 6 . . 4 .
+
+# puzzle#919 (difficulty: easy, empty_cells: 18)
+5 . 4 2 3 6
+. . . 1 . .
+2 . . 5 1 .
+. . 1 . . 2
+4 6 5 . . .
+1 2 3 . 4 .
+
+# puzzle#920 (difficulty: easy, empty_cells: 18)
+3 . 4 5 . 2
+1 5 . . . 6
+. . . . . 5
+. 4 6 . 3 1
+. 2 3 . 5 .
+4 1 . . 2 .
+
+# puzzle#921 (difficulty: easy, empty_cells: 18)
+4 3 . . 2 1
+. 1 2 4 6 3
+. 4 3 . 5 2
+. . . . 3 .
+6 2 . . . .
+. . 4 . 1 .
+
+# puzzle#922 (difficulty: easy, empty_cells: 18)
+5 . . . . 2
+4 2 6 1 3 5
+. 6 . . . 3
+1 4 . . . 6
+6 . . . . 4
+3 . 4 . 6 .
+
+# puzzle#923 (difficulty: easy, empty_cells: 18)
+4 . 1 3 2 .
+. . . 4 5 1
+6 . 4 5 . 2
+3 . . 6 1 .
+5 . 2 . 6 .
+. 3 . . . .
+
+# puzzle#924 (difficulty: easy, empty_cells: 18)
+1 5 . 4 . .
+. . . 6 1 .
+4 2 . . 3 .
+. . 5 2 . 1
+2 6 3 . . 4
+. . . 3 6 2
+
+# puzzle#925 (difficulty: easy, empty_cells: 18)
+2 . . . 3 .
+5 . . 4 . 1
+3 . . 2 1 4
+4 2 1 5 6 .
+. 5 . . . .
+6 4 . . 5 .
+
+# puzzle#926 (difficulty: easy, empty_cells: 18)
+2 1 . . . 3
+3 . 6 . . 1
+. 4 5 . 1 2
+1 . . . 6 .
+5 . 2 1 4 .
+. 6 . . . 5
+
+# puzzle#927 (difficulty: easy, empty_cells: 18)
+2 . 5 6 1 .
+. . . 5 . .
+4 6 1 . . .
+5 . 2 4 6 1
+1 . . 3 2 .
+3 . . . . 4
+
+# puzzle#928 (difficulty: easy, empty_cells: 18)
+. 3 4 . . .
+1 . . 5 . .
+. 4 . . . 5
+. . 5 4 1 2
+. 5 . . . 1
+6 1 2 3 5 4
+
+# puzzle#929 (difficulty: easy, empty_cells: 18)
+2 . . 6 . 4
+3 4 6 1 5 2
+. . 3 4 1 .
+. 5 . 3 . 6
+5 . . . 6 1
+. . . . . .
+
+# puzzle#930 (difficulty: easy, empty_cells: 18)
+. 2 4 5 3 .
+. . . . . 4
+. . 1 6 . 5
+. 4 6 2 . 3
+6 . 3 . 5 .
+. 5 . . 6 1
+
+# puzzle#931 (difficulty: easy, empty_cells: 18)
+6 . 4 5 1 .
+. . 1 6 . 3
+5 6 . . . 1
+4 . . . . .
+3 . . 1 2 5
+. 2 5 3 . .
+
+# puzzle#932 (difficulty: easy, empty_cells: 18)
+4 3 5 . 6 .
+6 . . . 4 .
+1 . 3 6 . .
+5 6 . 3 2 .
+3 . 6 . . .
+. 5 . 4 . 6
+
+# puzzle#933 (difficulty: easy, empty_cells: 18)
+5 1 . . . 3
+2 6 . 4 . .
+. . 1 . 3 .
+. . . 1 2 .
+. . . 3 5 1
+1 3 . 6 4 2
+
+# puzzle#934 (difficulty: easy, empty_cells: 18)
+3 . 2 . 1 .
+5 1 4 . 2 .
+. 5 . 3 4 .
+4 . . 2 6 5
+1 . 5 4 . .
+6 . . . . .
+
+# puzzle#935 (difficulty: easy, empty_cells: 18)
+5 2 . . 1 .
+4 6 1 . 2 .
+2 . . . . .
+. 1 6 . . .
+. 5 . 2 . 3
+. 3 2 5 4 1
+
+# puzzle#936 (difficulty: easy, empty_cells: 18)
+. . . 1 6 4
+. . . 5 2 3
+. 6 3 4 1 5
+. 5 1 2 . .
+5 . 2 . . .
+6 1 . . . .
+
+# puzzle#937 (difficulty: easy, empty_cells: 18)
+6 4 1 . . .
+. . 2 6 . .
+3 . 6 2 1 .
+. . . . 3 .
+4 6 . 1 . 2
+2 1 . 4 6 .
+
+# puzzle#938 (difficulty: easy, empty_cells: 18)
+. 3 . 4 . .
+. 4 1 5 2 .
+. . 4 6 . 2
+. . . . . 4
+4 1 3 2 . 5
+. 6 5 . 4 .
+
+# puzzle#939 (difficulty: easy, empty_cells: 18)
+. . 6 . 3 2
+. . . 1 . .
+5 2 . . 1 .
+3 6 . 2 . .
+6 3 . 5 4 1
+. 1 . 3 2 .
+
+# puzzle#940 (difficulty: easy, empty_cells: 18)
+. 2 1 5 4 6
+. 4 . . . .
+6 . 5 . . .
+. 1 2 . 3 .
+1 . . . 5 2
+. . 3 1 6 4
+
+# puzzle#941 (difficulty: easy, empty_cells: 18)
+4 2 5 . . .
+1 . 3 . . .
+. 1 . . . 5
+. 5 4 . . 6
+2 . . 1 5 .
+5 3 . 4 6 2
+
+# puzzle#942 (difficulty: easy, empty_cells: 18)
+4 . 6 3 2 .
+3 2 . 6 4 .
+. . 5 . . .
+. 1 . . 3 .
+5 . 2 . . .
+1 6 3 4 . 2
+
+# puzzle#943 (difficulty: easy, empty_cells: 18)
+3 . 4 1 2 .
+. . . . . .
+. 5 . 6 4 3
+. 3 . 5 . 2
+5 1 . 3 6 .
+. . . 2 5 1
+
+# puzzle#944 (difficulty: easy, empty_cells: 18)
+1 . 3 . . 5
+. . . . . 1
+2 . 4 5 . .
+5 1 6 4 . 2
+. 2 . 6 . .
+3 6 5 1 . .
+
+# puzzle#945 (difficulty: easy, empty_cells: 18)
+. . 1 2 3 4
+. 3 . . 1 .
+1 . . 3 4 2
+. . 3 1 . .
+. 1 5 . 2 .
+. . 4 5 6 .
+
+# puzzle#946 (difficulty: easy, empty_cells: 18)
+2 . . 4 . .
+1 4 6 5 . 3
+6 1 . 2 4 .
+5 . 4 . 3 .
+. . 1 . 6 .
+. . 2 . . 4
+
+# puzzle#947 (difficulty: easy, empty_cells: 18)
+4 . 5 . . 6
+6 3 1 5 2 .
+3 . . 2 . 5
+1 . . . 4 .
+2 4 . . 5 1
+. 1 . . . .
+
+# puzzle#948 (difficulty: easy, empty_cells: 18)
+. 2 1 . 3 .
+3 4 5 1 2 6
+4 3 . . . 5
+. 5 6 . . .
+5 . . 4 . .
+. . . . 5 1
+
+# puzzle#949 (difficulty: easy, empty_cells: 18)
+. . . 1 5 3
+5 3 1 . 6 .
+. . 6 . . 2
+3 5 2 . . .
+6 2 . . . .
+4 1 . 3 2 .
+
+# puzzle#950 (difficulty: easy, empty_cells: 18)
+2 . 4 . . 3
+. 3 5 2 . 4
+. . 1 . 4 6
+4 . 3 . . .
+. . 2 . 3 5
+3 5 . . . 1
+
+# puzzle#951 (difficulty: easy, empty_cells: 18)
+6 . 1 . 5 .
+4 3 . . 2 .
+. 6 . . . 3
+5 1 . . . 6
+1 5 . . 3 2
+. . 2 1 6 .
+
+# puzzle#952 (difficulty: easy, empty_cells: 18)
+3 . 1 . 2 4
+4 5 . . 6 3
+. . . . . .
+5 . 3 . . .
+1 2 5 4 3 .
+. 3 4 . . 5
+
+# puzzle#953 (difficulty: easy, empty_cells: 18)
+3 . . . 2 1
+. . 6 4 . .
+. . 5 . . 6
+. 1 3 5 . 2
+5 . 2 1 6 4
+. . . 2 . 3
+
+# puzzle#954 (difficulty: easy, empty_cells: 18)
+2 4 . 1 . 3
+1 . . . . .
+. 5 4 3 1 .
+. . . 4 . .
+. . 3 2 . 6
+4 6 . 5 3 1
+
+# puzzle#955 (difficulty: easy, empty_cells: 18)
+. . 5 2 3 1
+1 . . 6 4 5
+. 6 . 5 . .
+. 5 . . 1 6
+2 1 . 3 . .
+5 3 . . . .
+
+# puzzle#956 (difficulty: easy, empty_cells: 18)
+. . 6 3 . 2
+. . . 5 6 .
+3 . . 6 . 1
+. 5 1 2 4 3
+4 6 2 . . 5
+. . . . 2 .
+
+# puzzle#957 (difficulty: easy, empty_cells: 18)
+. 2 . . . 6
+1 . 6 2 . .
+. . 1 6 . .
+2 . 3 5 1 4
+6 . 4 3 . 5
+5 . . . . 1
+
+# puzzle#958 (difficulty: easy, empty_cells: 18)
+. 2 . . . 6
+3 . 6 . . .
+. 5 2 6 1 3
+6 3 . . . 4
+. 4 3 . . 2
+. . 5 3 . 1
+
+# puzzle#959 (difficulty: easy, empty_cells: 18)
+1 . 3 2 5 .
+. 2 . 1 . 6
+3 . . 5 6 .
+6 . . . . 3
+4 3 . 6 . 1
+2 . . 3 . .
+
+# puzzle#960 (difficulty: easy, empty_cells: 18)
+3 . . . 1 .
+. . 1 5 3 2
+. 3 . . 5 1
+. . 5 6 4 .
+. 6 3 . 2 .
+1 . . . 6 5
+
+# puzzle#961 (difficulty: easy, empty_cells: 18)
+. 5 . 1 . .
+1 2 . 6 . .
+. . 2 4 . 1
+. . . 3 . .
+2 . 6 . . 3
+4 3 5 2 1 6
+
+# puzzle#962 (difficulty: easy, empty_cells: 18)
+. 6 . 4 . 2
+4 3 2 5 1 6
+6 2 . 1 . .
+5 1 4 . . .
+. . 6 . . .
+. . . 3 . 5
+
+# puzzle#963 (difficulty: easy, empty_cells: 18)
+. . . . 2 .
+. . . 4 1 5
+4 3 . 1 6 2
+1 . . . 4 3
+. . 2 6 5 .
+. 5 4 . 3 .
+
+# puzzle#964 (difficulty: easy, empty_cells: 18)
+. 3 1 . 6 .
+5 . 4 . . .
+3 . . 1 4 .
+4 1 . 2 3 5
+6 . 3 . . 1
+. . . . 2 3
+
+# puzzle#965 (difficulty: easy, empty_cells: 18)
+. 3 . 5 1 .
+. . . 2 . .
+. 5 4 6 3 1
+1 . 3 4 . .
+3 . 6 1 . .
+5 . 1 . 2 .
+
+# puzzle#966 (difficulty: easy, empty_cells: 18)
+3 . . 2 . .
+5 4 2 . . 1
+1 5 . . 3 .
+. . 3 6 . 5
+6 1 4 5 . .
+2 . . . . 6
+
+# puzzle#967 (difficulty: easy, empty_cells: 18)
+. . 3 2 . .
+2 . . 1 5 .
+4 3 5 6 . .
+. . 6 5 . 4
+3 . 1 . . 2
+. 4 2 3 . .
+
+# puzzle#968 (difficulty: easy, empty_cells: 18)
+. 1 . 6 . .
+6 3 2 5 1 4
+. . 3 . . .
+4 . . 2 6 .
+3 . 6 4 . 1
+. . 5 3 . .
+
+# puzzle#969 (difficulty: easy, empty_cells: 18)
+2 6 . . 5 1
+1 4 5 . 2 6
+. 2 6 . . .
+. 1 4 . 6 5
+. . 2 . . .
+6 . 1 . . .
+
+# puzzle#970 (difficulty: easy, empty_cells: 18)
+. 6 2 5 1 3
+. . . 2 6 .
+. . . 3 . .
+2 . 3 . . 6
+. . 1 6 5 2
+. 2 . 4 3 .
+
+# puzzle#971 (difficulty: easy, empty_cells: 18)
+. . . . 3 .
+3 1 . 2 5 .
+4 3 1 . 2 .
+2 6 . . 1 3
+. 2 . . . .
+6 . 3 1 4 .
+
+# puzzle#972 (difficulty: easy, empty_cells: 18)
+6 . . . . 4
+. 2 4 . . 6
+2 . 5 . . 3
+. 1 . . . 2
+. 5 2 6 . 1
+. 6 . 2 4 5
+
+# puzzle#973 (difficulty: easy, empty_cells: 18)
+5 . . 6 4 2
+6 4 . . . .
+3 6 1 2 . .
+4 2 . 1 . 6
+1 . . . . 3
+. . . 5 . 1
+
+# puzzle#974 (difficulty: easy, empty_cells: 18)
+1 . 2 . 5 3
+4 . 3 6 . 1
+. 1 . . 6 .
+6 3 4 . . .
+3 2 . 1 . .
+. 4 . . . 6
+
+# puzzle#975 (difficulty: easy, empty_cells: 18)
+6 . . . 4 .
+2 . 5 . 1 6
+. 3 2 . . 5
+5 . 4 . . .
+3 . 1 6 2 4
+. . . . 5 3
+
+# puzzle#976 (difficulty: easy, empty_cells: 18)
+. 2 4 . . .
+5 3 . 4 . .
+3 . . 5 . 1
+1 . 6 2 . .
+. . . 6 4 3
+4 6 . 1 5 .
+
+# puzzle#977 (difficulty: easy, empty_cells: 18)
+. 3 . 5 4 .
+. 4 . 2 . .
+6 1 4 . . .
+. 2 5 . . 4
+. 5 . . . 6
+1 6 2 . 3 5
+
+# puzzle#978 (difficulty: easy, empty_cells: 18)
+6 1 5 . 4 .
+. 2 3 . 1 5
+. 6 . . . .
+. 3 4 . . .
+. 4 6 2 . 3
+3 5 . . . 1
+
+# puzzle#979 (difficulty: easy, empty_cells: 18)
+1 . . . . 4
+. . . . 3 .
+. 4 . 6 2 3
+. 3 2 . 5 .
+2 . 4 3 1 .
+3 1 . . 4 6
+
+# puzzle#980 (difficulty: easy, empty_cells: 18)
+1 . 5 6 . .
+2 6 . . . 1
+. 4 . . . 6
+. 5 1 2 4 3
+. . 3 . . 2
+. 2 . 1 . 5
+
+# puzzle#981 (difficulty: easy, empty_cells: 18)
+. 4 . . 1 .
+6 3 . . 4 .
+. 1 . 6 . .
+4 5 . 1 . .
+. 2 5 4 6 .
+. 6 4 . 3 5
+
+# puzzle#982 (difficulty: easy, empty_cells: 18)
+1 6 . 4 5 3
+. . . . 1 .
+4 . . . . 2
+. 1 . . 3 .
+5 3 . 6 2 1
+. 2 1 . . 5
+
+# puzzle#983 (difficulty: easy, empty_cells: 18)
+. 1 4 . . 5
+. 5 . 4 1 .
+. . 5 . 4 .
+1 . 6 5 . .
+5 . 2 . 6 .
+. 6 1 3 . 2
+
+# puzzle#984 (difficulty: easy, empty_cells: 18)
+1 5 4 . 3 2
+. . 2 5 . .
+2 6 . 1 . .
+. 1 . 3 . .
+. 4 . . 6 3
+. . 6 4 5 .
+
+# puzzle#985 (difficulty: easy, empty_cells: 18)
+. 1 . 5 . 3
+3 . . . 1 .
+. 2 . 6 3 1
+6 3 . . . .
+1 . 5 . 2 6
+. 6 . 1 . 4
+
+# puzzle#986 (difficulty: easy, empty_cells: 18)
+4 . 2 . 6 .
+. 6 3 . 2 .
+6 . . 2 . .
+. . . . . 6
+2 4 . 3 1 .
+3 5 . 6 4 2
+
+# puzzle#987 (difficulty: easy, empty_cells: 18)
+. . 3 . 4 2
+2 4 5 3 . 1
+. . 4 6 . .
+5 3 . . 2 .
+. . . . 3 .
+3 . . 4 1 5
+
+# puzzle#988 (difficulty: easy, empty_cells: 18)
+4 . . . . 3
+. 1 . 6 2 4
+. . . 3 . .
+. 2 . . 6 1
+. 4 1 2 . 5
+2 3 5 . . 6
+
+# puzzle#989 (difficulty: easy, empty_cells: 18)
+6 1 . . 2 5
+3 5 . 6 . .
+. . . . 1 .
+. 3 5 2 . 4
+5 . 1 4 . .
+2 . 3 . 5 .
+
+# puzzle#990 (difficulty: easy, empty_cells: 18)
+2 . . . 6 4
+3 4 6 1 5 .
+1 . . 5 . .
+. 6 . . 1 .
+5 . . 6 . .
+6 1 2 . 3 .
+
+# puzzle#991 (difficulty: easy, empty_cells: 18)
+. . 3 4 6 5
+. . . . . 1
+3 4 1 6 . .
+6 . . . . 4
+5 6 . 1 . .
+1 . 2 5 . 6
+
+# puzzle#992 (difficulty: easy, empty_cells: 18)
+. 2 . 5 3 6
+. 5 3 . . 1
+3 6 1 2 . .
+. . . . 1 .
+4 3 6 . . 2
+2 1 . . . .
+
+# puzzle#993 (difficulty: easy, empty_cells: 18)
+. 2 6 4 . 3
+. . . . . 1
+6 1 5 2 3 .
+2 4 . . . 6
+4 . 1 3 . .
+3 . . . . 5
+
+# puzzle#994 (difficulty: easy, empty_cells: 18)
+2 . . . 1 .
+. 3 . 2 5 .
+. 1 3 . 2 .
+4 2 5 3 6 1
+. . . 1 4 5
+. . 1 . . .
+
+# puzzle#995 (difficulty: easy, empty_cells: 18)
+. . 1 . 5 6
+. 6 . 3 . .
+. 4 5 . . .
+6 1 2 5 4 3
+1 . 3 . 2 .
+4 . . . 3 .
+
+# puzzle#996 (difficulty: easy, empty_cells: 18)
+. 3 . 5 . .
+5 1 2 . . 6
+. . 5 6 . 1
+6 2 . 3 5 4
+1 . . . . .
+. 6 3 1 . .
+
+# puzzle#997 (difficulty: easy, empty_cells: 18)
+1 . . 5 2 .
+. 5 . . . 4
+3 2 1 . 6 .
+5 . 4 . 3 .
+6 . . 1 4 .
+. . . 6 5 3
+
+# puzzle#998 (difficulty: easy, empty_cells: 18)
+. . 3 . . 5
+5 6 1 . . 4
+3 5 . . 1 .
+2 1 6 5 4 .
+. 4 2 . 5 .
+. . . . . 1
+
+# puzzle#999 (difficulty: easy, empty_cells: 18)
+3 6 . 5 . 1
+. . 5 6 . .
+5 . 1 . . 2
+. . 6 1 4 .
+. 1 3 . 5 6
+6 . 2 . . .
+
+# puzzle#1000 (difficulty: easy, empty_cells: 18)
+. . 4 6 3 .
+. 6 1 . . 2
+. . 5 . 1 4
+. . 2 . 6 5
+. 4 . 5 2 .
+. 2 3 . 4 .
+
