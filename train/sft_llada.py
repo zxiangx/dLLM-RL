@@ -187,7 +187,7 @@ def main():
     
 
 
-    def collapse_k_unique(lst, k: int):
+    def collapse_k_unique(lst, k: int): # 坍缩到k个状态，也即分成k个step
         if k <= 0:
             raise ValueError("k must be > 0")
         uniq = sorted(set(lst))
@@ -213,7 +213,7 @@ def main():
     @torch.no_grad()
     def prepare_inputs_and_labels_for_text(
         prompt, response, step_map, eps=1e-3, mask_id=mask_id
-    ):
+    ):# 对采样好的东西处理成能够训练的数据
         input_ids_lm, labels_lm, start_pos, drop_num = uni_prompting((prompt, response))
         
         B, L = input_ids_lm.shape

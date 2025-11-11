@@ -139,7 +139,7 @@ class SamplingStats:
                 self.greedy_inside_s1 += 1
 
 
-def _prepare_sequence(
+def _prepare_sequence( # 需要大改
     sample: Dict[str, Any],
     tokenizer,
     mask_token_id: int,
@@ -328,8 +328,8 @@ def _assign_advantages(
 
     returns = torch.zeros_like(rewards)
     for t in range(max_steps):
-        discounts = discount_powers[: t + 1].flip(0)
-        returns[:, t] = (rewards[:, : t + 1] * discounts).sum(dim=-1)
+        discounts = discount_powers[:-t].flip(0)
+        returns[:, t] = (rewards[:, t:] * discounts).sum(dim=-1)
 
     mean = returns.mean(dim=0)
     std = returns.std(dim=0, unbiased=False)
@@ -551,7 +551,7 @@ def main():
         * accelerator.num_processes
         * config.training.gradient_accumulation_steps
     )
-    num_update_steps_per_epoch = math.ceil(len(dataloader) / config.training.gradient_accumulation_steps)
+    num_update_steps_per_epoch = math.ceil(len(dataloader) / total_batch_size)
     max_train_steps = num_update_steps_per_epoch * config.training.num_train_epochs
 
     lr_scheduler = get_scheduler(

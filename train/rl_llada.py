@@ -238,7 +238,7 @@ def main():
         else:
             L_after = L
         input_ids_lm = input_ids_lm[:, :L_after]
-        labels_lm = labels_lm[:, :L_after]
+        labels_lm = labels_lm[:, :L_after] # 感觉和input_ids_lm没有区别
     
         
         lower = config.training.lower_p
@@ -262,7 +262,7 @@ def main():
 
                 base_ids = input_ids_lm[b]
 
-                if config.training.post_num is not None:
+                if config.training.post_num is not None:# 只训练一部分, 太靠后的不训练
                     pad_mask_b = (base_ids == pad_id)
                     pad_mask_b[:start_pos] = False
                     keep_first_pad_b = pad_mask_b & (torch.cumsum(pad_mask_b.int(), dim=0) <= config.training.post_num)
@@ -272,7 +272,7 @@ def main():
                     tail_pad_b       = torch.zeros(L, dtype=torch.bool, device=device)
 
                 for step_val in uniq_steps:
-                    tgt_mask = (order_full == step_val)
+                    tgt_mask = (order_full == step_val) # 当前步解码的位置
                     pmask_this = tgt_mask & ~tail_pad_b
 
                     if not pmask_this.any():
@@ -287,9 +287,9 @@ def main():
                     pmask_list.append(pmask_this)
                     reward_list.append(reward[b])
 
-            noisy_batch = torch.stack(noisy_list)
-            labels_lm   = torch.stack(label_list)
-            p_mask      = torch.stack(pmask_list)
+            noisy_batch = torch.stack(noisy_list) # 解码当前时间步的状态 (B, L)
+            labels_lm   = torch.stack(label_list) # 原始信息 (B, L)
+            p_mask      = torch.stack(pmask_list) # 当前时间步unmask的部分 (B, L)， bool
 
 
 
@@ -398,7 +398,7 @@ def main():
             p_mask      = torch.stack(pmask_list)
         
 
-        valid_rows = p_mask.any(dim=1)
+        valid_rows = p_mask.any(dim=1) # 筛去没用的训练数据
         noisy_batch = noisy_batch[valid_rows]
         labels_lm   = labels_lm[valid_rows]
         p_mask      = p_mask[valid_rows]
@@ -408,6 +408,7 @@ def main():
             
         
         return noisy_batch, labels_lm, p_mask, reward_list, start_pos, drop_num
+    #           状态           完整信息   当前步解码  奖励        prompt长   丢弃的长度
     
 
 

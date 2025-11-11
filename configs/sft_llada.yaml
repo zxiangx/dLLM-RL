@@ -10,7 +10,7 @@ experiment:
 
 model:
     pretrained_model: "/abs/path/of/model" # absolute path of your model
-    optimized_name: ""optimized" # the output name for your optimized model, will be saved under sft_llada/ckpt
+    optimized_name: "optimized" # the output name for your optimized model, will be saved under sft_llada/ckpt
 
 # sft dataset
 dataset:
