@@ -1,0 +1,51 @@
+experiment:
+  project: rl_sudoku_llada
+  logging_dir: rl_sudoku_llada/logs
+  deepspeed_file: 1_node_8_gpus_deepspeed_zero3
+  num_machines: 1
+  machine_rank: 0
+  main_process_ip: 127.0.0.1
+  main_process_port: 29500
+model:
+  pretrained_model: /ssd/hf_home/hub/models--GSAI-ML--LLaDA-8B-Instruct/snapshots/9275bf8f5a5687507189baf4657e91c51b2be338
+  optimized_name: optimized
+dataset:
+  path: data/train_dataset.jsonl
+  val_path: data/val_dataset.jsonl
+training:
+  gradient_accumulation_steps: 2
+  batch_size: 2
+  mixed_precision: bf16
+  enable_tf32: true
+  seed: 42
+  num_train_epochs: 1
+  max_grad_norm: 1.0
+  group_size: 8
+  rollout_batch_size: 4
+  gamma: 0.95
+  lambda_coeff: 0.5
+  clip_epsilon: 0.2
+  epsilon_small: 1.0e-09
+  location_temperature: 0.05
+  token_temperature: 0.6
+  mask_token: <|mdm_mask|>
+  pad_token: <|endoftext|>
+  sft_loss_scale: 1.0
+  max_generation_length: 512
+  validation_interval: 100
+  checkpoint_interval: 500
+optimizer:
+  learning_rate: 1.0e-05
+  beta1: 0.9
+  beta2: 0.999
+  weight_decay: 0.0
+  epsilon: 1.0e-08
+lr_scheduler:
+  scheduler: cosine
+  warmup_steps: 10
+  min_lr_scale: 0.3
+wandb:
+  resume: false
+  entity: null
+  run_id: 7jh495pz
+config: configs/rl_sudoku_llada.yaml

@@ -1,21 +1,17 @@
 import os
 import sys
 from collections import deque
-from contextlib import nullcontext
-from dataclasses import dataclass, field
 from typing import Any, Deque, Dict, List, Optional, Sequence, Tuple
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import json
-import logging
 import math
 
 import torch
 from torch.optim import AdamW
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
 
-from accelerate import Accelerator, DeepSpeedPlugin
+from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
 from omegaconf import OmegaConf
@@ -29,260 +25,24 @@ from models.lr_schedulers import get_scheduler
 from models.logging import set_verbosity_error, set_verbosity_info
 
 from train.utils import get_config, flatten_omega_conf
-from train.sudoku_tools import detect_definite, judge_error, pre_fill
+from train.sudoku_tools import detect_definite, judge_error
 from train.sudoku_rl_utils import (
     build_location_distribution,
     build_token_distribution,
     compute_f_theta_value,
     pad_to_length,
+    prepare_sequence,
+    compute_definites,
+    save_checkpoint,
+    run_validation,
+    SudokuPromptDataset,
+    StepRecord,
+    SamplingStats,
+    PreparedSample,
+    TrajectoryJob,
 )
 
-
 logger = get_logger(__name__, log_level="INFO")
-
-
-def _autocast_context(device: torch.device, precision: Optional[str]):
-    if device.type == "cuda" and precision in {"fp16", "bf16"}:
-        dtype = torch.float16 if precision == "fp16" else torch.bfloat16
-        return torch.cuda.amp.autocast(dtype=dtype)
-    return nullcontext()
-
-
-class SudokuPromptDataset(Dataset):
-    """Dataset that exposes raw Sudoku prompts.
-
-    The dataset file must contain a JSON list or JSONL file where each item is a
-    mapping with at least a ``"prompt"`` field.  Optional fields:
-
-    ``mask_ids``
-        Token id sequence representing the masked Sudoku instance.  When omitted
-        the prompt is tokenised directly which assumes that the prompt already
-        contains mask tokens.
-
-    ``metadata``
-        Free form dictionary that is forwarded to the Sudoku helper functions.
-    """
-
-    def __init__(self, data_path: str):
-        if not os.path.exists(data_path):
-            raise FileNotFoundError(f"Could not locate dataset: {data_path}")
-
-        records: List[Dict[str, Any]] = []
-        if data_path.endswith(".jsonl"):
-            with open(data_path, "r", encoding="utf-8") as fh:
-                for line in fh:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    records.append(json.loads(line))
-        else:
-            with open(data_path, "r", encoding="utf-8") as fh:
-                data = json.load(fh)
-                if isinstance(data, dict):
-                    # allow {"data": [...]} style payloads
-                    if "data" in data:
-                        data = data["data"]
-                    else:
-                        raise ValueError(
-                            "JSON dataset must be a list of samples or contain a "
-                            "'data' field."
-                        )
-                records.extend(data)
-
-        if not records:
-            raise ValueError("Dataset is empty – at least one prompt is required")
-
-        for record in records:
-            record.setdefault("metadata", {})
-
-        self.records = records
-
-    def __len__(self) -> int:
-        return len(self.records)
-
-    def __getitem__(self, idx: int) -> Dict[str, Any]:
-        item = self.records[idx]
-        return item
-
-
-@dataclass
-class StepRecord: # 用来保存一个step的详情
-    sample_idx: int
-    trajectory_idx: int
-    step_index: int
-    state_before: torch.Tensor # 两个都是token_ids状态
-    state_after: torch.Tensor
-    location_index: int # 这一个step走了哪一个位置；以prompt后的第一个token为位置0
-    token_id: int # 填入的token
-    logprob_old_loc: float
-    logprob_old_tok: float # 旧策略下的两个概率，用来后续计算ratio
-    mask_start: int # prompt后第一个token位置
-    map_indices: Optional[torch.Tensor] # 数独map的位置
-    metadata: Dict[str, Any] = field(default_factory=dict) 
-
-    advantage: float = 0.0
-    f_theta_value: float = 0.0
-
-    @property
-    def old_logprob_sum(self) -> float:
-        return self.logprob_old_loc + self.logprob_old_tok
-
-
-@dataclass
-class SamplingStats:
-    entropy_sum: float = 0.0
-    entropy_count: int = 0
-    max_prob_sum: float = 0.0
-    max_prob_count: int = 0
-    greedy_inside_map: int = 0
-    greedy_inside_s1: int = 0
-    step_count: int = 0
-    trajectory_count: int = 0
-    error_terminated: int = 0
-    reward_sum: float = 0.0
-
-    def update_entropy(self, value: float) -> None:
-        self.entropy_sum += float(value)
-        self.entropy_count += 1
-
-    def update_max_prob(self, value: float) -> None:
-        self.max_prob_sum += float(value)
-        self.max_prob_count += 1
-
-    def update_greedy(self, in_map: bool, in_s1: bool) -> None:
-        if in_map:
-            self.greedy_inside_map += 1
-            if in_s1:
-                self.greedy_inside_s1 += 1
-
-    def record_step(self, reward: float) -> None:
-        self.step_count += 1
-        self.reward_sum += float(reward)
-
-    def finish_trajectory(self, error: bool) -> None:
-        self.trajectory_count += 1
-        if error:
-            self.error_terminated += 1
-
-    def merge(self, other: "SamplingStats") -> None:
-        self.entropy_sum += other.entropy_sum
-        self.entropy_count += other.entropy_count
-        self.max_prob_sum += other.max_prob_sum
-        self.max_prob_count += other.max_prob_count
-        self.greedy_inside_map += other.greedy_inside_map
-        self.greedy_inside_s1 += other.greedy_inside_s1
-        self.step_count += other.step_count
-        self.trajectory_count += other.trajectory_count
-        self.error_terminated += other.error_terminated
-        self.reward_sum += other.reward_sum
-
-
-@dataclass
-class PreparedSample:# 把prompt处理成适合rollout的格式
-    state: torch.Tensor
-    mask_start: int
-    map_indices: torch.Tensor
-    prompt_length: int
-    map_range: Optional[Tuple[int, int]]
-    metadata: Dict[str, Any]
-
-
-@dataclass
-class TrajectoryJob: # 记录一条轨迹的信息
-    sample_idx: int # 问题编号
-    trajectory_idx: int # 一个问题中的轨迹编号
-    state: torch.Tensor # 问题初始状态
-    mask_start: int # prompt长度
-    map_indices: torch.Tensor
-    map_index_set: set
-    max_steps: int
-    metadata: Dict[str, Any]
-    records: List[StepRecord] = field(default_factory=list) # 记录了每一个step的信息
-    steps_taken: int = 0
-    terminated: bool = False
-
-@dataclass
-class ValidationJob:
-    state: torch.Tensor
-    max_steps: int
-    mask_start: int
-    steps_taken: int = 0
-
-
-def _prepare_sequence(
-    sample: Dict[str, Any],
-    tokenizer,
-    mask_token_id: int,
-    max_generation_length: int,
-) -> PreparedSample:
-    """transfer prompt for rollout"""
-    prompt = sample["prompt"]
-
-    filled_ids, prompt_length, map_range = pre_fill(
-        prompt,
-        tokenizer,
-        max_generation_length,
-    )
-
-    filled_tensor = torch.tensor(filled_ids, dtype=torch.long)
-    if prompt_length < 0 or prompt_length > filled_tensor.size(0):
-        raise ValueError(
-            "pre_fill must return the prompt length measured in tokens within the"
-            " returned sequence"
-        )
-
-    expected_total = prompt_length + max_generation_length
-    if filled_tensor.size(0) != expected_total:
-        raise ValueError(
-            "pre_fill must return a sequence whose length equals prompt length"
-            f" + max_generation_length ({expected_total}), got"
-            f" {filled_tensor.size(0)}"
-        )
-
-    mask_positions = (filled_tensor == mask_token_id).nonzero(as_tuple=False).flatten()
-    if mask_positions.numel() == 0:
-        raise ValueError("Mask token never appears in the provided sequence")
-
-    mask_start = int(prompt_length)
-
-    if map_range is not None:
-        map_start_rel, map_end_rel = map_range
-        map_start_abs = mask_start + int(map_start_rel)
-        map_end_abs = mask_start + int(map_end_rel)
-        map_indices = torch.arange(map_start_abs, map_end_abs, dtype=torch.long)
-        map_indices = map_indices[(map_indices >= 0) & (map_indices < filled_tensor.size(0))]
-    else:
-        map_indices = mask_positions.to(dtype=torch.long)
-
-    if map_indices.numel() > 0:
-        candidate_mask = filled_tensor.eq(mask_token_id)
-        map_indices = map_indices[candidate_mask[map_indices]]
-
-    metadata = sample.get("metadata", {})
-    if not isinstance(metadata, dict):
-        metadata = {"value": metadata}
-
-    return PreparedSample(
-        state=filled_tensor,
-        mask_start=mask_start,
-        map_indices=map_indices.to(dtype=torch.long),
-        prompt_length=prompt_length,
-        map_range=map_range,
-        metadata=metadata,
-    )
-
-
-def _compute_definites(
-    state_ids: torch.Tensor,
-    mask_start: int,
-    tokenizer,
-) -> List[int]:
-    from train.sudoku_rl_utils import normalise_definite_positions
-
-    definites_raw = detect_definite(state_ids.detach().cpu().tolist(), mask_start)
-    definites = normalise_definite_positions(definites_raw, mask_start, tokenizer)
-    return [pos.index for pos in definites]
-
 
 def collect_rollouts(
     batch: Sequence[Dict[str, Any]],
@@ -298,7 +58,7 @@ def collect_rollouts(
     prepared_samples: List[PreparedSample] = []
     for sample in batch:
         prepared_samples.append(
-            _prepare_sequence(
+            prepare_sequence(
                 sample,
                 tokenizer,
                 mask_token_id,
@@ -342,8 +102,7 @@ def collect_rollouts(
         state_batch = torch.stack([job.state for job in active_jobs], dim=0).to(device)
 
         with torch.no_grad():
-            with _autocast_context(device, training_cfg.mixed_precision):
-                logits_batch = model(state_batch).logits
+            logits_batch = model(state_batch).logits
 
         for batch_idx, job in enumerate(active_jobs):
             logits = logits_batch[batch_idx].to(torch.float32)
@@ -381,7 +140,7 @@ def collect_rollouts(
             greedy_abs_idx = int(valid_indices[greedy_idx_rel].item())
 
             definites_indices = set(
-                _compute_definites(job.state, job.mask_start, tokenizer)
+                compute_definites(job.state, job.mask_start, tokenizer)
             )
             stats.update_greedy(
                 in_map=greedy_abs_idx in job.map_index_set,
@@ -469,8 +228,7 @@ def compute_losses(
         batch_records = step_records[start : start + rollout_batch_size]
         states_before = torch.stack([step.state_before for step in batch_records]).to(device)
 
-        with _autocast_context(device, training_cfg.mixed_precision):
-            logits_before = model(states_before).logits
+        logits_before = model(states_before).logits
 
         for idx, step in enumerate(batch_records):
             logits_b = logits_before[idx]
@@ -585,163 +343,6 @@ def compute_losses(
     return rl_loss, sft_loss, clip_fraction, reward_total
 
 
-def save_checkpoint(
-    accelerator: Accelerator,
-    config,
-    project_name: str,
-    step: int,
-) -> None:
-    step_label = f"step_{int(step):06d}" if isinstance(step, int) else str(step)
-    output_dir = os.path.join(
-        project_name,
-        "ckpt",
-        config.model.optimized_name,
-        step_label,
-    )
-    if accelerator.is_main_process:
-        os.makedirs(output_dir, exist_ok=True)
-    accelerator.wait_for_everyone()
-    accelerator.save_state(output_dir)
-    accelerator.wait_for_everyone()
-
-
-def run_validation(
-    accelerator: Accelerator,
-    model: LLaDAModelLM,
-    tokenizer,
-    config,
-    dataloader: Optional[DataLoader],
-    global_step: int,
-) -> None:
-    if dataloader is None:
-        return
-
-    model.eval()
-    training_cfg = config.training
-    mask_token_id = training_cfg.mask_token_id
-    rollout_batch_size = max(int(training_cfg.rollout_batch_size), 1)
-
-    total_sequences = 0
-    correct_sequences = 0
-    total_decode_steps = 0
-
-    device = accelerator.device
-
-    def _finalise(job: ValidationJob) -> None:
-        nonlocal total_sequences, correct_sequences
-        total_sequences += 1
-        is_correct = bool(not judge_error(job.state.detach().cpu().tolist(), job.mask_start))
-        if is_correct:
-            correct_sequences += 1
-
-    with torch.no_grad():
-        for batch in dataloader:
-            prepared_samples = [
-                _prepare_sequence(
-                    sample,
-                    tokenizer,
-                    mask_token_id,
-                    training_cfg.max_generation_length,
-                )
-                for sample in batch
-            ]
-
-            job_queue: Deque[ValidationJob] = deque()
-
-            for prepared in prepared_samples:
-                mask_count = int((prepared.state == mask_token_id).sum().item())
-                if mask_count <= 0:
-                    job = ValidationJob(
-                        state=prepared.state.clone(), 
-                        mask_start=prepared.mask_start,
-                        max_steps=0
-                        )
-                    _finalise(job)
-                    continue
-
-                job_queue.append(
-                    ValidationJob(
-                        state=prepared.state.clone().to(device),
-                        mask_start=prepared.mask_start,
-                        max_steps=mask_count,
-                    )
-                )
-
-            while job_queue:
-                active_jobs: List[ValidationJob] = []
-                while job_queue and len(active_jobs) < rollout_batch_size:
-                    active_jobs.append(job_queue.popleft())
-
-                state_batch = torch.stack([job.state for job in active_jobs], dim=0)
-
-                with _autocast_context(device, training_cfg.mixed_precision):
-                    logits_batch = model(state_batch).logits
-
-                for batch_idx, job in enumerate(active_jobs):
-                    logits = logits_batch[batch_idx].to(torch.float32)
-                    candidate_mask = job.state.eq(mask_token_id)
-
-                    if (not torch.any(candidate_mask)) or job.steps_taken >= job.max_steps:
-                        _finalise(job)
-                        continue
-
-                    loc_probs, loc_scores = build_location_distribution(
-                        logits,
-                        candidate_mask=candidate_mask,
-                        epsilon=training_cfg.epsilon_small,
-                        temperature=training_cfg.location_temperature,
-                    )
-
-                    loc_logits = torch.where(
-                        candidate_mask,
-                        loc_scores,
-                        torch.full_like(loc_scores, -1e9),
-                    )
-                    location_index = int(gumbel_sample(loc_logits).item())
-
-                    token_logits_scaled = logits[location_index] / max(
-                        training_cfg.token_temperature, 1e-8
-                    )
-                    token_id = int(gumbel_sample(token_logits_scaled).item())
-
-                    next_state = job.state.clone()
-                    next_state[location_index] = token_id
-
-                    job.state = next_state
-                    job.steps_taken += 1
-                    total_decode_steps += 1
-
-                    next_candidate_mask = job.state.eq(mask_token_id)
-                    if (not torch.any(next_candidate_mask)) or job.steps_taken >= job.max_steps:
-                        _finalise(job)
-                    else:
-                        job_queue.append(job)
-
-    totals = torch.tensor(
-        [total_sequences, correct_sequences, total_decode_steps],
-        device=accelerator.device,
-        dtype=torch.float64,
-    )
-    totals = accelerator.reduce(totals, reduction="sum")
-
-    if accelerator.is_main_process:
-        total = int(totals[0].item())
-        correct = int(totals[1].item())
-        decode_steps = float(totals[2].item())
-
-        metrics: Dict[str, float] = {
-            "val/num_samples": float(total),
-            "val/num_correct": float(correct),
-            "val/total_decode_steps": decode_steps,
-        }
-
-        if total > 0:
-            metrics["val/accuracy"] = correct / total
-            metrics["val/avg_decode_steps"] = decode_steps / max(total, 1)
-
-        accelerator.log(metrics, step=global_step)
-
-
 def main():
     config = get_config()
 
@@ -753,36 +354,14 @@ def main():
 
     config.experiment.logging_dir = os.path.join(project_name, "logs")
 
-    kwargs_handlers = []
-    ds_file = config.experiment.get("deepspeed_file", None)
-    if ds_file:
-        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        ds_config_path = os.path.join(repo_root, "accelerate_configs", f"{ds_file}.yaml")
-        if os.path.exists(ds_config_path):
-            kwargs_handlers.append(DeepSpeedPlugin(hf_ds_config=ds_config_path))
-        else:
-            logger.warning("Requested DeepSpeed config %s not found at %s", ds_file, ds_config_path)
-
     accelerator = Accelerator(
         gradient_accumulation_steps=config.training.gradient_accumulation_steps,
         mixed_precision=config.training.mixed_precision,
         log_with=None,
         project_dir=config.experiment.logging_dir,
-        kwargs_handlers=kwargs_handlers if kwargs_handlers else None,
+        split_batches=True,
     )
 
-    logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
-        level=logging.INFO,
-    )
-    logger.info(accelerator.state, main_process_only=False)
-    if ds_file and accelerator.state.deepspeed_plugin is None:
-        logger.warning(
-            "DeepSpeed requested via config but plugin is inactive. "
-            "Launch with `accelerate launch --config_file accelerate_configs/%s.yaml` to enable it.",
-            ds_file,
-        )
     if accelerator.is_local_main_process:
         set_verbosity_info()
     else:
@@ -936,9 +515,7 @@ def main():
                         metrics["train/location_max_prob"] = accumulated_stats.max_prob_sum / accumulated_stats.max_prob_count
                     if accumulated_stats.greedy_inside_map > 0:
                         if accumulated_stats.step_count > 0:
-                            metrics["train/greedy_in_map_ratio"] = (
-                                accumulated_stats.greedy_inside_map / accumulated_stats.step_count
-                            )
+                            metrics["train/greedy_in_map_ratio"] = accumulated_stats.greedy_inside_map / accumulated_stats.step_count
                         metrics["train/greedy_s1_ratio"] = accumulated_stats.greedy_inside_s1 / accumulated_stats.greedy_inside_map
                     if accumulated_stats.step_count > 0:
                         metrics["train/avg_reward"] = accumulated_stats.reward_sum / accumulated_stats.step_count
@@ -954,22 +531,15 @@ def main():
                         and val_dataloader is not None
                         and global_step % validation_interval == 0
                     ):
-                        run_validation(
-                            accelerator,
-                            model,
-                            tokenizer,
-                            config,
-                            val_dataloader,
-                            global_step,
-                        )
+                        run_validation(accelerator, model, tokenizer, config, val_dataloader, global_step)
                         model.train()
 
                     if checkpoint_interval > 0 and global_step % checkpoint_interval == 0:
-                        save_checkpoint(accelerator, config, project_name, global_step)
+                        save_checkpoint(model, tokenizer, accelerator, config, project_name, global_step)
 
         accelerator.wait_for_everyone()
 
-    save_checkpoint(accelerator, config, project_name, "final")
+    save_checkpoint(model, tokenizer, accelerator, config, project_name, "final")
 
     accelerator.end_training()
 
