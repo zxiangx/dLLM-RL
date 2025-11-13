@@ -77,7 +77,7 @@ def pre_fill(prompt: str, tokenizer, max_gen_length: int):
     sudoku_token_ids = encode_sudoku_prefill(puzzle_text)
     sudoku_length = len(sudoku_token_ids)
     
-    sudoku_map_range = (prompt_length, prompt_length + sudoku_length)
+    sudoku_map_range = (0, sudoku_length)
     
     filled_ids = list(prompt_token_ids)  
     filled_ids.extend(sudoku_token_ids)
@@ -90,21 +90,17 @@ def pre_fill(prompt: str, tokenizer, max_gen_length: int):
     elif remaining_length < 0:
         filled_ids = filled_ids[:prompt_length + max_gen_length]
     
-    filled_indices = []
-    for i in range(len(sudoku_token_ids)):
-        if sudoku_token_ids[i] != MASK_ID:
-            filled_indices.append(i + prompt_length)
-    
-    return filled_ids, filled_indices, prompt_length, sudoku_map_range
+    return filled_ids, prompt_length, sudoku_map_range
 
 
-def detect_definite(state_ids: Sequence[int]):
+def detect_definite(state_ids: Sequence[int], prompt_len:int):
     """Identify positions that can be filled with certainty.
 
     The function must return an iterable that is understood by
     :func:`train.sudoku_rl_utils.normalise_definite_positions`.  Returning a list
     of ``(index, token_id)`` tuples is the most convenient option.
     """
+    state_ids = state_ids[prompt_len:]
     grid = np.zeros((GRID, GRID), dtype=int)
     mask_positions = []
     pos = 0
@@ -167,8 +163,9 @@ def find_tokenindex(token_ids: Sequence[int], target_row: int, target_col: int) 
             pass
     return None
 
-def judge_error(state_ids: Sequence[int]) -> bool:
+def judge_error(state_ids: Sequence[int], prompt_len:int) -> bool:
     """Return ``True`` if the partially decoded Sudoku violates any constraint."""
+    state_ids = state_ids[prompt_len:]
     grid = np.zeros((GRID, GRID), dtype=int)
     pos = 0
     
@@ -206,30 +203,3 @@ def judge_error(state_ids: Sequence[int]) -> bool:
                 return True
     
     return False
-
-# 不知道是否需要，先放这里了
-def format_6x6_sudoku_prompt(puzzle_text):
-    
-    prompt = """Please solve the following 6x6 sudoku puzzle.
-
-Rules of 6x6 sudoku:
-- The grid is 6x6.
-- Each row must contain the digits 1-6 exactly once.
-- Each column must contain the digits 1-6 exactly once.
-- Each of the 6 subgrids (2x3 boxes) must also contain the digits 1-6 exactly once.
-- The 6 subgrids are arranged as:
-  - Box 1: rows 1-2, columns 1-3
-  - Box 2: rows 1-2, columns 4-6  
-  - Box 3: rows 3-4, columns 1-3
-  - Box 4: rows 3-4, columns 4-6
-  - Box 5: rows 5-6, columns 1-3
-  - Box 6: rows 5-6, columns 4-6
-- Empty cells are represented by a dot ".".
-
-Here is the puzzle (6 lines, each with 6 entries separated by spaces):
-
-""" + puzzle_text + """
-
-Please output the completed sudoku as 36 numbers, row by row, separated by spaces."""
-    
-    return prompt

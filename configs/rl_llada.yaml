@@ -12,19 +12,19 @@ experiment:
     save_every: 10
     eval_every: 10
     current_epoch: 1
-    deepspeed_file: "1_node_1_gpus_deepspeed_zero3"
+    deepspeed_file: "1_node_8_gpus_deepspeed_zero3"
     num_node: 1
     node_index: 0 # no need to change
 
 model:
-    pretrained_model: "/abs/path/of/model" # absolute path of your model
+    pretrained_model: "/ssd/hf_home/hub/models--GSAI-ML--LLaDA-8B-Instruct/snapshots/9275bf8f5a5687507189baf4657e91c51b2be338" # absolute path of your model
     optimized_name: "optimized" # the output name for your optimized model, will be saved under sft_dream/ckpt
     model_base: "llada" # set llada for LLaDA and mmada for MMaDA
 
 
 
 dataset:
-    train_dataset: "dataset_name" # "MATH_train""PrimeIntellect"
+    train_dataset: "MATH_train" # "MATH_train""PrimeIntellect"
     optimization_data: "rl_data" # name of the rollout data output
     data_type: "math" # "math" "code" 
 

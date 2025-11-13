@@ -221,7 +221,7 @@ def compute_f_theta_value(
     else:
         map_index_set = {int(idx) for idx in map_indices.tolist()}
 
-    definites_raw = detect_fn(state_ids.tolist())
+    definites_raw = detect_fn(state_ids.tolist(), mask_start)
     definites = normalise_definite_positions(definites_raw, mask_start, tokenizer)
 
     s1_terms = []
