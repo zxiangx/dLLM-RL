@@ -20,6 +20,7 @@ import torch
 import time
 from pathlib import Path
 from accelerate import Accelerator
+from accelerate.utils import tqdm
 from dataclasses import dataclass, field
 from torch.utils.data import Dataset
 import os
@@ -78,7 +79,6 @@ class StepRecord: # 用来保存一个step的详情
     trajectory_idx: int
     step_index: int
     state_before: torch.Tensor # 两个都是token_ids状态
-    state_after: torch.Tensor
     location_index: int # 这一个step走了哪一个位置；以prompt后的第一个token为位置0
     token_id: int # 填入的token
     logprob_old_loc: float
@@ -89,6 +89,7 @@ class StepRecord: # 用来保存一个step的详情
 
     advantage: float = 0.0
     f_theta_value: float = 0.0
+    is_error: bool = False
 
     @property
     def old_logprob_sum(self) -> float:
@@ -548,6 +549,13 @@ def run_validation(
             correct_sequences += 1
 
     with torch.no_grad():
+        val_pbar = tqdm(
+            total=len(dataloader),
+            desc="Validation",
+            disable=not accelerator.is_local_main_process,
+            leave=False,
+        )
+                
         for batch in dataloader:
             prepared_samples = [
                 prepare_sequence(
@@ -628,6 +636,10 @@ def run_validation(
                         _finalise(job)
                     else:
                         job_queue.append(job)
+
+            val_pbar.update(1)
+
+        val_pbar.close()
 
     totals = torch.tensor(
         [total_sequences, correct_sequences, total_decode_steps],
