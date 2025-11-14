@@ -35,6 +35,7 @@ from train.sudoku_rl_utils import (
     compute_definites,
     save_checkpoint,
     run_validation,
+    compute_logits_with_padding,
     SudokuPromptDataset,
     StepRecord,
     SamplingStats,
@@ -111,13 +112,15 @@ def collect_rollouts(
             total_masks += mask_count
 
     rollout_pbar = None
-    if accelerator.is_local_main_process and total_masks > 0:
+    if total_masks > 0:
         desc = progress_desc or "Rollout"
         rollout_pbar = tqdm(
             total=total_masks,
             desc=desc,
             leave=False,
-            disable=not accelerator.is_local_main_process,
+            disable=False,
+            main_process_only=False,
+            position=accelerator.process_index
         )
 
     while job_queue:
@@ -129,10 +132,8 @@ def collect_rollouts(
         if not active_jobs:
             continue
 
-        state_batch = torch.stack([job.state for job in active_jobs], dim=0).to(device)
-
         with torch.no_grad():
-            logits_batch = model(state_batch).logits
+            logits_batch = compute_logits_with_padding([job.state for job in active_jobs], model, tokenizer, accelerator.device)
 
         for batch_idx, job in enumerate(active_jobs):
             logits = logits_batch[batch_idx].to(torch.float32)
@@ -271,21 +272,22 @@ def compute_losses(
     # --- 进度条：按前向次数来算 ---
     num_forward_batches = math.ceil(len(step_records) / rollout_batch_size)
     loss_pbar = None
-    if accelerator.is_local_main_process and num_forward_batches > 0:
+    if num_forward_batches > 0:
         desc = progress_desc or "ComputeLoss"
         loss_pbar = tqdm(
             total=num_forward_batches,
             desc=desc,
             leave=False,
-            disable=not accelerator.is_local_main_process,
+            disable=False,
+            main_process_only=False,
+            position=accelerator.process_index
         )
 
     for start in range(0, len(step_records), rollout_batch_size):
         batch_records = step_records[start : start + rollout_batch_size]
-        states_before = torch.stack([step.state_before for step in batch_records]).to(device)
+        states_before = [step.state_before.to(device) for step in batch_records]
 
-        logits_before = model(states_before).logits
-
+        logits_before = compute_logits_with_padding(states_before, model, tokenizer, accelerator.device, dev=True)
         # 更新进度条：一次前向就是一次单位
         if loss_pbar is not None:
             loss_pbar.update(1)

@@ -17,26 +17,29 @@ dataset:
 
 training:
     gradient_accumulation_steps: 2
-    batch_size: 2
+    batch_size: 4
     mixed_precision: "bf16"
     enable_tf32: True
-    seed: 42
+    seed: 114
     num_train_epochs: 1
     max_grad_norm: 1.0
-    group_size: 8
-    rollout_batch_size: 4
+    group_size: 4
+####
+    rollout_batch_size: 2
+####
     gamma: 0.95
     lambda_coeff: 0.5
     clip_epsilon: 0.2
     epsilon_small: 1e-9
-    location_temperature: 0.05
+    location_temperature: 0.4
     token_temperature: 0.6
     mask_token: "<|mdm_mask|>"
     pad_token: "<|endoftext|>"
     sft_loss_scale: 1.0
-    max_generation_length: 512
+    max_generation_length: 128
     validation_interval: 100
     checkpoint_interval: 500
+    updates_per_rollout: 8
 
 optimizer:
     learning_rate: 1e-5

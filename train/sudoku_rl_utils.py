@@ -305,6 +305,7 @@ def build_location_distribution(
     score = torch.log((top_probs[..., 0] + epsilon) / (top_probs[..., 1] + epsilon))
 
     masked_score = torch.full_like(score, float("-inf"))
+    # print(f"score.device: {score.device}, candidate_mask.device: {candidate_mask.device}, masked_score.device: {masked_score.device}, temperature.device: {torch.tensor(temperature).device}")
     masked_score = torch.where(candidate_mask, score / max(temperature, 1e-8), masked_score)
 
     probs = torch.softmax(masked_score, dim=-1)
@@ -593,10 +594,7 @@ def run_validation(
                 while job_queue and len(active_jobs) < rollout_batch_size:
                     active_jobs.append(job_queue.popleft())
 
-                state_batch = torch.stack([job.state for job in active_jobs], dim=0)
-
-                logits_batch = model(state_batch).logits
-
+                logits_batch = compute_logits_with_padding([job.state for job in active_jobs], model, tokenizer, accelerator.device)
                 for batch_idx, job in enumerate(active_jobs):
                     logits = logits_batch[batch_idx].to(torch.float32)
                     candidate_mask = job.state.eq(mask_token_id)
@@ -664,3 +662,34 @@ def run_validation(
             metrics["val/avg_decode_steps"] = decode_steps / max(total, 1)
 
         accelerator.log(metrics, step=global_step)
+
+def compute_logits_with_padding(states, model, tokenizer, device, dev=False):
+    lengths = [len(s) for s in states]
+    batch_size = len(states)
+
+    max_len = max(lengths)
+
+    pad_id = tokenizer.pad_token_id
+    if pad_id is None:
+        pad_id = 0 
+
+    input_ids_batch = torch.full(
+        (batch_size, max_len),
+        pad_id,
+        dtype=torch.long,
+        device=device
+    )
+
+    for i, ids in enumerate(states):
+        input_ids_batch[i, -len(ids):] = ids.to(device)
+
+    if dev:
+        print(f"Shapes:{input_ids_batch.size()}")
+    logits_batch = model(input_ids_batch).logits  # (B, max_len, vocab_size)
+
+    logits_list = []
+    for i, orig_len in enumerate(lengths):
+        logits_i = logits_batch[i, -orig_len:].clone()
+        logits_list.append(logits_i)
+
+    return logits_list
