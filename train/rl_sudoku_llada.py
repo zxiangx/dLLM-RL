@@ -6,7 +6,7 @@ from typing import Any, Deque, Dict, List, Optional, Sequence, Tuple
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import math
-
+from time import sleep
 import torch
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
@@ -124,6 +124,7 @@ def collect_rollouts(
         )
 
     while job_queue:
+        print(f" Rank {accelerator.process_index} keeps going...")
         active_jobs: List[TrajectoryJob] = []
         while job_queue and len(active_jobs) < rollout_batch_size:
             job = job_queue.popleft()
@@ -133,13 +134,36 @@ def collect_rollouts(
             continue
 
         with torch.no_grad():
-            logits_batch = compute_logits_with_padding([job.state for job in active_jobs], model, tokenizer, accelerator.device)
+            logits_batch = compute_logits_with_padding(
+                [job.state for job in active_jobs],
+                model,
+                tokenizer,
+                accelerator.device,
+            )
 
         for batch_idx, job in enumerate(active_jobs):
             logits = logits_batch[batch_idx].to(torch.float32)
             candidate_mask = job.state.eq(mask_token_id)
             job_id = id(job)
             prev_remaining = remaining_masks.get(job_id, 0)
+
+            if job.records:
+                prev_step = job.records[-1]
+                f_theta_val = compute_f_theta_value(
+                    logits,
+                    job.state,
+                    mask_token_id=mask_token_id,
+                    mask_start=prev_step.mask_start,
+                    tokenizer=tokenizer,
+                    lambda_coeff=training_cfg.lambda_coeff,
+                    epsilon=training_cfg.epsilon_small,
+                    location_temperature=training_cfg.location_temperature,
+                    token_temperature=training_cfg.token_temperature,
+                    map_indices=prev_step.map_indices.to(device) if prev_step.map_indices is not None else None,
+                    detect_fn=detect_definite,
+                )
+                prev_step.f_theta_value = float(f_theta_val.detach().cpu())
+                stats.record_step(prev_step.f_theta_value)
 
             valid_indices = torch.nonzero(candidate_mask, as_tuple=False).flatten()
             if valid_indices.numel() == 0:
@@ -209,8 +233,6 @@ def collect_rollouts(
                 is_error=is_error,
             )
 
-            stats.record_step(0.0)
-
             # --- 进度条更新逻辑 ---
             if rollout_pbar is not None and prev_remaining > 0:
                 if is_error:
@@ -226,7 +248,9 @@ def collect_rollouts(
                     rollout_pbar.update(delta)
 
             if is_error:
+                step_record.f_theta_value = 0.0
                 job.records.append(step_record)
+                stats.record_step(0.0)
                 _terminate_job(job, trajectories_per_sample, stats, True)
                 continue
 
@@ -248,28 +272,86 @@ def collect_rollouts(
     return flattened, stats
 
 
+def compute_advantages_inplace(step_records: List[StepRecord], gamma: float) -> None:
+    if not step_records:
+        return
+
+    trajectories: Dict[int, Dict[int, List[StepRecord]]] = {}
+    for step in step_records:
+        sample_map = trajectories.setdefault(step.sample_idx, {})
+        sample_map.setdefault(step.trajectory_idx, []).append(step)
+
+    for sample_trajs in trajectories.values():
+        traj_entries: List[List[StepRecord]] = []
+        for steps in sample_trajs.values():
+            sorted_steps = sorted(steps, key=lambda item: item.step_index)
+            traj_entries.append(sorted_steps)
+
+        if not traj_entries:
+            continue
+
+        max_steps = max(len(steps) for steps in traj_entries)
+        if max_steps == 0:
+            continue
+
+        reward_rows: List[torch.Tensor] = []
+        for steps in traj_entries:
+            rewards = [float(step.f_theta_value) for step in steps]
+            # rewards = rewards[1:] + [0.0]
+            reward_rows.append(pad_to_length(rewards, max_steps))
+
+        rewards_tensor = torch.stack(reward_rows, dim=0)
+
+        returns = torch.zeros_like(rewards_tensor)
+        running = torch.zeros(rewards_tensor.size(0))
+
+        for t in reversed(range(max_steps)):
+            running = rewards_tensor[:, t] + gamma * running
+            returns[:, t] = running
+
+        mean = returns.mean(dim=0)
+        std = returns.std(dim=0, unbiased=False)
+        std = torch.where(std < 1e-6, torch.ones_like(std), std)
+        advantages = (returns - mean) / std
+
+        for row_idx, steps in enumerate(traj_entries):
+            for col_idx, step in enumerate(steps):
+                step.advantage = float(advantages[row_idx, col_idx].item())
+
+
 def compute_losses(
     step_records: List[StepRecord],
     model: LLaDAModelLM,
     tokenizer,
     config,
     accelerator: Accelerator,
+    sft_loss_scale: float,
     progress_desc: str = "",
-) -> Tuple[torch.Tensor, torch.Tensor, float, float]:
+) -> Tuple[float, float, float, float]:
     device = accelerator.device
     if not step_records:
-        zero = torch.tensor(0.0, device=device)
-        return zero, zero, 0.0, 0.0
+        return 0.0, 0.0, 0.0, 0.0
 
     training_cfg = config.training
     mask_token_id = training_cfg.mask_token_id
     rollout_batch_size = max(int(training_cfg.rollout_batch_size), 1)
 
-    ratio_records: List[Tuple[torch.Tensor, torch.Tensor, StepRecord]] = []
-    sft_losses: List[torch.Tensor] = []
+    total_valid_steps = 0
+    for step in step_records:
+        if torch.any(step.state_before.eq(mask_token_id)):
+            total_valid_steps += 1
+
+    reward_total = float(sum(step.f_theta_value for step in step_records))
+
+    if total_valid_steps == 0:
+        return 0.0, 0.0, 0.0, reward_total
+
+    rl_loss_sum = torch.tensor(0.0, device=device)
+    sft_loss_sum = torch.tensor(0.0, device=device)
+    rl_count = 0
+    sft_count = 0
     clip_events = 0
 
-    # --- 进度条：按前向次数来算 ---
     num_forward_batches = math.ceil(len(step_records) / rollout_batch_size)
     loss_pbar = None
     if num_forward_batches > 0:
@@ -280,15 +362,21 @@ def compute_losses(
             leave=False,
             disable=False,
             main_process_only=False,
-            position=accelerator.process_index
+            position=accelerator.process_index,
         )
 
     for start in range(0, len(step_records), rollout_batch_size):
         batch_records = step_records[start : start + rollout_batch_size]
         states_before = [step.state_before.to(device) for step in batch_records]
 
-        logits_before = compute_logits_with_padding(states_before, model, tokenizer, accelerator.device, dev=True)
-        # 更新进度条：一次前向就是一次单位
+        logits_before = compute_logits_with_padding(
+            states_before,
+            model,
+            tokenizer,
+            accelerator.device,
+            dev=True
+        )
+
         if loss_pbar is not None:
             loss_pbar.update(1)
 
@@ -297,8 +385,6 @@ def compute_losses(
             state_before = states_before[idx]
             candidate_mask = state_before.eq(mask_token_id)
             if not torch.any(candidate_mask):
-                step.f_theta_value = 0.0
-                step.advantage = 0.0
                 continue
 
             loc_probs, _ = build_location_distribution(
@@ -316,24 +402,27 @@ def compute_losses(
             )
             logprob_new_tok = token_log_probs[step.token_id]
 
-            logprob_old = torch.tensor(step.old_logprob_sum, device=device, dtype=logits_b.dtype)
+            logprob_old = torch.tensor(
+                step.old_logprob_sum, device=device, dtype=logprob_new_loc.dtype
+            )
             logprob_new = logprob_new_loc + logprob_new_tok
             ratio = torch.exp(logprob_new - logprob_old)
 
-            clip_ratio = torch.clamp(ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon)
-            
+            clip_ratio = torch.clamp(
+                ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon
+            )
+
             if (clip_ratio - ratio).abs() > 1e-8:
                 clip_events += 1
 
-            ratio_records.append((ratio, clip_ratio, step))
-
-            if step.is_error:
-                step.f_theta_value = 0.0
-                continue
+            adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
+            rl_term = -torch.min(ratio * adv, clip_ratio * adv)
+            rl_loss_sum = rl_loss_sum + rl_term.detach()
+            rl_count += 1
 
             f_theta_val = compute_f_theta_value(
                 logits_b,
-                states_before[idx],
+                state_before,
                 mask_token_id=mask_token_id,
                 mask_start=step.mask_start,
                 tokenizer=tokenizer,
@@ -344,68 +433,22 @@ def compute_losses(
                 map_indices=step.map_indices.to(device) if step.map_indices is not None else None,
                 detect_fn=detect_definite,
             )
-            step.f_theta_value = float(f_theta_val.detach().cpu())
-            sft_losses.append(-ratio.detach() * f_theta_val) # round, but unimportant
+
+            sft_term = -ratio.detach() * f_theta_val
+            sft_loss_sum = sft_loss_sum + sft_term.detach()
+            sft_count += 1
+
+            combined_loss = (rl_term + sft_loss_scale * sft_term) / total_valid_steps
+            accelerator.backward(combined_loss)
+
     if loss_pbar is not None:
         loss_pbar.close()
 
-    trajectories: Dict[int, Dict[int, List[StepRecord]]] = {}
-    for step in step_records:
-        sample_map = trajectories.setdefault(step.sample_idx, {})
-        sample_map.setdefault(step.trajectory_idx, []).append(step)
+    rl_loss_mean = float((rl_loss_sum / max(rl_count, 1)).item())
+    sft_loss_mean = float((sft_loss_sum / max(sft_count, 1)).item())
+    clip_fraction = clip_events / max(rl_count, 1)
 
-    gamma = training_cfg.gamma
-    for sample_trajs in trajectories.values():
-        traj_entries: List[Tuple[int, List[StepRecord]]] = []
-        for traj_idx, steps in sample_trajs.items():
-            sorted_steps = sorted(steps, key=lambda item: item.step_index)
-            traj_entries.append((traj_idx, sorted_steps))
-
-        if not traj_entries:
-            continue
-
-        max_steps = max(len(steps) for _, steps in traj_entries)
-        if max_steps == 0:
-            continue
-
-        reward_rows: List[torch.Tensor] = []
-        for _, steps in traj_entries:
-            rewards = [float(step.f_theta_value) for step in steps]
-            # shift opt, to guarantee reward = state_after.f_value
-            rewards = rewards[1:] + [0.0]
-            reward_rows.append(pad_to_length(rewards, max_steps))
-
-        rewards_tensor = torch.stack(reward_rows, dim=0).to(device)
-
-        returns = torch.zeros_like(rewards_tensor)
-        running = torch.zeros(rewards_tensor.size(0), device=device)
-
-        for t in reversed(range(max_steps)):
-            running = rewards_tensor[:, t] + gamma * running
-            returns[:, t] = running
-
-        mean = returns.mean(dim=0)
-        std = returns.std(dim=0, unbiased=False)
-        std = torch.where(std < 1e-6, torch.ones_like(std), std)
-        advantages = (returns - mean) / std
-
-        for row_idx, (_, steps) in enumerate(traj_entries):
-            for col_idx, step in enumerate(steps):
-                step.advantage = float(advantages[row_idx, col_idx].detach().cpu().item())
-
-    rl_losses: List[torch.Tensor] = []
-    for ratio, clip_ratio, step in ratio_records:
-        adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
-        rl_loss = -torch.min(ratio * adv, clip_ratio * adv)
-        rl_losses.append(rl_loss)
-
-    rl_loss = torch.stack(rl_losses).mean() if rl_losses else torch.tensor(0.0, device=device)
-    sft_loss = torch.stack(sft_losses).mean() if sft_losses else torch.tensor(0.0, device=device)
-    clip_fraction = clip_events / max(len(rl_losses), 1)
-
-    reward_total = float(sum(step.f_theta_value for step in step_records))
-
-    return rl_loss, sft_loss, clip_fraction, reward_total
+    return rl_loss_mean, sft_loss_mean, clip_fraction, reward_total
 
 
 def main():
@@ -553,6 +596,7 @@ def main():
 
             # ====== 1) Rollout 进度条描述 ======
             rollout_desc = (
+                f"Rank {accelerator.process_index} "
                 f"Rollout E{epoch + 1}/{num_epochs} "
                 f"B{batch_idx + 1}/{num_batches_per_epoch} "
                 f"S{step_display}/{max_train_steps}"
@@ -567,15 +611,20 @@ def main():
                 accelerator,
                 progress_desc=rollout_desc
             )
+            print(f" Rank {accelerator.process_index} rollout complete.")
+            accelerator.wait_for_everyone()
             step_records.extend(records)
             batch_stats.merge(rollout_stats)
             model.train()
+            print(f" Rank {accelerator.process_index} begin to train.")
 
             # rollout 级别的统计量：每个 batch 只 merge 一次
             accumulated_stats.merge(batch_stats)
 
+            compute_advantages_inplace(step_records, config.training.gamma)
+
             # 2. 在同一批 rollout 上做多次更新
-            for update_idx in range(updates_per_rollout):
+            for _ in range(updates_per_rollout):
                 loss_desc = (
                     f"Loss    E{epoch + 1}/{num_epochs} "
                     f"B{batch_idx + 1}/{num_batches_per_epoch} "
@@ -588,16 +637,11 @@ def main():
                         tokenizer,
                         config,
                         accelerator,
+                        config.training.sft_loss_scale,
                         progress_desc=loss_desc
                     )
 
-                    # reward 只在第 1 次 update 记一次，按“每个 rollout 记一次”来统计
-                    if update_idx == 0:
-                        accumulated_stats.reward_sum += reward_total
-
                     total_loss = rl_loss + config.training.sft_loss_scale * sft_loss
-
-                    accelerator.backward(total_loss)
 
                     if accelerator.sync_gradients and config.training.max_grad_norm is not None:
                         accelerator.clip_grad_norm_(model.parameters(), config.training.max_grad_norm)
@@ -614,13 +658,13 @@ def main():
                         # 在进度条上顺便标一下 step 和 loss
                         batch_iter.set_postfix(
                             step=f"{global_step}/{max_train_steps}",
-                            loss=f"{total_loss.detach().item():.4f}",
+                            loss=f"{total_loss:.4f}",
                         )
-                        
+
                     metrics = {
-                        "loss/total": total_loss.detach().item(),
-                        "loss/rl": rl_loss.detach().item(),
-                        "loss/sft": sft_loss.detach().item(),
+                        "loss/total": total_loss,
+                        "loss/rl": rl_loss,
+                        "loss/sft": sft_loss,
                         "train/clip_fraction": clip_fraction,
                         "train/rollout_steps": accumulated_stats.step_count,
                         "train/trajectories": accumulated_stats.trajectory_count,
