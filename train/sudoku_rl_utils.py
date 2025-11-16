@@ -473,6 +473,7 @@ def save_checkpoint(
     config,
     project_name: str,
     step: int|str,
+    save_training_state: bool = True,
 ) -> None:
     """
     同时保存：
@@ -517,8 +518,9 @@ def save_checkpoint(
 
     # ===== 2. 保存 Accelerate 训练状态 =====
     # 这一步会在 ckpt_dir 下面再写 optimizer / RNG 等各种状态
-    accelerator.save_state(str(ckpt_dir))
-    accelerator.wait_for_everyone()
+    if save_training_state:
+        accelerator.save_state(str(ckpt_dir))
+        accelerator.wait_for_everyone()
 
 def run_validation(
     accelerator: Accelerator,

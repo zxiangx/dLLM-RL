@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 from accelerate.utils import tqdm
 from accelerate import Accelerator
 from accelerate.logging import get_logger
-from accelerate.utils import set_seed
+from accelerate.utils import set_seed, gather_object
 from omegaconf import OmegaConf
 
 import wandb
@@ -63,6 +63,7 @@ def collect_rollouts(
     config,
     accelerator: Accelerator,
     progress_desc: str = "",
+    enable_bar: bool = False
 ) -> Tuple[List[StepRecord], SamplingStats]:
     training_cfg = config.training
     mask_token_id = training_cfg.mask_token_id
@@ -112,7 +113,7 @@ def collect_rollouts(
             total_masks += mask_count
 
     rollout_pbar = None
-    if total_masks > 0:
+    if total_masks > 0 and enable_bar:
         desc = progress_desc or "Rollout"
         rollout_pbar = tqdm(
             total=total_masks,
@@ -124,7 +125,6 @@ def collect_rollouts(
         )
 
     while job_queue:
-        print(f" Rank {accelerator.process_index} keeps going...")
         active_jobs: List[TrajectoryJob] = []
         while job_queue and len(active_jobs) < rollout_batch_size:
             job = job_queue.popleft()
@@ -327,6 +327,7 @@ def compute_losses(
     accelerator: Accelerator,
     sft_loss_scale: float,
     progress_desc: str = "",
+    enable_bar: bool = False
 ) -> Tuple[float, float, float, float]:
     device = accelerator.device
     if not step_records:
@@ -334,7 +335,7 @@ def compute_losses(
 
     training_cfg = config.training
     mask_token_id = training_cfg.mask_token_id
-    rollout_batch_size = max(int(training_cfg.rollout_batch_size), 1)
+    micro_batch_size = max(int(training_cfg.micro_batch_size), 1)
 
     total_valid_steps = 0
     for step in step_records:
@@ -352,21 +353,19 @@ def compute_losses(
     sft_count = 0
     clip_events = 0
 
-    num_forward_batches = math.ceil(len(step_records) / rollout_batch_size)
+    num_forward_batches = math.ceil(len(step_records) / micro_batch_size)
     loss_pbar = None
-    if num_forward_batches > 0:
+    if num_forward_batches > 0 and enable_bar:
         desc = progress_desc or "ComputeLoss"
         loss_pbar = tqdm(
             total=num_forward_batches,
             desc=desc,
             leave=False,
             disable=False,
-            main_process_only=False,
-            position=accelerator.process_index,
         )
 
-    for start in range(0, len(step_records), rollout_batch_size):
-        batch_records = step_records[start : start + rollout_batch_size]
+    for start in range(0, len(step_records), micro_batch_size):
+        batch_records = step_records[start : start + micro_batch_size]
         states_before = [step.state_before.to(device) for step in batch_records]
 
         logits_before = compute_logits_with_padding(
@@ -374,12 +373,12 @@ def compute_losses(
             model,
             tokenizer,
             accelerator.device,
-            dev=True
         )
 
         if loss_pbar is not None:
             loss_pbar.update(1)
 
+        combined_losses = []
         for idx, step in enumerate(batch_records):
             logits_b = logits_before[idx]
             state_before = states_before[idx]
@@ -439,7 +438,11 @@ def compute_losses(
             sft_count += 1
 
             combined_loss = (rl_term + sft_loss_scale * sft_term) / total_valid_steps
-            accelerator.backward(combined_loss)
+            combined_losses.append(combined_loss)
+
+        total_loss = 0
+        for loss in combined_losses: total_loss += loss
+        accelerator.backward(total_loss)
 
     if loss_pbar is not None:
         loss_pbar.close()
@@ -465,7 +468,7 @@ def main():
     accelerator = Accelerator(
         gradient_accumulation_steps=config.training.gradient_accumulation_steps,
         mixed_precision=config.training.mixed_precision,
-        log_with=None,
+        log_with="wandb",
         project_dir=config.experiment.logging_dir,
         split_batches=True,
     )
@@ -609,19 +612,51 @@ def main():
                 tokenizer,
                 config,
                 accelerator,
-                progress_desc=rollout_desc
+                progress_desc=rollout_desc,
             )
-            print(f" Rank {accelerator.process_index} rollout complete.")
-            accelerator.wait_for_everyone()
             step_records.extend(records)
             batch_stats.merge(rollout_stats)
             model.train()
-            print(f" Rank {accelerator.process_index} begin to train.")
 
             # rollout 级别的统计量：每个 batch 只 merge 一次
             accumulated_stats.merge(batch_stats)
 
+            # 先在各自进程上算好 advantage
             compute_advantages_inplace(step_records, config.training.gamma)
+
+            # ===== 同步所有进程的 step_records，并均匀分配 =====
+            world_size = accelerator.num_processes
+
+            if world_size > 1:
+                # gather_object 会在每个进程上都返回
+                # [rank0_step_records, rank1_step_records, ..., rankN-1_step_records]
+                all_step_records: List[StepRecord] = gather_object(step_records)
+
+                total_steps = len(all_step_records)
+                if total_steps == 0:
+                    # 没有任何 step，就直接跳过，后面 compute_losses 会返回 0
+                    step_records = []
+                else:
+                    steps_per_rank = total_steps // world_size
+                    usable_steps = steps_per_rank * world_size  # 丢掉零头
+
+                    if accelerator.is_main_process and total_steps % world_size != 0:
+                        logger.warning(
+                            f"Dropping {total_steps - usable_steps} step_records "
+                            f"to evenly shard across {world_size} ranks."
+                        )
+
+                    # 只保留可以整除的部分
+                    all_step_records = all_step_records[:usable_steps]
+
+                    # 每个 rank 取自己那一段
+                    rank = accelerator.process_index
+                    start_idx = rank * steps_per_rank
+                    end_idx = start_idx + steps_per_rank
+                    step_records = all_step_records[start_idx:end_idx]
+
+            # 所有进程在这里对齐一下，再一起进 compute_losses
+            accelerator.wait_for_everyone()
 
             # 2. 在同一批 rollout 上做多次更新
             for _ in range(updates_per_rollout):
@@ -638,7 +673,7 @@ def main():
                         config,
                         accelerator,
                         config.training.sft_loss_scale,
-                        progress_desc=loss_desc
+                        progress_desc=loss_desc,
                     )
 
                     total_loss = rl_loss + config.training.sft_loss_scale * sft_loss
@@ -646,9 +681,9 @@ def main():
                     if accelerator.sync_gradients and config.training.max_grad_norm is not None:
                         accelerator.clip_grad_norm_(model.parameters(), config.training.max_grad_norm)
 
-                    optimizer.step()
-                    lr_scheduler.step()
-                    optimizer.zero_grad(set_to_none=True)
+                        optimizer.step()
+                        lr_scheduler.step()
+                        optimizer.zero_grad(set_to_none=True)
 
                 # 只有在真正完成一次“有效 step”时，才更新 global_step、log、val、ckpt
                 if accelerator.sync_gradients:
@@ -711,7 +746,8 @@ def main():
                         model.train()
 
                     if checkpoint_interval > 0 and global_step % checkpoint_interval == 0:
-                        save_checkpoint(model, tokenizer, accelerator, config, project_name, global_step)
+                        save_checkpoint(model, tokenizer, accelerator, config, project_name, global_step,
+                            save_training_state=config.experiment.get("save_training_state", True))
 
         accelerator.wait_for_everyone()
 
