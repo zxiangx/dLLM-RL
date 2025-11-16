@@ -457,13 +457,14 @@ def compute_losses(
 def main():
     config = get_config()
 
-    project_name = config.experiment.project
+    project_name = config.experiment.project_name
+    project_dir = config.experiment.project_dir
     if config.training.enable_tf32:
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.benchmark = True
         torch.backends.cudnn.deterministic = False
 
-    config.experiment.logging_dir = os.path.join(project_name, "logs")
+    config.experiment.logging_dir = os.path.join(project_dir, "logs")
 
     accelerator = Accelerator(
         gradient_accumulation_steps=config.training.gradient_accumulation_steps,
@@ -487,7 +488,7 @@ def main():
             config.wandb.run_id = run_id
 
         wandb_init_kwargs = dict(
-            name=config.experiment.project,
+            name=project_name,
             id=run_id,
             resume=resume_wandb_run,
             entity=config.wandb.get("entity", None),
@@ -495,14 +496,14 @@ def main():
         )
         wandb_config = {k: v for k, v in flatten_omega_conf(config, resolve=True)}
         accelerator.init_trackers(
-            config.experiment.project,
+            project_name,
             config=wandb_config,
             init_kwargs={"wandb": wandb_init_kwargs},
         )
 
     if accelerator.is_main_process:
-        os.makedirs(config.experiment.project, exist_ok=True)
-        config_path = os.path.join(config.experiment.project, "config.yaml")
+        os.makedirs(project_dir, exist_ok=True)
+        config_path = os.path.join(project_dir, "config.yaml")
         OmegaConf.save(config, config_path)
 
     if config.training.seed is not None:
@@ -568,20 +569,66 @@ def main():
         min_lr_scale=config.lr_scheduler.min_lr_scale,
     )
 
+    #  恢复训练状态 resume_from_checkpoint
+    resume_dir = config.experiment.get("resume_from_checkpoint", None)
     global_step = 0
+    skip_batches = 0
+
+    if resume_dir:
+        from pathlib import Path
+        resume_dir = Path(resume_dir)
+
+        # pytorch_model 存优化器、随机数、ZeRO shard 模型
+        state_dir = resume_dir
+        if not state_dir.exists():
+            state_dir = resume_dir
+
+        accelerator.print(f"Resuming training from checkpoint: {state_dir}")
+        accelerator.load_state(state_dir)  # ★ 恢复 optimizer / lr_scheduler / RNG / ZeRO shards
+        # 注意：
+        # 解析 step_000080 → 80
+        ckpt_name = resume_dir.name
+        if ckpt_name.startswith("step_"):
+            try:
+                global_step = int(ckpt_name.split("_")[1])
+                accelerator.print(f"Resuming from global step {global_step}")
+            except:
+                global_step = 0
+
+        # ★ 计算需要跳过的 batch 数
+        skip_batches = global_step // updates_per_rollout
+        accelerator.print(f"Skipping the first {skip_batches} batches of dataset to align dataloader.")
+
+    else:
+        accelerator.print("Starting training from scratch.")
+
+    # ★ 3) 跳过 dataloader 的 batch，使数据进度也恢复到相同位置
+
+    num_batches_per_epoch = len(dataloader)
+    if skip_batches > 0:
+        accelerator.print(f"Fast-forwarding dataloader by {skip_batches} mini-batches...")
+        itr = iter(dataloader)
+        for _ in range(skip_batches):
+            try:
+                next(itr)
+            except StopIteration:
+                break
+        # dataloader 替换为已跳过的 iterator
+        dataloader = itr
+
+    # ★ 4) 训练循环（完全使用 global_step 起点）
     validation_interval = int(config.training.get("validation_interval", 0) or 0)
     checkpoint_interval = int(config.training.get("checkpoint_interval", 0) or 0)
 
     num_epochs = config.training.num_train_epochs
-    num_batches_per_epoch = len(dataloader)
 
     for epoch in range(config.training.num_train_epochs):
         accumulated_stats = SamplingStats()
 
         batch_iter = tqdm(
-            iterable=enumerate(dataloader),
+            iterable=enumerate(dataloader, start=skip_batches),
             total=num_batches_per_epoch,
-            desc=f"Epoch {epoch + 1}/{num_epochs} | Batch 0/{num_batches_per_epoch}",
+            desc=f"Epoch {epoch + 1}/{num_epochs} | Batch {skip_batches}/{num_batches_per_epoch}",
             disable=not accelerator.is_local_main_process,
             leave=True,
         )
@@ -746,13 +793,13 @@ def main():
                         model.train()
 
                     if checkpoint_interval > 0 and global_step % checkpoint_interval == 0:
-                        save_checkpoint(model, tokenizer, accelerator, config, project_name, global_step,
+                        save_checkpoint(model, tokenizer, accelerator, config, project_dir, global_step,
                             save_training_state=config.experiment.get("save_training_state", True))
 
         accelerator.wait_for_everyone()
 
 
-    save_checkpoint(model, tokenizer, accelerator, config, project_name, "final")
+    save_checkpoint(model, tokenizer, accelerator, config, project_dir, "final")
 
     accelerator.end_training()
 

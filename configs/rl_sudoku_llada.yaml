@@ -1,9 +1,10 @@
 experiment:
-    project: "rl_sudoku_llada"
-    logging_dir: "rl_sudoku_llada/logs"
+    project_name: "rl_sudoku_llada1"
+    project_dir: "/data/czx/rl_sudoku_llada1"
+    logging_dir: "/data/czx/rl_sudoku_llada1/logs"
     deepspeed_file: "1_node_4_gpus_deepspeed_zero2"
     save_training_state: true
-    resume_from_checkpoint: "rl_sudoku_llada/ckpt/optimized/step_000080"
+    resume_from_checkpoint: "/data/czx/rl_sudoku_llada/ckpt/optimized/step_000080"
     num_machines: 1
     machine_rank: 0
     main_process_ip: "127.0.0.1"
