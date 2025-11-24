@@ -155,6 +155,12 @@ class SamplingStats:
         self.max_prob_count += other.max_prob_count
 
 
+@dataclass
+class SampleTrajectoryBundle:
+    step_records: List[StepRecord]
+    completed: List[CompletedTrajectory]
+
+
 # --- Core helpers -----------------------------------------------------------
 
 
@@ -404,6 +410,52 @@ def assign_advantages(
             step.advantage = float(reward_map.get(step.trajectory_idx, 0.0))
 
     return total_raw_reward
+
+
+def _filter_sample_trajectories(
+    step_records: List[StepRecord], completed: List[CompletedTrajectory], tokenizer
+) -> List[SampleTrajectoryBundle]:
+    per_sample_steps: Dict[int, List[StepRecord]] = defaultdict(list)
+    per_sample_completed: Dict[int, List[CompletedTrajectory]] = defaultdict(list)
+
+    for step in step_records:
+        per_sample_steps[step.sample_idx].append(step)
+
+    for traj in completed:
+        per_sample_completed[traj.sample_idx].append(traj)
+
+    filtered: List[SampleTrajectoryBundle] = []
+    for sample_idx, trajs in per_sample_completed.items():
+        steps = per_sample_steps.get(sample_idx, [])
+        if not trajs or not steps:
+            continue
+
+        rewards = [
+            _math_reward(_decode_answer(tokenizer, traj.final_state, traj.prompt_length), traj.answer)
+            for traj in trajs
+        ]
+        has_correct = any(reward >= 2.0 for reward in rewards)
+        has_incorrect = any(reward < 2.0 for reward in rewards)
+
+        if not (has_correct and has_incorrect):
+            continue
+
+        filtered.append(SampleTrajectoryBundle(step_records=steps, completed=trajs))
+
+    return filtered
+
+
+def _reindex_sample_trajectories(
+    trajectories: List[SampleTrajectoryBundle], start_index: int = 0
+) -> int:
+    next_index = start_index
+    for bundle in trajectories:
+        for step in bundle.step_records:
+            step.sample_idx = next_index
+        for traj in bundle.completed:
+            traj.sample_idx = next_index
+        next_index += 1
+    return next_index
 
 
 # --- Loss computation -------------------------------------------------------
@@ -857,6 +909,10 @@ def main():
     num_batches_per_epoch = len(train_dataloader)
     start_epoch = min(num_epochs - 1, skip_batches // max(num_batches_per_epoch, 1))
     skip_batches_in_epoch = skip_batches % max(num_batches_per_epoch, 1)
+    global_batch_size = int(config.training.batch_size) * accelerator.num_processes
+
+    sample_queue: Deque[SampleTrajectoryBundle] = deque()
+    pending_stats = SamplingStats()
 
     for epoch in range(start_epoch, num_epochs):
         batch_iter = tqdm(
@@ -877,73 +933,128 @@ def main():
                 progress_desc=f"Rollout E{epoch+1}",
             )
 
-            raw_reward_sum = assign_advantages(
-                step_records,
-                completed,
-                tokenizer,
-                config.training.group_size,
-            )
+            gathered_step_records = accelerator.gather_object(step_records)
+            gathered_completed = accelerator.gather_object(completed)
+            gathered_stats = accelerator.gather_object(stats)
+            gathered_counts = accelerator.gather_object(len(batch))
 
-            for _ in range(updates_per_rollout):
-                loss_desc = (
-                    f"Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
+            merged_stats = SamplingStats()
+            for proc_stats in gathered_stats:
+                merged_stats.merge(proc_stats)
+            pending_stats.merge(merged_stats)
+
+            all_step_records: List[StepRecord] = []
+            all_completed: List[CompletedTrajectory] = []
+
+            sample_offset = 0
+            for proc_idx, proc_steps in enumerate(gathered_step_records):
+                proc_completed = gathered_completed[proc_idx]
+                for step in proc_steps:
+                    step.sample_idx += sample_offset
+                for traj in proc_completed:
+                    traj.sample_idx += sample_offset
+
+                all_step_records.extend(proc_steps)
+                all_completed.extend(proc_completed)
+                sample_offset += gathered_counts[proc_idx]
+
+            new_samples = _filter_sample_trajectories(all_step_records, all_completed, tokenizer)
+            _reindex_sample_trajectories(new_samples, 0)
+            sample_queue.extend(new_samples)
+
+            while len(sample_queue) >= global_batch_size:
+                batch_samples: List[SampleTrajectoryBundle] = [
+                    sample_queue.popleft() for _ in range(global_batch_size)
+                ]
+                _reindex_sample_trajectories(batch_samples, 0)
+
+                training_step_records = [
+                    step for bundle in batch_samples for step in bundle.step_records
+                ]
+                training_completed = [
+                    traj for bundle in batch_samples for traj in bundle.completed
+                ]
+
+                raw_reward_sum = assign_advantages(
+                    training_step_records,
+                    training_completed,
+                    tokenizer,
+                    config.training.group_size,
                 )
-                with accelerator.accumulate(model):
-                    rl_loss, clip_fraction, rl_steps = compute_losses(
-                        step_records,
-                        model,
-                        tokenizer,
-                        config,
-                        accelerator,
-                        progress_desc=loss_desc,
+
+                stats_for_logging = pending_stats
+                pending_stats = SamplingStats()
+
+                for _ in range(updates_per_rollout):
+                    loss_desc = (
+                        f"Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
                     )
-
-                    if accelerator.sync_gradients and config.training.max_grad_norm is not None:
-                        accelerator.clip_grad_norm_(model.parameters(), config.training.max_grad_norm)
-                        optimizer.step()
-                        lr_scheduler.step()
-                        optimizer.zero_grad(set_to_none=True)
-
-                if accelerator.sync_gradients:
-                    global_step += 1
-                    metrics = {
-                        "loss/rl": rl_loss,
-                        "train/clip_fraction": clip_fraction,
-                        "train/raw_reward_sum": raw_reward_sum,
-                        "train/rl_steps": rl_steps,
-                    }
-
-                    if stats.entropy_count > 0:
-                        metrics["train/location_entropy"] = stats.entropy_sum / stats.entropy_count
-                    if stats.max_prob_count > 0:
-                        metrics["train/location_max_prob"] = stats.max_prob_sum / stats.max_prob_count
-
-                    accelerator.log(metrics, step=global_step)
-
-                    if (
-                        validation_interval > 0
-                        and val_dataloader is not None
-                        and global_step % validation_interval == 0
-                    ):
-                        run_evaluation(
-                            accelerator, model, tokenizer, config, val_dataloader, global_step, "val"
-                        )
-                        model.train()
-
-                    if checkpoint_interval > 0 and global_step % checkpoint_interval == 0:
-                        ckpt_dir = Path(project_dir) / "ckpt" / config.model.optimized_name / f"step_{global_step:06d}"
-                        ckpt_dir.mkdir(parents=True, exist_ok=True)
-                        save_checkpoint(
+                    with accelerator.accumulate(model):
+                        rl_loss, clip_fraction, rl_steps = compute_losses(
+                            training_step_records,
                             model,
                             tokenizer,
-                            accelerator,
                             config,
-                            project_dir,
-                            global_step,
-                            save_training_state=config.experiment.get("save_training_state", True),
+                            accelerator,
+                            progress_desc=loss_desc,
                         )
-                        if accelerator.is_main_process:
-                            torch.save(lr_scheduler.state_dict(), ckpt_dir / "lr_scheduler.pt")
+
+                        if accelerator.sync_gradients and config.training.max_grad_norm is not None:
+                            accelerator.clip_grad_norm_(model.parameters(), config.training.max_grad_norm)
+                            optimizer.step()
+                            lr_scheduler.step()
+                            optimizer.zero_grad(set_to_none=True)
+
+                    if accelerator.sync_gradients:
+                        global_step += 1
+                        metrics = {
+                            "loss/rl": rl_loss,
+                            "train/clip_fraction": clip_fraction,
+                            "train/raw_reward_sum": raw_reward_sum,
+                            "train/rl_steps": rl_steps,
+                        }
+
+                        if stats_for_logging.entropy_count > 0:
+                            metrics["train/location_entropy"] = (
+                                stats_for_logging.entropy_sum / stats_for_logging.entropy_count
+                            )
+                        if stats_for_logging.max_prob_count > 0:
+                            metrics["train/location_max_prob"] = (
+                                stats_for_logging.max_prob_sum / stats_for_logging.max_prob_count
+                            )
+
+                        accelerator.log(metrics, step=global_step)
+
+                        if (
+                            validation_interval > 0
+                            and val_dataloader is not None
+                            and global_step % validation_interval == 0
+                        ):
+                            run_evaluation(
+                                accelerator,
+                                model,
+                                tokenizer,
+                                config,
+                                val_dataloader,
+                                global_step,
+                                "val",
+                            )
+                            model.train()
+
+                        if checkpoint_interval > 0 and global_step % checkpoint_interval == 0:
+                            ckpt_dir = Path(project_dir) / "ckpt" / config.model.optimized_name / f"step_{global_step:06d}"
+                            ckpt_dir.mkdir(parents=True, exist_ok=True)
+                            save_checkpoint(
+                                model,
+                                tokenizer,
+                                accelerator,
+                                config,
+                                project_dir,
+                                global_step,
+                                save_training_state=config.experiment.get("save_training_state", True),
+                            )
+                            if accelerator.is_main_process:
+                                torch.save(lr_scheduler.state_dict(), ckpt_dir / "lr_scheduler.pt")
 
     # Final evals & checkpoint
     run_evaluation(accelerator, model, tokenizer, config, val_dataloader, global_step, "val_final")
