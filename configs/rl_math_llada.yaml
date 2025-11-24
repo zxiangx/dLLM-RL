@@ -1,0 +1,62 @@
+experiment:
+    project_name: "rl_math_llada"
+    project_dir: "./rl_math_llada"
+    logging_dir: "./rl_math_llada/logs"
+    deepspeed_file: "1_node_4_gpus_deepspeed_zero2"
+    save_training_state: true
+    resume_from_checkpoint: null
+    num_machines: 1
+    machine_rank: 0
+    main_process_ip: "127.0.0.1"
+    main_process_port: 29500
+    num_processes_per_machine: 4
+
+model:
+    pretrained_model: "GSAI-ML/LLaDA-8B-Instruct"
+    optimized_name: "optimized"
+
+dataset:
+    path: "data/train_math.jsonl"
+    val_path: null
+    test_path: null
+
+training:
+    gradient_accumulation_steps: 1
+    batch_size: 2
+    mixed_precision: "bf16"
+    enable_tf32: True
+    seed: 114
+    num_train_epochs: 1
+    max_grad_norm: 1.0
+    group_size: 4
+    rollout_batch_size: 2
+    micro_batch_size: 4
+    gamma: 1.0
+    clip_epsilon: 0.2
+    epsilon_small: 1e-9
+    location_temperature: 0.4
+    token_temperature: 0.6
+    mask_token: "<|mdm_mask|>"
+    pad_token: "<|endoftext|>"
+    max_generation_length: 256
+    validation_interval: 0
+    checkpoint_interval: 100
+    updates_per_rollout: 1
+    evaluation_group_size: 1
+
+optimizer:
+    learning_rate: 1e-6
+    beta1: 0.9
+    beta2: 0.999
+    weight_decay: 0.0
+    epsilon: 1e-8
+
+lr_scheduler:
+    scheduler: "cosine"
+    warmup_steps: 10
+    min_lr_scale: 0.3
+
+wandb:
+    resume: False
+    entity: null
+    run_id: null
