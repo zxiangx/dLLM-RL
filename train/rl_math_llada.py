@@ -33,6 +33,7 @@ from train.sudoku_rl_utils import (
     compute_logits_with_padding,
     save_checkpoint,
 )
+from sample.llada_sample import extract_final_boxed_answer
 
 logger = get_logger(__name__, log_level="INFO")
 
@@ -327,11 +328,22 @@ def _decode_answer(tokenizer, state: torch.Tensor, prompt_length: int) -> str:
     return tokenizer.decode(answer_tokens, skip_special_tokens=False).strip()
 
 
+def _extract_boxed_answer(text: str) -> Tuple[str, bool]:
+    extracted = extract_final_boxed_answer(text)
+    success = extracted != "Can not extract the answer!"
+    return extracted.strip(), success
+
+
 def _is_answer_correct(output: str, reference: str) -> bool:
     if not reference:
         return False
+
+    extracted_output, format_ok = _extract_boxed_answer(output)
+    if not format_ok:
+        return False
+
     try:
-        parsed_output = math_parse(output)
+        parsed_output = math_parse(extracted_output)
         parsed_ref = math_parse(reference)
         return bool(math_verify(parsed_output, parsed_ref))
     except Exception:
@@ -339,9 +351,21 @@ def _is_answer_correct(output: str, reference: str) -> bool:
 
 
 def _math_reward(output: str, reference: str) -> float:
-    correct = 1.0 if _is_answer_correct(output, reference) else 0.0
-    format_reward = 1.0 if "\\boxed" in output else 0.0
-    return correct + format_reward
+    extracted_output, format_ok = _extract_boxed_answer(output)
+    format_reward = 1.0 if format_ok else 0.0
+
+    if not format_ok or not reference:
+        return format_reward
+
+    correct_reward = 0.0
+    try:
+        parsed_output = math_parse(extracted_output)
+        parsed_ref = math_parse(reference)
+        correct_reward = 1.0 if math_verify(parsed_output, parsed_ref) else 0.0
+    except Exception:
+        correct_reward = 0.0
+
+    return format_reward + correct_reward
 
 
 def assign_advantages(
