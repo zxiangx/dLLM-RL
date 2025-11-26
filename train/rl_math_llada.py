@@ -17,7 +17,7 @@ from accelerate.logging import get_logger
 from accelerate.utils import tqdm
 from accelerate.utils import set_seed, gather_object
 from omegaconf import OmegaConf
-
+import time
 import wandb
 from transformers import AutoTokenizer
 from math_verify import parse as math_parse, verify as math_verify
@@ -365,20 +365,24 @@ def compute_losses(
         )
 
     for start in range(0, len(step_records), micro_batch_size):
+        loop_start_time = time.time()
         batch_records = step_records[start : start + micro_batch_size]
         states_before = [step.state_before.to(device) for step in batch_records]
 
+        forward_start_time = time.time()
         logits_before = compute_logits_with_padding(
             states_before,
             model,
             tokenizer,
             accelerator.device,
         )
+        forward_time = time.time() - forward_start_time
 
         if loss_pbar is not None:
             loss_pbar.update(1)
 
         combined_losses = []
+        loss_compute_start_time = time.time()
         for idx, step in enumerate(batch_records):
             logits_b = logits_before[idx]
             state_before = states_before[idx]
@@ -419,10 +423,23 @@ def compute_losses(
 
             combined_losses.append(rl_term / max(1, len(step_records)))
 
-        total_loss = 0
+        total_loss = torch.tensor(0.0, device=device)
         for loss in combined_losses:
             total_loss += loss
+
+        loss_compute_time = time.time() - loss_compute_start_time
+
+        backward_start_time = time.time()
         accelerator.backward(total_loss)
+        backward_time = time.time() - backward_start_time
+
+        loop_total_time = time.time() - loop_start_time
+        print(
+            f"[rank {accelerator.process_index}] compute_losses micro-batch timing - "
+            f"forward: {forward_time:.2f}s, loss: {loss_compute_time:.2f}s, "
+            f"backward: {backward_time:.2f}s, total: {loop_total_time:.2f}s",
+            flush=True,
+        )
 
     if loss_pbar is not None:
         loss_pbar.close()
@@ -804,15 +821,13 @@ def main():
                 tokenizer,
                 config,
                 accelerator,
-                progress_desc=f"Rollout E{epoch+1}",
+                progress_desc=f"process: {accelerator.process_index} Rollout E{epoch+1}",
                 enable_bar=True
             )
-
             gathered_step_records = gather_object([step_records])
             gathered_completed = gather_object([completed])
             gathered_stats = gather_object([stats])
             gathered_counts = gather_object([len(batch)])
-
             merged_stats = SamplingStats()
             for proc_stats in gathered_stats:
                 merged_stats.merge(proc_stats)
@@ -858,6 +873,13 @@ def main():
                     config.training.group_size,
                 )
 
+                local_start = accelerator.process_index * int(config.training.batch_size)
+                local_end = local_start + int(config.training.batch_size)
+                local_batch_samples = batch_samples[local_start:local_end]
+                local_training_step_records = [
+                    step for bundle in local_batch_samples for step in bundle.step_records
+                ]
+
                 stats_for_logging = pending_stats
                 pending_stats = SamplingStats()
 
@@ -867,12 +889,13 @@ def main():
                     )
                     with accelerator.accumulate(model):
                         rl_loss, clip_fraction, rl_steps = compute_losses(
-                            training_step_records,
+                            local_training_step_records,
                             model,
                             tokenizer,
                             config,
                             accelerator,
                             progress_desc=loss_desc,
+                            enable_bar=True
                         )
 
                         if accelerator.sync_gradients and config.training.max_grad_norm is not None:
