@@ -2,7 +2,7 @@ experiment:
     project_name: "rl_math_llada"
     project_dir: "./projects/rl_math_llada"
     logging_dir: "./projects/rl_math_llada/logs"
-    deepspeed_file: "1_node_8_gpus_deepspeed_zero2"
+    deepspeed_file: "1_node_8_gpus_deepspeed_zero1"
     save_training_state: true
     resume_from_checkpoint: null
     num_machines: 1
@@ -11,24 +11,24 @@ experiment:
     main_process_port: 29500
 
 model:
-    pretrained_model: "GSAI-ML/LLaDA-8B-Instruct"
+    pretrained_model: "/mnt/gold/cdp/huggingface/hub/models--GSAI-ML--LLaDA-8B-Instruct/snapshots/08b83a6feb34df1a6011b80c3c00c7563e963b07"
     optimized_name: "optimized"
 
 dataset:
-    path: "data/math_data/train_math.jsonl"
-    val_path: "data/math_data/val_math.jsonl"
-    test_path: "data/math_data/test_math.jsonl"
+    path: "math_data/train_math.jsonl"
+    val_path: "math_data/val_math.jsonl"
+    test_path: "math_data/test_math.jsonl"
 
 training:
-    gradient_accumulation_steps: 1
+    gradient_accumulation_steps: 16
     batch_size: 1
     mixed_precision: "bf16"
     enable_tf32: True
-    seed: 114
+    seed: 116
     num_train_epochs: 1
     max_grad_norm: 1.0
     group_size: 2
-    rollout_batch_size: 1
+    rollout_batch_size: 4
     micro_batch_size: 1
     gamma: 1.0
     clip_epsilon: 0.2
@@ -40,7 +40,7 @@ training:
     max_generation_length: 256
     validation_interval: 0
     checkpoint_interval: 100
-    updates_per_rollout: 1
+    updates_per_rollout: 2
     evaluation_group_size: 1
 
 optimizer:

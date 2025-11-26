@@ -338,6 +338,8 @@ def compute_losses(
     tokenizer,
     config,
     accelerator: Accelerator,
+    optimizer,
+    lr_scheduler,
     progress_desc: str = "",
     enable_bar: bool = False,
 ) -> Tuple[float, float, float]:
@@ -362,84 +364,93 @@ def compute_losses(
             desc=desc,
             leave=False,
             disable=False,
+            main_process_only=False,
         )
 
     for start in range(0, len(step_records), micro_batch_size):
-        loop_start_time = time.time()
-        batch_records = step_records[start : start + micro_batch_size]
-        states_before = [step.state_before.to(device) for step in batch_records]
+        with accelerator.accumulate(model):
+            loop_start_time = time.time()
+            batch_records = step_records[start : start + micro_batch_size]
+            states_before = [step.state_before.to(device) for step in batch_records]
 
-        forward_start_time = time.time()
-        logits_before = compute_logits_with_padding(
-            states_before,
-            model,
-            tokenizer,
-            accelerator.device,
-        )
-        forward_time = time.time() - forward_start_time
-
-        if loss_pbar is not None:
-            loss_pbar.update(1)
-
-        combined_losses = []
-        loss_compute_start_time = time.time()
-        for idx, step in enumerate(batch_records):
-            logits_b = logits_before[idx]
-            state_before = states_before[idx]
-            candidate_mask = state_before.eq(mask_token_id)
-            if not torch.any(candidate_mask):
-                continue
-
-            loc_probs, _ = build_location_distribution(
-                logits_b,
-                candidate_mask=candidate_mask,
-                epsilon=training_cfg.epsilon_small,
-                temperature=training_cfg.location_temperature,
+            forward_start_time = time.time()
+            logits_before = compute_logits_with_padding(
+                states_before,
+                model,
+                tokenizer,
+                accelerator.device,
             )
-            loc_prob_selected = loc_probs[step.location_index]
-            logprob_new_loc = torch.log(loc_prob_selected + 1e-12)
+            forward_time = time.time() - forward_start_time
 
-            _, token_log_probs = build_token_distribution(
-                logits_b[step.location_index],
-                temperature=training_cfg.token_temperature,
-            )
-            logprob_new_tok = token_log_probs[step.token_id]
+            if loss_pbar is not None:
+                loss_pbar.update(1)
 
-            logprob_old = torch.tensor(step.old_logprob_sum, device=device, dtype=logprob_new_loc.dtype)
-            logprob_new = logprob_new_loc + logprob_new_tok
-            ratio = torch.exp(logprob_new - logprob_old)
+            combined_losses = []
+            loss_compute_start_time = time.time()
+            for idx, step in enumerate(batch_records):
+                logits_b = logits_before[idx]
+                state_before = states_before[idx]
+                candidate_mask = state_before.eq(mask_token_id)
+                if not torch.any(candidate_mask):
+                    continue
 
-            clip_ratio = torch.clamp(
-                ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon
-            )
+                loc_probs, _ = build_location_distribution(
+                    logits_b,
+                    candidate_mask=candidate_mask,
+                    epsilon=training_cfg.epsilon_small,
+                    temperature=training_cfg.location_temperature,
+                )
+                loc_prob_selected = loc_probs[step.location_index]
+                logprob_new_loc = torch.log(loc_prob_selected + 1e-12)
 
-            if (clip_ratio - ratio).abs() > 1e-8:
-                clip_events += 1
+                _, token_log_probs = build_token_distribution(
+                    logits_b[step.location_index],
+                    temperature=training_cfg.token_temperature,
+                )
+                logprob_new_tok = token_log_probs[step.token_id]
 
-            adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
-            rl_term = -torch.min(ratio * adv, clip_ratio * adv)
-            rl_loss_sum = rl_loss_sum + rl_term.detach()
-            rl_count += 1
+                logprob_old = torch.tensor(
+                    step.old_logprob_sum, device=device, dtype=logprob_new_loc.dtype
+                )
+                logprob_new = logprob_new_loc + logprob_new_tok
+                ratio = torch.exp(logprob_new - logprob_old)
 
-            combined_losses.append(rl_term / max(1, len(step_records)))
+                clip_ratio = torch.clamp(
+                    ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon
+                )
 
-        total_loss = torch.tensor(0.0, device=device)
-        for loss in combined_losses:
-            total_loss += loss
+                if (clip_ratio - ratio).abs() > 1e-8:
+                    clip_events += 1
 
-        loss_compute_time = time.time() - loss_compute_start_time
+                adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
+                rl_term = -torch.min(ratio * adv, clip_ratio * adv)
+                rl_loss_sum = rl_loss_sum + rl_term.detach()
+                rl_count += 1
 
-        backward_start_time = time.time()
-        accelerator.backward(total_loss)
-        backward_time = time.time() - backward_start_time
+                combined_losses.append(rl_term / max(1, len(step_records)))
 
-        loop_total_time = time.time() - loop_start_time
-        print(
-            f"[rank {accelerator.process_index}] compute_losses micro-batch timing - "
-            f"forward: {forward_time:.2f}s, loss: {loss_compute_time:.2f}s, "
-            f"backward: {backward_time:.2f}s, total: {loop_total_time:.2f}s",
-            flush=True,
-        )
+            total_loss = torch.tensor(0.0, device=device)
+            for loss in combined_losses:
+                total_loss += loss
+            loss_compute_time = time.time() - loss_compute_start_time
+
+            backward_start_time = time.time()
+            accelerator.backward(total_loss)
+            backward_time = time.time() - backward_start_time
+
+            loop_total_time = time.time() - loop_start_time
+            # print(
+            #     f"[rank {accelerator.process_index}] compute_losses micro-batch timing - "
+            #     f"forward: {forward_time:.2f}s, loss: {loss_compute_time:.2f}s, "
+            #     f"backward: {backward_time:.2f}s, total: {loop_total_time:.2f}s",
+            #     flush=True,
+            # )
+    if accelerator.sync_gradients:
+        if training_cfg.max_grad_norm is not None:
+            accelerator.clip_grad_norm_(model.parameters(), training_cfg.max_grad_norm)
+        optimizer.step()
+        lr_scheduler.step()
+        optimizer.zero_grad(set_to_none=True)
 
     if loss_pbar is not None:
         loss_pbar.close()
@@ -885,24 +896,19 @@ def main():
 
                 for _ in range(updates_per_rollout):
                     loss_desc = (
-                        f"Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
+                        f"process{accelerator.process_index} Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
                     )
-                    with accelerator.accumulate(model):
-                        rl_loss, clip_fraction, rl_steps = compute_losses(
-                            local_training_step_records,
-                            model,
-                            tokenizer,
-                            config,
-                            accelerator,
-                            progress_desc=loss_desc,
-                            enable_bar=True
-                        )
-
-                        if accelerator.sync_gradients and config.training.max_grad_norm is not None:
-                            accelerator.clip_grad_norm_(model.parameters(), config.training.max_grad_norm)
-                            optimizer.step()
-                            lr_scheduler.step()
-                            optimizer.zero_grad(set_to_none=True)
+                    rl_loss, clip_fraction, rl_steps = compute_losses(
+                        local_training_step_records,
+                        model,
+                        tokenizer,
+                        config,
+                        accelerator,
+                        optimizer,
+                        lr_scheduler,
+                        progress_desc=loss_desc,
+                        enable_bar=True
+                    )
 
                     if accelerator.sync_gradients:
                         global_step += 1

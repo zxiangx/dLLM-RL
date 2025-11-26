@@ -1,0 +1,24 @@
+compute_environment: LOCAL_MACHINE
+deepspeed_config:
+  deepspeed_multinode_launcher: standard
+  gradient_clipping: 1.0
+
+  zero_stage: 1
+
+  zero_optimization:
+    stage: 1
+    contiguous_gradients: true
+    overlap_comm: false        # rollout + RL 下强烈建议 false，防止 hang
+    reduce_scatter: true
+    reduce_bucket_size: 5e7    # 50MB
+    allgather_bucket_size: 5e7
+
+distributed_type: DEEPSPEED
+downcast_bf16: 'no'
+main_training_function: main
+mixed_precision: bf16
+num_machines: 1
+num_processes: 8
+rdzv_backend: static
+same_network: true
+use_cpu: false
