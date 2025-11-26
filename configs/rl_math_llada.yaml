@@ -1,11 +1,11 @@
 experiment:
     project_name: "rl_math_llada"
-    project_dir: "./rl_math_llada"
-    logging_dir: "./rl_math_llada/logs"
-    deepspeed_file: "1_node_4_gpus_deepspeed_zero2"
+    project_dir: "./projects/rl_math_llada"
+    logging_dir: "./projects/rl_math_llada/logs"
+    deepspeed_file: "1_node_8_gpus_deepspeed_zero2"
     save_training_state: true
     resume_from_checkpoint: null
-    num_machines: 4
+    num_machines: 1
     machine_rank: 0
     main_process_ip: "127.0.0.1"
     main_process_port: 29500
@@ -15,21 +15,21 @@ model:
     optimized_name: "optimized"
 
 dataset:
-    path: "data/train_math.jsonl"
-    val_path: null
-    test_path: null
+    path: "data/math_data/train_math.jsonl"
+    val_path: "data/math_data/val_math.jsonl"
+    test_path: "data/math_data/test_math.jsonl"
 
 training:
     gradient_accumulation_steps: 1
-    batch_size: 2
+    batch_size: 1
     mixed_precision: "bf16"
     enable_tf32: True
     seed: 114
     num_train_epochs: 1
     max_grad_norm: 1.0
-    group_size: 16
-    rollout_batch_size: 2
-    micro_batch_size: 2
+    group_size: 2
+    rollout_batch_size: 1
+    micro_batch_size: 1
     gamma: 1.0
     clip_epsilon: 0.2
     epsilon_small: 1e-9

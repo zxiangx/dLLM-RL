@@ -4,6 +4,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Deque, Dict, List, Optional, Sequence, Tuple
+from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -13,8 +14,8 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Dataset
 from accelerate import Accelerator
 from accelerate.logging import get_logger
-from accelerate.utils import set_seed
 from accelerate.utils import tqdm
+from accelerate.utils import set_seed, gather_object
 from omegaconf import OmegaConf
 
 import wandb
@@ -33,153 +34,18 @@ from train.sudoku_rl_utils import (
     compute_logits_with_padding,
     save_checkpoint,
 )
-from sample.llada_sample import extract_final_boxed_answer
-
+from train.rl_math_utils import (
+    MathPromptDataset,
+    CompletedTrajectory,
+    StepRecord,
+    SamplingStats,
+    PreparedSample,
+    TrajectoryJob,
+    SampleTrajectoryBundle,
+    extract_final_boxed_answer,
+    prepare_sequence
+)
 logger = get_logger(__name__, log_level="INFO")
-
-
-# --- Data helpers -----------------------------------------------------------
-
-
-class MathPromptDataset(Dataset):
-    """Simple JSONL dataset for math prompts.
-
-    Each record must contain a ``prompt`` field and is expected to provide a
-    ground-truth ``answer`` used for reward computation.  Optional metadata
-    fields are preserved verbatim.
-    """
-
-    def __init__(self, data_path: str):
-        if not os.path.exists(data_path):
-            raise FileNotFoundError(f"Could not locate dataset: {data_path}")
-
-        import json
-
-        records: List[Dict[str, Any]] = []
-        with open(data_path, "r", encoding="utf-8") as fh:
-            for line in fh:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    records.append(json.loads(line))
-                except json.JSONDecodeError as exc:  # pragma: no cover - guard rail
-                    raise ValueError(
-                        "Dataset lines must be JSON objects containing at least a 'prompt' field"
-                    ) from exc
-
-        for record in records:
-            if "prompt" not in record:
-                raise ValueError("Each dataset entry must include a 'prompt' field")
-            record.setdefault("answer", "")
-            record.setdefault("metadata", {})
-
-        self.records = records
-
-    def __len__(self) -> int:
-        return len(self.records)
-
-    def __getitem__(self, idx: int) -> Dict[str, Any]:
-        return self.records[idx]
-
-
-@dataclass
-class PreparedSample:
-    state: torch.Tensor
-    prompt_length: int
-    metadata: Dict[str, Any]
-    answer: str
-
-
-@dataclass
-class StepRecord:
-    sample_idx: int
-    trajectory_idx: int
-    step_index: int
-    state_before: torch.Tensor
-    location_index: int
-    token_id: int
-    logprob_old_loc: float
-    logprob_old_tok: float
-    prompt_length: int
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    advantage: float = 0.0
-
-    @property
-    def old_logprob_sum(self) -> float:
-        return self.logprob_old_loc + self.logprob_old_tok
-
-
-@dataclass
-class TrajectoryJob:
-    sample_idx: int
-    trajectory_idx: int
-    state: torch.Tensor
-    prompt_length: int
-    max_steps: int
-    metadata: Dict[str, Any]
-    answer: str
-    records: List[StepRecord] = field(default_factory=list)
-    steps_taken: int = 0
-
-
-@dataclass
-class CompletedTrajectory:
-    sample_idx: int
-    trajectory_idx: int
-    final_state: torch.Tensor
-    prompt_length: int
-    metadata: Dict[str, Any]
-    answer: str
-
-
-@dataclass
-class SamplingStats:
-    entropy_sum: float = 0.0
-    entropy_count: int = 0
-    max_prob_sum: float = 0.0
-    max_prob_count: int = 0
-
-    def update_entropy(self, value: float) -> None:
-        self.entropy_sum += float(value)
-        self.entropy_count += 1
-
-    def update_max_prob(self, value: float) -> None:
-        self.max_prob_sum += float(value)
-        self.max_prob_count += 1
-
-    def merge(self, other: "SamplingStats") -> None:
-        self.entropy_sum += other.entropy_sum
-        self.entropy_count += other.entropy_count
-        self.max_prob_sum += other.max_prob_sum
-        self.max_prob_count += other.max_prob_count
-
-
-@dataclass
-class SampleTrajectoryBundle:
-    step_records: List[StepRecord]
-    completed: List[CompletedTrajectory]
-
-
-# --- Core helpers -----------------------------------------------------------
-
-
-def prepare_sequence(sample: Dict[str, Any], tokenizer, mask_token_id: int, max_generation_length: int) -> PreparedSample:
-    prompt = sample["prompt"]
-    messages = [{"role": "user", "content": prompt}]
-    chat_prompt = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
-    prompt_ids = tokenizer(chat_prompt, add_special_tokens=False)["input_ids"]
-
-    filled_ids = list(prompt_ids)
-    filled_ids.extend([mask_token_id] * max_generation_length)
-
-    metadata = sample.get("metadata", {})
-    return PreparedSample(
-        state=torch.tensor(filled_ids, dtype=torch.long),
-        prompt_length=len(prompt_ids),
-        metadata=metadata,
-        answer=str(sample.get("answer", "")),
-    )
 
 
 def collect_rollouts(
@@ -414,7 +280,7 @@ def assign_advantages(
 
 def _filter_sample_trajectories(
     step_records: List[StepRecord], completed: List[CompletedTrajectory], tokenizer
-) -> List[SampleTrajectoryBundle]:
+) -> Tuple[List[SampleTrajectoryBundle], List[bool]]:
     per_sample_steps: Dict[int, List[StepRecord]] = defaultdict(list)
     per_sample_completed: Dict[int, List[CompletedTrajectory]] = defaultdict(list)
 
@@ -425,9 +291,11 @@ def _filter_sample_trajectories(
         per_sample_completed[traj.sample_idx].append(traj)
 
     filtered: List[SampleTrajectoryBundle] = []
+    missing_signals: List[bool] = []
     for sample_idx, trajs in per_sample_completed.items():
         steps = per_sample_steps.get(sample_idx, [])
         if not trajs or not steps:
+            missing_signals.append(True)
             continue
 
         rewards = [
@@ -436,18 +304,21 @@ def _filter_sample_trajectories(
         ]
         has_correct = any(reward >= 2.0 for reward in rewards)
         has_incorrect = any(reward < 2.0 for reward in rewards)
+        missing_signals.append(not (has_correct and has_incorrect))
 
         if not (has_correct and has_incorrect):
-            continue
+            pass
+            # continue
 
         filtered.append(SampleTrajectoryBundle(step_records=steps, completed=trajs))
 
-    return filtered
+    return filtered, missing_signals
 
 
 def _reindex_sample_trajectories(
     trajectories: List[SampleTrajectoryBundle], start_index: int = 0
 ) -> int:
+    """对list中的bundle从0开始编号"""
     next_index = start_index
     for bundle in trajectories:
         for step in bundle.step_records:
@@ -820,6 +691,7 @@ def main():
         train_dataset,
         batch_size=config.training.batch_size,
         shuffle=True,
+        collate_fn=lambda batch: batch,
     )
 
     val_dataloader: Optional[DataLoader] = None
@@ -912,16 +784,18 @@ def main():
     global_batch_size = int(config.training.batch_size) * accelerator.num_processes
 
     sample_queue: Deque[SampleTrajectoryBundle] = deque()
+    recent_missing_signals: Deque[bool] = deque(maxlen=100)
     pending_stats = SamplingStats()
 
     for epoch in range(start_epoch, num_epochs):
         batch_iter = tqdm(
-            train_dataloader,
+            iterable=enumerate(train_dataloader),
+            total=len(train_dataloader),
             desc=f"Epoch {epoch+1}/{num_epochs}",
             disable=not accelerator.is_local_main_process,
         )
 
-        for batch_idx, batch in enumerate(batch_iter):
+        for batch_idx, batch in batch_iter:
             if epoch == start_epoch and skip_batches_in_epoch > 0 and batch_idx < skip_batches_in_epoch:
                 continue
             step_records, completed, stats = collect_rollouts(
@@ -931,12 +805,13 @@ def main():
                 config,
                 accelerator,
                 progress_desc=f"Rollout E{epoch+1}",
+                enable_bar=True
             )
 
-            gathered_step_records = accelerator.gather_object(step_records)
-            gathered_completed = accelerator.gather_object(completed)
-            gathered_stats = accelerator.gather_object(stats)
-            gathered_counts = accelerator.gather_object(len(batch))
+            gathered_step_records = gather_object([step_records])
+            gathered_completed = gather_object([completed])
+            gathered_stats = gather_object([stats])
+            gathered_counts = gather_object([len(batch)])
 
             merged_stats = SamplingStats()
             for proc_stats in gathered_stats:
@@ -958,9 +833,10 @@ def main():
                 all_completed.extend(proc_completed)
                 sample_offset += gathered_counts[proc_idx]
 
-            new_samples = _filter_sample_trajectories(all_step_records, all_completed, tokenizer)
-            _reindex_sample_trajectories(new_samples, 0)
+            new_samples, missing_signal_flags = _filter_sample_trajectories(all_step_records, all_completed, tokenizer)
+            _reindex_sample_trajectories(new_samples, 0) # re_index from zero
             sample_queue.extend(new_samples)
+            recent_missing_signals.extend(missing_signal_flags)
 
             while len(sample_queue) >= global_batch_size:
                 batch_samples: List[SampleTrajectoryBundle] = [
@@ -1014,6 +890,10 @@ def main():
                             "train/rl_steps": rl_steps,
                         }
 
+                        if recent_missing_signals:
+                            metrics["train/recent_missing_signals_100"] = float(
+                                sum(recent_missing_signals)
+                            )
                         if stats_for_logging.entropy_count > 0:
                             metrics["train/location_entropy"] = (
                                 stats_for_logging.entropy_sum / stats_for_logging.entropy_count
