@@ -16,7 +16,7 @@ from typing import (
     Sequence,
     Set,
     Tuple,
-cast,
+    cast,
 )
 from dataclasses import fields
 from typing import List, Optional, Tuple, Union
@@ -31,6 +31,17 @@ from transformers.modeling_outputs import CausalLMOutputWithPast
 from transformers.models.auto import AutoModel
 from transformers.cache_utils import Cache
 
+class PromptCacheEntry(NamedTuple):
+    """Container for reusable prompt kv-caches."""
+
+    past_key_values: Sequence[Tuple[torch.Tensor, torch.Tensor]]
+
+    def to(self, device: torch.device) -> "PromptCacheEntry":
+        moved = []
+        for k, v in self.past_key_values:
+            moved.append((k.to(device), v.to(device)))
+        return PromptCacheEntry(tuple(moved))
+    
 from .configuration_llada import (
     LLaDAConfig,
     StrEnum,
@@ -1158,7 +1169,20 @@ class LLaDAModel(nn.Module):
             alibi_bias = alibi_attention_bias(seq_len, self.config, device)
         self.__cache["alibi_attention_bias"] = alibi_bias
         return alibi_bias
-
+    
+    def get_bidirectional_attention_bias(self, seq_len: int, device: torch.device) -> torch.Tensor:
+        if (bidirectional_bias := self.__cache.get("bidirectional_attention_bias")) is not None and bidirectional_bias.shape[
+            -1
+        ] >= seq_len:
+            if bidirectional_bias.device != device:
+                bidirectional_bias = bidirectional_bias.to(device)
+                self.__cache["bidirectional_attention_bias"] = bidirectional_bias
+            return bidirectional_bias
+        with torch.autocast(device.type, enabled=False):
+            bidirectional_bias = torch.zeros((1, 1, seq_len, seq_len), device=device, dtype=torch.float)
+        self.__cache["bidirectional_attention_bias"] = bidirectional_bias
+        return bidirectional_bias
+    
     def forward(
         self,
         input_ids: torch.LongTensor,
@@ -1204,7 +1228,7 @@ class LLaDAModel(nn.Module):
         # print(f"a.shape: {attention_bias.shape}")
         assert not self.config.alibi, "Alibi length extrapolation is not supported for MDM."
         assert self.config.rope, "Rope must be used in Llama-Encoder for MDM."
-        assert (past_key_values is None and not use_cache), "The kvcache is not suppotred for MDM."
+        # assert (past_key_values is None and not use_cache), "The kvcache is not suppotred for MDM."
 
         output_hidden_states = output_hidden_states if output_hidden_states is not None else False
 
@@ -1264,8 +1288,7 @@ class LLaDAModel(nn.Module):
                     self.__cache, past_length + seq_len, x.device
                 ) + self.get_alibi_attention_bias(past_length + seq_len, x.device)
             elif attention_bias is None:
-                # print(f"get_causal_attention_bias")
-                attention_bias = get_causal_attention_bias(self.__cache, past_length + seq_len, x.device)
+                attention_bias = self.get_bidirectional_attention_bias(past_length + seq_len, x.device)
             elif attention_bias.dtype in (torch.int8, torch.bool):
                 # print(f"attention_bias.dtype in (torch.int8, torch.bool)")
                 attention_bias = attention_bias.to(dtype=torch.float)
@@ -1429,8 +1452,8 @@ class LLaDAModelLM(PreTrainedModel):
             input_embeddings=inputs_embeds,
             attention_mask=attention_mask,
             attention_bias=attention_bias,
-            past_key_values=None,
-            use_cache=False,
+            past_key_values=past_key_values,
+            use_cache=use_cache,
             output_hidden_states=output_hidden_states,
         )
 
@@ -1454,6 +1477,34 @@ class LLaDAModelLM(PreTrainedModel):
     def can_generate(self) -> bool:
         return True
 
+    def prefill_prompt_cache(
+        self,
+        full_input_ids: torch.LongTensor,
+        prompt_length: int,
+        attention_mask: Optional[torch.Tensor] = None,
+        attention_bias: Optional[torch.Tensor] = None,
+    ) -> PromptCacheEntry:
+        """Compute and return a kv-cache for a prompt prefix.
+        The provided ``full_input_ids`` should include the prompt tokens followed by the
+        remainder of the sequence (e.g., mask placeholders). The returned cache contains
+        only the prefix up to ``prompt_length`` so it can be reused when decoding
+        continuations that share the same prompt context.
+        """
+
+        outputs = self.forward(
+            input_ids=full_input_ids,
+            attention_mask=attention_mask,
+            attention_bias=attention_bias,
+            use_cache=True,
+        )
+        if outputs.past_key_values is None: # （layers, batchsize, heads, sequence_length, head_dim)
+            raise RuntimeError("KV cache was not produced despite use_cache=True")
+        trimmed: List[Tuple[torch.Tensor, torch.Tensor]] = []
+        for key, value in outputs.past_key_values:
+            trimmed.append((key[..., :prompt_length, :], value[..., :prompt_length, :]))
+
+        return PromptCacheEntry(tuple(trimmed))
+    
     def prepare_inputs_for_generation(
         self, input_ids: torch.LongTensor, past_key_values: Optional[List[Tuple]] = None, **kwargs
     ):

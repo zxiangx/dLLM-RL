@@ -20,16 +20,16 @@ dataset:
     test_path: "math_data/test_math.jsonl"
 
 training:
-    gradient_accumulation_steps: 16
+    gradient_accumulation_steps: 512
     batch_size: 1
     mixed_precision: "bf16"
     enable_tf32: True
-    seed: 116
+    seed: 112
     num_train_epochs: 1
     max_grad_norm: 1.0
-    group_size: 2
-    rollout_batch_size: 4
-    micro_batch_size: 1
+    group_size: 4
+    rollout_batch_size: 8
+    micro_batch_size: 4
     gamma: 1.0
     clip_epsilon: 0.2
     epsilon_small: 1e-9
@@ -42,6 +42,7 @@ training:
     checkpoint_interval: 100
     updates_per_rollout: 2
     evaluation_group_size: 1
+    enable_prompt_cache: true
 
 optimizer:
     learning_rate: 1e-6

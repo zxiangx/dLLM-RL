@@ -24,7 +24,7 @@ from accelerate.utils import tqdm
 from dataclasses import dataclass, field
 from torch.utils.data import Dataset
 import os
-from typing import Any, Deque, Dict, List, Optional, Sequence, Tuple
+from typing import Any, Deque, Dict, List, Optional, Sequence, Tuple, cast
 from train.sudoku_tools import detect_definite, pre_fill, judge_error
 import json
 from torch.utils.data import DataLoader
@@ -32,6 +32,7 @@ from models import LLaDAModelLM
 from models.sampling import gumbel_sample
 from collections import deque
 
+from models.llada.modeling_llada import PromptCacheEntry
 @dataclass
 class DefinitePosition:
     """Container describing a position that can be deterministically filled."""
@@ -665,10 +666,109 @@ def run_validation(
 
         accelerator.log(metrics, step=global_step)
 
-def compute_logits_with_padding(states, model, tokenizer, device, dev=False):
+class PromptCacheManager:
+    """Simple per-process prompt kv-cache store."""
+
+    def __init__(self):
+        self._cache: Dict[Tuple[int, ...], PromptCacheEntry] = {}
+
+    def clear(self) -> None:
+        self._cache.clear()
+
+    def get(self, prompt_ids: torch.Tensor) -> Optional[PromptCacheEntry]:
+        return self._cache.get(tuple(prompt_ids.tolist()))
+
+    def add(self, prompt_ids: torch.Tensor, entry: PromptCacheEntry) -> PromptCacheEntry:
+        self._cache[tuple(prompt_ids.tolist())] = entry
+        return entry
+
+    def __len__(self) -> int:
+        return len(self._cache)
+    
+def compute_logits_with_padding(
+    states,
+    model,
+    tokenizer,
+    device,
+    prompt_lengths=None,
+    prompt_cache: Optional[PromptCacheManager] = None,
+    dev: bool = False,
+    allow_cache_in_grad: bool = True,
+):
     lengths = [len(s) for s in states]
     batch_size = len(states)
 
+    use_prompt_cache = prompt_cache is not None and prompt_lengths is not None
+
+    # Prompt caching path batches sequences sharing cached prefixes for parallel reuse.
+    if use_prompt_cache:
+        logits_list: List[Optional[torch.Tensor]] = [None] * batch_size
+        cached_entries: List[PromptCacheEntry] = []
+        cached_gen_tokens: List[torch.Tensor] = []
+        cached_indices: List[int] = []
+
+        pad_id = tokenizer.pad_token_id
+        if pad_id is None:
+            pad_id = 0
+
+        for idx, (state, prompt_len) in enumerate(zip(states, prompt_lengths)):
+            prompt_len = int(prompt_len)
+            prompt_tokens = state[:prompt_len].to(device)
+            gen_tokens = state[prompt_len:]
+
+            cache_entry: Optional[PromptCacheEntry] = None
+            if prompt_cache is not None:
+                cache_entry = prompt_cache.get(prompt_tokens)
+
+            record_cache = prompt_cache is not None and (allow_cache_in_grad or not torch.is_grad_enabled())
+            if cache_entry is None and prompt_cache is not None:
+                built = model.prefill_prompt_cache(state.unsqueeze(0), prompt_len)
+                if record_cache:
+                    cache_entry = prompt_cache.add(prompt_tokens, built)
+                else:
+                    cache_entry = built
+
+            if cache_entry is not None and gen_tokens.numel() > 0:
+                cached_entries.append(cache_entry.to(device))
+                cached_gen_tokens.append(gen_tokens.to(device))
+                cached_indices.append(idx)
+            else:
+                logits_list[idx] = model(state.unsqueeze(0).to(device)).logits.squeeze(0)
+
+        if cached_indices:
+            max_gen_len = max(t.numel() for t in cached_gen_tokens)
+            input_ids_batch = torch.full(
+                (len(cached_indices), max_gen_len),
+                pad_id,
+                dtype=torch.long,
+                device=device,
+            )
+            for row, tokens in enumerate(cached_gen_tokens):
+                input_ids_batch[row, : tokens.numel()] = tokens
+
+            stacked_past: List[Tuple[torch.Tensor, torch.Tensor]] = []
+            for layer_idx in range(len(cached_entries[0].past_key_values)):
+                keys = torch.cat([entry.past_key_values[layer_idx][0] for entry in cached_entries], dim=0)
+                values = torch.cat([entry.past_key_values[layer_idx][1] for entry in cached_entries], dim=0)
+                stacked_past.append((keys, values))
+
+            logits_batch = model(
+                input_ids_batch,
+                past_key_values=stacked_past,
+                use_cache=False,
+            ).logits
+
+            for row, sample_idx in enumerate(cached_indices):
+                state = states[sample_idx]
+                prompt_len = int(prompt_lengths[sample_idx])
+                gen_len = cached_gen_tokens[row].numel()
+                full_logits = torch.zeros(
+                    state.size(0), logits_batch.size(-1), device=device, dtype=logits_batch.dtype
+                )
+                full_logits[prompt_len : prompt_len + gen_len] = logits_batch[row, :gen_len]
+                logits_list[sample_idx] = full_logits
+
+        return cast(List[torch.Tensor], logits_list)
     max_len = max(lengths)
 
     pad_id = tokenizer.pad_token_id

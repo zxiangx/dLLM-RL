@@ -32,6 +32,7 @@ from train.sudoku_rl_utils import (
     build_location_distribution,
     build_token_distribution,
     compute_logits_with_padding,
+    PromptCacheManager,
     save_checkpoint,
 )
 from train.rl_math_utils import (
@@ -56,6 +57,7 @@ def collect_rollouts(
     accelerator: Accelerator,
     progress_desc: str = "",
     enable_bar: bool = False,
+    prompt_cache: Optional[PromptCacheManager] = None,
 ) -> Tuple[List[StepRecord], List[CompletedTrajectory], SamplingStats]:
     training_cfg = config.training
     mask_token_id = training_cfg.mask_token_id
@@ -112,6 +114,8 @@ def collect_rollouts(
                 model,
                 tokenizer,
                 accelerator.device,
+                prompt_lengths=[job.prompt_length for job in active_jobs],
+                prompt_cache=prompt_cache,
             )
 
         for batch_idx, job in enumerate(active_jobs):
@@ -342,6 +346,7 @@ def compute_losses(
     lr_scheduler,
     progress_desc: str = "",
     enable_bar: bool = False,
+    prompt_cache: Optional[PromptCacheManager] = None,
 ) -> Tuple[float, float, float]:
     device = accelerator.device
     if not step_records:
@@ -379,6 +384,9 @@ def compute_losses(
                 model,
                 tokenizer,
                 accelerator.device,
+                prompt_lengths=[step.prompt_length for step in batch_records],
+                prompt_cache=prompt_cache,
+                allow_cache_in_grad=True,
             )
             forward_time = time.time() - forward_start_time
 
@@ -651,6 +659,10 @@ def main():
 
     config.experiment.logging_dir = os.path.join(project_dir, "logs")
 
+    config.training.gradient_accumulation_steps = int(
+        config.training.max_generation_length * config.training.batch_size * config.training.group_size / config.training.micro_batch_size
+    )
+
     accelerator = Accelerator(
         gradient_accumulation_steps=config.training.gradient_accumulation_steps,
         mixed_precision=config.training.mixed_precision,
@@ -814,6 +826,8 @@ def main():
     sample_queue: Deque[SampleTrajectoryBundle] = deque()
     recent_missing_signals: Deque[bool] = deque(maxlen=100)
     pending_stats = SamplingStats()
+    use_prompt_cache = bool(config.training.get("enable_prompt_cache", True))
+    prompt_cache = PromptCacheManager() if use_prompt_cache else None
 
     for epoch in range(start_epoch, num_epochs):
         batch_iter = tqdm(
@@ -826,6 +840,8 @@ def main():
         for batch_idx, batch in batch_iter:
             if epoch == start_epoch and skip_batches_in_epoch > 0 and batch_idx < skip_batches_in_epoch:
                 continue
+            if prompt_cache is not None:
+                prompt_cache.clear()
             step_records, completed, stats = collect_rollouts(
                 batch,
                 model,
@@ -833,7 +849,8 @@ def main():
                 config,
                 accelerator,
                 progress_desc=f"process: {accelerator.process_index} Rollout E{epoch+1}",
-                enable_bar=True
+                enable_bar=True,
+                prompt_cache=prompt_cache,
             )
             gathered_step_records = gather_object([step_records])
             gathered_completed = gather_object([completed])
@@ -907,6 +924,7 @@ def main():
                         optimizer,
                         lr_scheduler,
                         progress_desc=loss_desc,
+                        prompt_cache=prompt_cache,
                         enable_bar=True
                     )
 
