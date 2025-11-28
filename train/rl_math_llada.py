@@ -283,7 +283,7 @@ def assign_advantages(
 
 
 def _filter_sample_trajectories(
-    step_records: List[StepRecord], completed: List[CompletedTrajectory], tokenizer
+    step_records: List[StepRecord], completed: List[CompletedTrajectory], tokenizer, if_filter: bool=False
 ) -> Tuple[List[SampleTrajectoryBundle], List[bool]]:
     per_sample_steps: Dict[int, List[StepRecord]] = defaultdict(list)
     per_sample_completed: Dict[int, List[CompletedTrajectory]] = defaultdict(list)
@@ -296,6 +296,8 @@ def _filter_sample_trajectories(
 
     filtered: List[SampleTrajectoryBundle] = []
     missing_signals: List[bool] = []
+    all_correct = 0
+    all_error = 0
     for sample_idx, trajs in per_sample_completed.items():
         steps = per_sample_steps.get(sample_idx, [])
         if not trajs or not steps:
@@ -309,14 +311,14 @@ def _filter_sample_trajectories(
         has_correct = any(reward >= 2.0 for reward in rewards)
         has_incorrect = any(reward < 2.0 for reward in rewards)
         missing_signals.append(not (has_correct and has_incorrect))
-
-        if not (has_correct and has_incorrect):
-            pass
-            # continue
+        if not has_correct: all_error+=1
+        if not has_incorrect: all_correct+=1
+        if not (has_correct and has_incorrect) and if_filter:
+            continue
 
         filtered.append(SampleTrajectoryBundle(step_records=steps, completed=trajs))
 
-    return filtered, missing_signals
+    return filtered, missing_signals, all_correct, all_error
 
 
 def _reindex_sample_trajectories(
@@ -518,13 +520,14 @@ def run_evaluation(
 
     with torch.no_grad():
         eval_pbar = tqdm(
+            iterable=enumerate(dataloader),
             total=len(dataloader),
             desc=f"{tag.title()}",
             disable=not accelerator.is_local_main_process,
             leave=False,
         )
 
-        for batch in dataloader:
+        for batch_idx, batch in eval_pbar:
             prepared_samples = [
                 prepare_sequence(
                     sample,
@@ -730,7 +733,7 @@ def main():
     train_dataloader = DataLoader(
         train_dataset,
         batch_size=config.training.batch_size,
-        shuffle=True,
+        shuffle=False,
         collate_fn=lambda batch: batch,
     )
 
@@ -741,6 +744,7 @@ def main():
             val_dataset,
             batch_size=config.training.batch_size,
             shuffle=False,
+            collate_fn=lambda batch: batch,
         )
 
     test_dataloader: Optional[DataLoader] = None
@@ -750,6 +754,7 @@ def main():
             test_dataset,
             batch_size=config.training.batch_size,
             shuffle=False,
+            collate_fn=lambda batch: batch,
         )
 
     updates_per_rollout = max(int(config.training.get("updates_per_rollout", 1)), 1)
@@ -840,8 +845,6 @@ def main():
         for batch_idx, batch in batch_iter:
             if epoch == start_epoch and skip_batches_in_epoch > 0 and batch_idx < skip_batches_in_epoch:
                 continue
-            if prompt_cache is not None:
-                prompt_cache.clear()
             step_records, completed, stats = collect_rollouts(
                 batch,
                 model,
@@ -852,6 +855,8 @@ def main():
                 enable_bar=True,
                 prompt_cache=prompt_cache,
             )
+            if prompt_cache is not None:
+                prompt_cache.clear()
             gathered_step_records = gather_object([step_records])
             gathered_completed = gather_object([completed])
             gathered_stats = gather_object([stats])
@@ -876,10 +881,13 @@ def main():
                 all_completed.extend(proc_completed)
                 sample_offset += gathered_counts[proc_idx]
 
-            new_samples, missing_signal_flags = _filter_sample_trajectories(all_step_records, all_completed, tokenizer)
+            new_samples, missing_signal_flags, all_correct, all_error = _filter_sample_trajectories(all_step_records, all_completed, tokenizer, config.training.filter_invalid)
             _reindex_sample_trajectories(new_samples, 0) # re_index from zero
             sample_queue.extend(new_samples)
             recent_missing_signals.extend(missing_signal_flags)
+            # if accelerator.is_main_process:
+            #     print(f"total: {len(missing_signal_flags)} missing:{sum(missing_signal_flags)}")
+            #     print(f"all_correct: {all_correct} all_error: {all_error}")
 
             while len(sample_queue) >= global_batch_size:
                 batch_samples: List[SampleTrajectoryBundle] = [

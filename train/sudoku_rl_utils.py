@@ -722,7 +722,8 @@ def compute_logits_with_padding(
 
             record_cache = prompt_cache is not None and (allow_cache_in_grad or not torch.is_grad_enabled())
             if cache_entry is None and prompt_cache is not None:
-                built = model.prefill_prompt_cache(state.unsqueeze(0), prompt_len)
+                with torch.no_grad():
+                    built = model.prefill_prompt_cache(state.unsqueeze(0), prompt_len)
                 if record_cache:
                     cache_entry = prompt_cache.add(prompt_tokens, built)
                 else:

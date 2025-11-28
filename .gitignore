@@ -1,0 +1,21 @@
+# ignore data directory
+data/
+
+# ignore rl_sudoku_llada directory
+rl_sudoku_llada/
+
+logs/
+
+wandb/
+
+*pycache*
+
+eval_results/
+
+*undertest*
+
+projects/
+
+*.png
+
+*sorted*
