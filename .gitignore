@@ -1,5 +1,5 @@
 # ignore data directory
-data/
+data/*.py
 
 # ignore rl_sudoku_llada directory
 rl_sudoku_llada/
@@ -19,3 +19,10 @@ projects/
 *.png
 
 *sorted*
+
+*.log
+
+*copy*
+
+tempbash*
+outputs/
