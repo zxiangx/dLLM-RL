@@ -1,6 +1,7 @@
 import os
+import json
 import sys
-from collections import deque
+from collections import deque, OrderedDict
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Deque, Dict, List, Optional, Sequence, Tuple
@@ -25,7 +26,7 @@ from math_verify import parse as math_parse, verify as math_verify
 from models import LLaDAModelLM
 from models.lr_schedulers import get_scheduler
 from models.logging import set_verbosity_error, set_verbosity_info
-from models.sampling import gumbel_sample
+from models.sampling import gumbel_sample, gumbel_topk
 
 from train.utils import flatten_omega_conf, get_config
 from train.sudoku_rl_utils import (
@@ -76,6 +77,7 @@ def collect_rollouts(
                     sample_idx=sample_idx,
                     trajectory_idx=group_idx,
                     state=prepared.state.clone().to(device),
+                    prompt=prepared.prompt,
                     prompt_length=prepared.prompt_length,
                     max_steps=training_cfg.max_generation_length,
                     metadata=prepared.metadata,
@@ -101,6 +103,7 @@ def collect_rollouts(
         )
 
     rollout_batch_size = max(int(training_cfg.rollout_batch_size), 1)
+    tokens_per_step = max(int(training_cfg.get("tokens_per_step", 1)), 1)
     steps_finished = 0
 
     while job_queue:
@@ -128,6 +131,7 @@ def collect_rollouts(
                         trajectory_idx=job.trajectory_idx,
                         final_state=job.state.detach().cpu(),
                         prompt_length=job.prompt_length,
+                        prompt=job.prompt,
                         metadata=job.metadata,
                         answer=job.answer,
                     )
@@ -148,37 +152,44 @@ def collect_rollouts(
             stats.update_max_prob(float(valid_probs.max()))
 
             loc_logits = torch.where(candidate_mask, loc_scores, torch.full_like(loc_scores, -1e9))
-            location_index = int(gumbel_sample(loc_logits).item())
-            logprob_loc = float(torch.log(loc_probs[location_index] + 1e-12))
-
-            token_logits_scaled = logits[location_index] / max(training_cfg.token_temperature, 1e-8)
-            token_id = int(gumbel_sample(token_logits_scaled).item())
-            token_log_probs = torch.log_softmax(token_logits_scaled, dim=-1)
-            logprob_tok = float(token_log_probs[token_id])
+            tokens_to_decode = min(tokens_per_step, int(candidate_mask.sum().item()))
+            selected_locations = gumbel_topk(loc_logits, tokens_to_decode)
 
             next_state = job.state.clone()
-            next_state[location_index] = token_id
+            for location_index_tensor in selected_locations:
+                location_index = int(location_index_tensor.item())
+                logprob_loc = float(torch.log(loc_probs[location_index] + 1e-12))
 
-            step_record = StepRecord(
-                sample_idx=job.sample_idx,
-                trajectory_idx=job.trajectory_idx,
-                step_index=job.steps_taken,
-                state_before=job.state.detach().cpu(),
-                location_index=location_index,
-                token_id=token_id,
-                logprob_old_loc=logprob_loc,
-                logprob_old_tok=logprob_tok,
-                prompt_length=job.prompt_length,
-                metadata=job.metadata,
-            )
+                token_logits_scaled = logits[location_index] / max(
+                    training_cfg.token_temperature, 1e-8
+                )
+                token_id = int(gumbel_sample(token_logits_scaled).item())
+                token_log_probs = torch.log_softmax(token_logits_scaled, dim=-1)
+                logprob_tok = float(token_log_probs[token_id])
 
-            all_records.append(step_record)
+                next_state[location_index] = token_id
+
+                step_record = StepRecord(
+                    sample_idx=job.sample_idx,
+                    trajectory_idx=job.trajectory_idx,
+                    step_index=job.steps_taken,
+                    state_before=job.state.detach().cpu(),
+                    location_index=location_index,
+                    token_id=token_id,
+                    logprob_old_loc=logprob_loc,
+                    logprob_old_tok=logprob_tok,
+                    prompt_length=job.prompt_length,
+                    metadata=job.metadata,
+                )
+
+                all_records.append(step_record)
+
             job.state = next_state
             job.steps_taken += 1
 
             if rollout_pbar is not None:
-                steps_finished += 1
-                rollout_pbar.update(1)
+                steps_finished += tokens_to_decode
+                rollout_pbar.update(tokens_to_decode)
 
             job_queue.append(job)
 
@@ -201,7 +212,7 @@ def _normalise_rewards(rewards: List[float]) -> List[float]:
 
 def _decode_answer(tokenizer, state: torch.Tensor, prompt_length: int) -> str:
     answer_tokens = state[prompt_length:]
-    return tokenizer.decode(answer_tokens, skip_special_tokens=False).strip()
+    return tokenizer.decode(answer_tokens, skip_special_tokens=True).strip()
 
 
 def _extract_boxed_answer(text: str) -> Tuple[str, bool]:
@@ -243,6 +254,30 @@ def _math_reward(output: str, reference: str) -> float:
 
     return format_reward + correct_reward
 
+def _store_debug_rollouts(
+    completed: List[CompletedTrajectory],
+    tokenizer,
+    store_path: str,
+    accelerator: Accelerator,
+) -> None:
+    if not completed or not store_path:
+        return
+
+    root = Path(store_path)
+    root.mkdir(parents=True, exist_ok=True)
+    out_path = root / f"{accelerator.process_index}.jsonl"
+
+    with open(out_path, "a", encoding="utf-8") as fh:
+        for traj in completed:
+            output_text = _decode_answer(tokenizer, traj.final_state, traj.prompt_length)
+            is_true = _is_answer_correct(output_text, traj.answer)
+            record = {
+                "prompt": getattr(traj, "prompt", ""),
+                "answer": traj.answer,
+                "test_results": output_text,
+                "is_true": is_true,
+            }
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 def assign_advantages(
     step_records: List[StepRecord],
@@ -357,12 +392,22 @@ def compute_losses(
     training_cfg = config.training
     mask_token_id = training_cfg.mask_token_id
     micro_batch_size = max(int(training_cfg.micro_batch_size), 1)
+    total_steps = len(step_records)
+
+    grouped_steps: List[List[StepRecord]] = []
+    grouped_map: "OrderedDict[Tuple[int, int, int], List[StepRecord]]" = OrderedDict()
+    for step in step_records:
+        key = (step.sample_idx, step.trajectory_idx, step.step_index)
+        if key not in grouped_map:
+            grouped_map[key] = []
+            grouped_steps.append(grouped_map[key])
+        grouped_map[key].append(step)
 
     rl_loss_sum = torch.tensor(0.0, device=device)
     rl_count = 0
     clip_events = 0
 
-    num_forward_batches = math.ceil(len(step_records) / micro_batch_size)
+    num_forward_batches = math.ceil(len(grouped_steps) / micro_batch_size)
     loss_pbar = None
     if num_forward_batches > 0 and enable_bar:
         desc = progress_desc or "ComputeLoss"
@@ -374,11 +419,11 @@ def compute_losses(
             main_process_only=False,
         )
 
-    for start in range(0, len(step_records), micro_batch_size):
+    for start in range(0, len(grouped_steps), micro_batch_size):
         with accelerator.accumulate(model):
             loop_start_time = time.time()
-            batch_records = step_records[start : start + micro_batch_size]
-            states_before = [step.state_before.to(device) for step in batch_records]
+            batch_groups = grouped_steps[start : start + micro_batch_size]
+            states_before = [group[0].state_before.to(device) for group in batch_groups]
 
             forward_start_time = time.time()
             logits_before = compute_logits_with_padding(
@@ -386,7 +431,7 @@ def compute_losses(
                 model,
                 tokenizer,
                 accelerator.device,
-                prompt_lengths=[step.prompt_length for step in batch_records],
+                prompt_lengths=[group[0].prompt_length for group in batch_groups],
                 prompt_cache=prompt_cache,
                 allow_cache_in_grad=True,
             )
@@ -397,7 +442,7 @@ def compute_losses(
 
             combined_losses = []
             loss_compute_start_time = time.time()
-            for idx, step in enumerate(batch_records):
+            for idx, group in enumerate(batch_groups):
                 logits_b = logits_before[idx]
                 state_before = states_before[idx]
                 candidate_mask = state_before.eq(mask_token_id)
@@ -410,34 +455,35 @@ def compute_losses(
                     epsilon=training_cfg.epsilon_small,
                     temperature=training_cfg.location_temperature,
                 )
-                loc_prob_selected = loc_probs[step.location_index]
-                logprob_new_loc = torch.log(loc_prob_selected + 1e-12)
+                for step in group:
+                    loc_prob_selected = loc_probs[step.location_index]
+                    logprob_new_loc = torch.log(loc_prob_selected + 1e-12)
 
-                _, token_log_probs = build_token_distribution(
-                    logits_b[step.location_index],
-                    temperature=training_cfg.token_temperature,
-                )
-                logprob_new_tok = token_log_probs[step.token_id]
+                    _, token_log_probs = build_token_distribution(
+                        logits_b[step.location_index],
+                        temperature=training_cfg.token_temperature,
+                    )
+                    logprob_new_tok = token_log_probs[step.token_id]
 
-                logprob_old = torch.tensor(
-                    step.old_logprob_sum, device=device, dtype=logprob_new_loc.dtype
-                )
-                logprob_new = logprob_new_loc + logprob_new_tok
-                ratio = torch.exp(logprob_new - logprob_old)
+                    logprob_old = torch.tensor(
+                        step.old_logprob_sum, device=device, dtype=logprob_new_loc.dtype
+                    )
+                    logprob_new = logprob_new_loc + logprob_new_tok
+                    ratio = torch.exp(logprob_new - logprob_old)
 
-                clip_ratio = torch.clamp(
-                    ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon
-                )
+                    clip_ratio = torch.clamp(
+                        ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon
+                    )
 
-                if (clip_ratio - ratio).abs() > 1e-8:
-                    clip_events += 1
+                    if (clip_ratio - ratio).abs() > 1e-8:
+                        clip_events += 1
 
-                adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
-                rl_term = -torch.min(ratio * adv, clip_ratio * adv)
-                rl_loss_sum = rl_loss_sum + rl_term.detach()
-                rl_count += 1
+                    adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
+                    rl_term = -torch.min(ratio * adv, clip_ratio * adv)
+                    rl_loss_sum = rl_loss_sum + rl_term.detach()
+                    rl_count += 1
 
-                combined_losses.append(rl_term / max(1, len(step_records)))
+                    combined_losses.append(rl_term / max(1, total_steps))
 
             total_loss = torch.tensor(0.0, device=device)
             for loss in combined_losses:
@@ -547,6 +593,7 @@ def run_evaluation(
                             trajectory_idx=group_idx,
                             state=prepared.state.clone().to(accelerator.device),
                             prompt_length=prepared.prompt_length,
+                            prompt=prepared.prompt,
                             max_steps=training_cfg.max_generation_length,
                             metadata=prepared.metadata,
                             answer=prepared.answer,
@@ -578,6 +625,7 @@ def run_evaluation(
                                 trajectory_idx=job.trajectory_idx,
                                 final_state=job.state.detach().cpu(),
                                 prompt_length=job.prompt_length,
+                                prompt=job.prompt,
                                 metadata=job.metadata,
                                 answer=job.answer,
                             )
@@ -663,7 +711,8 @@ def main():
     config.experiment.logging_dir = os.path.join(project_dir, "logs")
 
     config.training.gradient_accumulation_steps = int(
-        config.training.max_generation_length * config.training.batch_size * config.training.group_size / config.training.micro_batch_size
+        config.training.max_generation_length * config.training.batch_size * config.training.group_size / 
+        config.training.micro_batch_size / config.training.tokens_per_step
     )
 
     accelerator = Accelerator(
@@ -733,7 +782,7 @@ def main():
     train_dataloader = DataLoader(
         train_dataset,
         batch_size=config.training.batch_size,
-        shuffle=False,
+        shuffle=True,
         collate_fn=lambda batch: batch,
     )
 
@@ -857,6 +906,15 @@ def main():
             )
             if prompt_cache is not None:
                 prompt_cache.clear()
+
+            if bool(config.training.get("debug_rollout", False)):
+                _store_debug_rollouts(
+                    completed,
+                    tokenizer,
+                    config.training.get("debug_rollout_store_path", ""),
+                    accelerator,
+                )
+
             gathered_step_records = gather_object([step_records])
             gathered_completed = gather_object([completed])
             gathered_stats = gather_object([stats])
@@ -885,9 +943,9 @@ def main():
             _reindex_sample_trajectories(new_samples, 0) # re_index from zero
             sample_queue.extend(new_samples)
             recent_missing_signals.extend(missing_signal_flags)
-            # if accelerator.is_main_process:
-            #     print(f"total: {len(missing_signal_flags)} missing:{sum(missing_signal_flags)}")
-            #     print(f"all_correct: {all_correct} all_error: {all_error}")
+            if accelerator.is_main_process:
+                print(f"total: {len(missing_signal_flags)} missing:{sum(missing_signal_flags)}")
+                print(f"all_correct: {all_correct} all_error: {all_error}")
 
             while len(sample_queue) >= global_batch_size:
                 batch_samples: List[SampleTrajectoryBundle] = [

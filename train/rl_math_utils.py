@@ -55,6 +55,7 @@ class MathPromptDataset(Dataset):
 class PreparedSample:
     state: torch.Tensor
     prompt_length: int
+    prompt: str
     metadata: Dict[str, Any]
     answer: str
 
@@ -84,6 +85,7 @@ class TrajectoryJob:
     trajectory_idx: int
     state: torch.Tensor
     prompt_length: int
+    prompt: str
     max_steps: int
     metadata: Dict[str, Any]
     answer: str
@@ -97,6 +99,7 @@ class CompletedTrajectory:
     trajectory_idx: int
     final_state: torch.Tensor
     prompt_length: int
+    prompt: str
     metadata: Dict[str, Any]
     answer: str
 
@@ -167,6 +170,7 @@ def prepare_sequence(sample: Dict[str, Any], tokenizer, mask_token_id: int, max_
     return PreparedSample(
         state=torch.tensor(filled_ids, dtype=torch.long),
         prompt_length=len(prompt_ids),
+        prompt=prompt,
         metadata=metadata,
         answer=str(sample.get("answer", "")),
     )

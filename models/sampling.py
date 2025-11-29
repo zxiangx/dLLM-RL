@@ -19,6 +19,9 @@ def gumbel_noise(t, generator=None):
 def gumbel_sample(t, temperature=1.0, dim=-1, generator=None):
     return ((t / max(temperature, 1e-10)) + gumbel_noise(t, generator=generator)).argmax(dim=dim)
 
+def gumbel_topk(t, k: int, temperature: float = 1.0, dim: int = -1, generator=None):
+    scores = (t / max(temperature, 1e-10)) + gumbel_noise(t, generator=generator)
+    return scores.topk(k, dim=dim).indices
 
 def top_k(logits, thres=0.9):
     k = math.ceil((1 - thres) * logits.shape[-1])

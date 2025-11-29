@@ -11,11 +11,11 @@ experiment:
     main_process_port: 29500
 
 model:
-    pretrained_model: "/mnt/gold/cdp/huggingface/hub/models--GSAI-ML--LLaDA-8B-Instruct/snapshots/08b83a6feb34df1a6011b80c3c00c7563e963b07"
+    pretrained_model: "/data/home/scyf781/czx/LLaDA-8B-Instruct"
     optimized_name: "optimized"
 
 dataset:
-    path: "math_data/train_math.jsonl"
+    path: "math_data/new_math_500.jsonl"
     val_path: "math_data/val_math.jsonl"
     test_path: "math_data/test_math.jsonl"
 
@@ -24,25 +24,29 @@ training:
     batch_size: 1
     mixed_precision: "bf16"
     enable_tf32: True
-    seed: 112
+    seed: 115
     num_train_epochs: 1
     max_grad_norm: 1.0
-    group_size: 4
+    group_size: 8
     rollout_batch_size: 8
     micro_batch_size: 4
     gamma: 1.0
     clip_epsilon: 0.2
     epsilon_small: 1e-9
-    location_temperature: 0.4
-    token_temperature: 0.6
+    location_temperature: 0.6
+    tokens_per_step: 2
+    token_temperature: 0.9
     mask_token: "<|mdm_mask|>"
     pad_token: "<|endoftext|>"
     max_generation_length: 256
-    validation_interval: 0
-    checkpoint_interval: 100
+    validation_interval: 6
+    checkpoint_interval: 30
     updates_per_rollout: 2
     evaluation_group_size: 1
     enable_prompt_cache: true
+    filter_invalid: true
+    debug_rollout: true
+    debug_rollout_store_path: "./projects/rl_math_llada/debug_rollouts"
 
 optimizer:
     learning_rate: 1e-6
