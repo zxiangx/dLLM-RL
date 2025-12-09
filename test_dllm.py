@@ -59,7 +59,7 @@ def load_tests(path: str, trials: int) -> List[TestSample]:
 
 
 def format_prompt(tokenizer, sample: TestSample) -> str:
-    content = sample.prompt if not sample.test else f"{sample.prompt}\n{sample.test}"
+    content = sample.prompt
     messages = [{"role": "user", "content": content}]
     return tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
 

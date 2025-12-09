@@ -473,8 +473,9 @@ def save_checkpoint(
     accelerator: Accelerator,
     config,
     project_name: str,
-    step: int|str,
+    step: int | str,
     save_training_state: bool = True,
+    batches_seen: int | None = None,
 ) -> None:
     """
     同时保存：
@@ -512,6 +513,8 @@ def save_checkpoint(
             "step": str(step),
             "save_time": time.strftime("%Y-%m-%d %H:%M:%S"),
         }
+        if batches_seen is not None:
+            metadata["batches_seen"] = int(batches_seen)
         with (ckpt_dir / "metadata.json").open("w") as f:
             json.dump(metadata, f, indent=2)
 

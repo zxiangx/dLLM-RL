@@ -1,7 +1,7 @@
 experiment:
-    project_name: "rl_math_llada"
-    project_dir: "./projects/rl_math_llada"
-    logging_dir: "./projects/rl_math_llada/logs"
+    project_name: "rl_math_llada_1207_ablation"
+    project_dir: "./projects/rl_math_llada_1207_ablation"
+    logging_dir: "./projects/rl_math_llada_1207_ablation/logs"
     deepspeed_file: "1_node_8_gpus_deepspeed_zero1"
     save_training_state: true
     resume_from_checkpoint: null
@@ -15,41 +15,57 @@ model:
     optimized_name: "optimized"
 
 dataset:
-    path: "math_data/new_math_500.jsonl"
+    path: "math_data/train_math_new.jsonl"
     val_path: "math_data/val_math.jsonl"
     test_path: "math_data/test_math.jsonl"
 
 training:
     gradient_accumulation_steps: 512
-    batch_size: 1
+    batch_size: 1 # 采样的batch
+    train_batch_size: 8 # 训练的batch
     mixed_precision: "bf16"
     enable_tf32: True
-    seed: 115
+    seed: 42
     num_train_epochs: 1
     max_grad_norm: 1.0
-    group_size: 8
+    group_size: 16
     rollout_batch_size: 8
     micro_batch_size: 4
     gamma: 1.0
-    clip_epsilon: 0.2
+    token_clip_epsilon_high: 0.25
+    token_clip_epsilon_low: 0.15
+    locate_clip_epsilon_high: 0.25
+    locate_clip_epsilon_low: 0.15
     epsilon_small: 1e-9
-    location_temperature: 0.6
     tokens_per_step: 2
-    token_temperature: 0.9
+
+    evaluation_tokens_per_step: 4
+    evaluation_group_size: 8
+
+    location_temperature: 0.1
+    token_temperature: 0.6
+    eval_location_temperature: 0.1
+    eval_token_temperature: 0.2
     mask_token: "<|mdm_mask|>"
     pad_token: "<|endoftext|>"
     max_generation_length: 256
-    validation_interval: 6
-    checkpoint_interval: 30
-    updates_per_rollout: 2
-    evaluation_group_size: 1
+    validation_interval: 8
+    checkpoint_interval: 60
+    updates_per_rollout: 8 # 每一遍rollout用来训练几次
+    train_on_sample_once: true # 一个sample只训练一次
+    reuse_before_sample: false # 之前的sample还可以再利用
     enable_prompt_cache: true
     filter_invalid: true
+    debug: false
     debug_rollout: true
-    debug_rollout_store_path: "./projects/rl_math_llada/debug_rollouts"
+    shuffle: true
+    debug_rollout_store_path: "./projects/rl_math_llada_1207_ablation/debug_rollouts"
+    debug_ratio: false
+    debug_ratio_path: "debug_ratio.json"
+    ablation: true
 
 optimizer:
-    learning_rate: 1e-6
+    learning_rate: 3e-6
     beta1: 0.9
     beta2: 0.999
     weight_decay: 0.0
@@ -57,8 +73,8 @@ optimizer:
 
 lr_scheduler:
     scheduler: "cosine"
-    warmup_steps: 10
-    min_lr_scale: 0.3
+    warmup_steps: 8
+    min_lr_scale: 0.5
 
 wandb:
     resume: False

@@ -256,6 +256,7 @@ def _math_reward(output: str, reference: str) -> float:
 
 def _store_debug_rollouts(
     completed: List[CompletedTrajectory],
+    step_records: List[StepRecord],
     tokenizer,
     store_path: str,
     accelerator: Accelerator,
@@ -267,6 +268,10 @@ def _store_debug_rollouts(
     root.mkdir(parents=True, exist_ok=True)
     out_path = root / f"{accelerator.process_index}.jsonl"
 
+    advantage_map: Dict[Tuple[int, int], float] = {}
+    for step in step_records:
+        advantage_map[(step.sample_idx, step.trajectory_idx)] = float(step.advantage)
+
     with open(out_path, "a", encoding="utf-8") as fh:
         for traj in completed:
             output_text = _decode_answer(tokenizer, traj.final_state, traj.prompt_length)
@@ -276,6 +281,9 @@ def _store_debug_rollouts(
                 "answer": traj.answer,
                 "test_results": output_text,
                 "is_true": is_true,
+                "advantage": advantage_map.get(
+                    (traj.sample_idx, traj.trajectory_idx), None
+                ),
             }
             fh.write(json.dumps(record, ensure_ascii=False) + "\n")
 
@@ -384,10 +392,11 @@ def compute_losses(
     progress_desc: str = "",
     enable_bar: bool = False,
     prompt_cache: Optional[PromptCacheManager] = None,
-) -> Tuple[float, float, float]:
+    collect_ratio_debug: bool = False,
+) -> Tuple[float, float, float, int, Dict[str, List[Any]]]:
     device = accelerator.device
     if not step_records:
-        return 0.0, 0.0, 0.0
+        return 0.0, 0.0, 0.0, {"locate_ratio": [], "token_ratio": [], "trajectory_ratio": []}
 
     training_cfg = config.training
     mask_token_id = training_cfg.mask_token_id
@@ -405,7 +414,21 @@ def compute_losses(
 
     rl_loss_sum = torch.tensor(0.0, device=device)
     rl_count = 0
-    clip_events = 0
+    clip_events_tok = 0
+    clip_events_loc = 0
+    ratio_debug: Dict[str, List[Any]] = {
+        "locate_ratio": [],
+        "token_ratio": [],
+        "trajectory_ratio": [],
+    }
+
+    traj_logprob_new_combined: Dict[Tuple[int, int], torch.Tensor] = {}
+    traj_logprob_old_combined: Dict[Tuple[int, int], torch.Tensor] = {}
+    traj_logprob_new_tok: Dict[Tuple[int, int], torch.Tensor] = {}
+    traj_logprob_old_tok: Dict[Tuple[int, int], torch.Tensor] = {}
+    traj_logprob_new_loc: Dict[Tuple[int, int], torch.Tensor] = {}
+    traj_logprob_old_loc: Dict[Tuple[int, int], torch.Tensor] = {}
+    traj_counts: Dict[Tuple[int, int], int] = {}
 
     num_forward_batches = math.ceil(len(grouped_steps) / micro_batch_size)
     loss_pbar = None
@@ -465,21 +488,83 @@ def compute_losses(
                     )
                     logprob_new_tok = token_log_probs[step.token_id]
 
-                    logprob_old = torch.tensor(
-                        step.old_logprob_sum, device=device, dtype=logprob_new_loc.dtype
+                    logprob_old_loc = torch.tensor(
+                        step.logprob_old_loc, device=device, dtype=logprob_new_loc.dtype
                     )
-                    logprob_new = logprob_new_loc + logprob_new_tok
-                    ratio = torch.exp(logprob_new - logprob_old)
-
-                    clip_ratio = torch.clamp(
-                        ratio, 1 - training_cfg.clip_epsilon, 1 + training_cfg.clip_epsilon
+                    logprob_old_tok = torch.tensor(
+                        step.logprob_old_tok, device=device, dtype=logprob_new_tok.dtype
                     )
 
-                    if (clip_ratio - ratio).abs() > 1e-8:
-                        clip_events += 1
+                    logprob_diff_loc = logprob_new_loc - logprob_old_loc
+                    logprob_diff_tok = logprob_new_tok - logprob_old_tok
 
-                    adv = torch.tensor(step.advantage, device=device, dtype=ratio.dtype)
-                    rl_term = -torch.min(ratio * adv, clip_ratio * adv)
+                    ratio_loc = torch.exp(logprob_diff_loc)
+                    ratio_tok = torch.exp(logprob_diff_tok)
+
+                    if collect_ratio_debug:
+                        ratio_debug["locate_ratio"].append(
+                            (
+                                float(logprob_diff_loc.detach().cpu()),
+                                float(logprob_new_loc.detach().cpu()),
+                                float(logprob_old_loc.detach().cpu()),
+                            )
+                        )
+                        ratio_debug["token_ratio"].append(
+                            (
+                                float(logprob_diff_tok.detach().cpu()),
+                                float(logprob_new_tok.detach().cpu()),
+                                float(logprob_old_tok.detach().cpu()),
+                            )
+                        )
+                        traj_key = (step.sample_idx, step.trajectory_idx)
+                        traj_logprob_new_combined[traj_key] = (
+                            traj_logprob_new_combined.get(
+                                traj_key, torch.tensor(0.0, device=device)
+                            )
+                            + (logprob_new_loc + logprob_new_tok)
+                        )
+                        traj_logprob_old_combined[traj_key] = (
+                            traj_logprob_old_combined.get(
+                                traj_key, torch.tensor(0.0, device=device)
+                            )
+                            + (logprob_old_loc + logprob_old_tok)
+                        )
+
+                        traj_logprob_new_tok[traj_key] = traj_logprob_new_tok.get(
+                            traj_key, torch.tensor(0.0, device=device)
+                        ) + logprob_new_tok
+                        traj_logprob_old_tok[traj_key] = traj_logprob_old_tok.get(
+                            traj_key, torch.tensor(0.0, device=device)
+                        ) + logprob_old_tok
+
+                        traj_logprob_new_loc[traj_key] = traj_logprob_new_loc.get(
+                            traj_key, torch.tensor(0.0, device=device)
+                        ) + logprob_new_loc
+                        traj_logprob_old_loc[traj_key] = traj_logprob_old_loc.get(
+                            traj_key, torch.tensor(0.0, device=device)
+                        ) + logprob_old_loc
+
+                        traj_counts[traj_key] = traj_counts.get(traj_key, 0) + 1
+
+                    clip_ratio_tok = torch.clamp(
+                        ratio_tok, 1 - training_cfg.token_clip_epsilon_low, 1 + training_cfg.token_clip_epsilon_high
+                    )
+
+                    clip_ratio_loc = torch.clamp(
+                        ratio_loc, 1 - training_cfg.locate_clip_epsilon_low, 1 + training_cfg.locate_clip_epsilon_high
+                    )
+
+                    if (clip_ratio_tok - ratio_tok).abs() > 1e-8:
+                        clip_events_tok += 1
+
+                    if (clip_ratio_loc - ratio_loc).abs() > 1e-8:
+                        clip_events_loc += 1
+
+                    if training_cfg.ablation:
+                        clip_ratio_loc = 1.0
+                    adv = torch.tensor(step.advantage, device=device, dtype=clip_ratio_tok.dtype)
+                    rl_term = -torch.min(ratio_tok * clip_ratio_loc * adv, clip_ratio_tok * clip_ratio_loc * adv)
+                    # ratio_loc必须要clip
                     rl_loss_sum = rl_loss_sum + rl_term.detach()
                     rl_count += 1
 
@@ -501,6 +586,53 @@ def compute_losses(
             #     f"backward: {backward_time:.2f}s, total: {loop_total_time:.2f}s",
             #     flush=True,
             # )
+    if collect_ratio_debug:
+        for traj_key, count in traj_counts.items():
+            combined_new_sum = traj_logprob_new_combined.get(
+                traj_key, torch.tensor(0.0, device=device)
+            )
+            combined_old_sum = traj_logprob_old_combined.get(
+                traj_key, torch.tensor(0.0, device=device, dtype=combined_new_sum.dtype)
+            )
+            tok_new_sum = traj_logprob_new_tok.get(
+                traj_key, torch.tensor(0.0, device=device, dtype=combined_new_sum.dtype)
+            )
+            tok_old_sum = traj_logprob_old_tok.get(
+                traj_key, torch.tensor(0.0, device=device, dtype=combined_new_sum.dtype)
+            )
+            loc_new_sum = traj_logprob_new_loc.get(
+                traj_key, torch.tensor(0.0, device=device, dtype=combined_new_sum.dtype)
+            )
+            loc_old_sum = traj_logprob_old_loc.get(
+                traj_key, torch.tensor(0.0, device=device, dtype=combined_new_sum.dtype)
+            )
+
+            combined_new_avg = combined_new_sum / max(count, 1)
+            combined_old_avg = combined_old_sum / max(count, 1)
+            tok_new_avg = tok_new_sum / max(count, 1)
+            tok_old_avg = tok_old_sum / max(count, 1)
+            loc_new_avg = loc_new_sum / max(count, 1)
+            loc_old_avg = loc_old_sum / max(count, 1)
+            ratio_debug["trajectory_ratio"].append(
+                {
+                    "combined": (
+                        float((combined_new_avg - combined_old_avg).detach().cpu()),
+                        float(combined_new_avg.detach().cpu()),
+                        float(combined_old_avg.detach().cpu()),
+                    ),
+                    "token_ratio": (
+                        float((tok_new_avg - tok_old_avg).detach().cpu()),
+                        float(tok_new_avg.detach().cpu()),
+                        float(tok_old_avg.detach().cpu()),
+                    ),
+                    "locate_ratio": (
+                        float((loc_new_avg - loc_old_avg).detach().cpu()),
+                        float(loc_new_avg.detach().cpu()),
+                        float(loc_old_avg.detach().cpu()),
+                    ),
+                }
+            )
+
     if accelerator.sync_gradients:
         if training_cfg.max_grad_norm is not None:
             accelerator.clip_grad_norm_(model.parameters(), training_cfg.max_grad_norm)
@@ -512,9 +644,9 @@ def compute_losses(
         loss_pbar.close()
 
     rl_loss_mean = float((rl_loss_sum / max(rl_count, 1)).item())
-    clip_fraction = clip_events / max(rl_count, 1)
+    clip_fraction = (clip_events_tok / max(rl_count, 1), clip_events_loc / max(rl_count, 1))
 
-    return rl_loss_mean, clip_fraction, float(rl_count)
+    return rl_loss_mean, clip_fraction, float(rl_count), ratio_debug
 
 
 def _decode_and_score(
@@ -529,16 +661,12 @@ def _decode_and_score(
     reward_sum = 0.0
 
     for _, trajs in per_sample.items():
-        total_samples += 1
-        best_correct = 0.0
         for traj in trajs:
+            total_samples += 1
             output_text = _decode_answer(tokenizer, traj.final_state, traj.prompt_length)
             reward = _math_reward(output_text, traj.answer)
             reward_sum += reward
-            best_correct = max(best_correct, float(_is_answer_correct(output_text, traj.answer)))
-
-        if best_correct > 0:
-            correct_samples += 1
+            correct_samples += 1 if reward == 2.0 else 0
 
     return total_samples, correct_samples, reward_sum
 
@@ -563,7 +691,7 @@ def run_evaluation(
     reward_sum = 0.0
 
     eval_group_size = int(training_cfg.get("evaluation_group_size", 1))
-
+    eval_tokens_per_step = max(int(training_cfg.get("evaluation_tokens_per_step", 1)), 1)
     with torch.no_grad():
         eval_pbar = tqdm(
             iterable=enumerate(dataloader),
@@ -636,21 +764,27 @@ def run_evaluation(
                         logits,
                         candidate_mask=candidate_mask,
                         epsilon=training_cfg.epsilon_small,
-                        temperature=training_cfg.location_temperature,
+                        temperature=training_cfg.eval_location_temperature,
                     )
 
                     loc_logits = torch.where(
                         candidate_mask, loc_scores, torch.full_like(loc_scores, -1e9)
                     )
-                    location_index = int(gumbel_sample(loc_logits).item())
-
-                    token_logits_scaled = logits[location_index] / max(
-                        training_cfg.token_temperature, 1e-8
+                    tokens_to_decode = min(
+                        eval_tokens_per_step, int(candidate_mask.sum().item())
                     )
-                    token_id = int(gumbel_sample(token_logits_scaled).item())
+                    selected_locations = gumbel_topk(loc_logits, tokens_to_decode)
 
                     next_state = job.state.clone()
-                    next_state[location_index] = token_id
+                    for location_index_tensor in selected_locations:
+                        location_index = int(location_index_tensor.item())
+
+                        token_logits_scaled = logits[location_index] / max(
+                            training_cfg.eval_token_temperature, 1e-8
+                        )
+                        token_id = int(gumbel_sample(token_logits_scaled).item())
+
+                        next_state[location_index] = token_id
 
                     job.state = next_state
                     job.steps_taken += 1
@@ -661,9 +795,9 @@ def run_evaluation(
                 completed, tokenizer
             )
 
-            total_samples += batch_total
-            correct_samples += batch_correct
-            reward_sum += batch_reward
+            total_samples += batch_total # trajectory count
+            correct_samples += batch_correct # correct traj count
+            reward_sum += batch_reward # total reward
 
             eval_pbar.update(1)
 
@@ -782,7 +916,7 @@ def main():
     train_dataloader = DataLoader(
         train_dataset,
         batch_size=config.training.batch_size,
-        shuffle=True,
+        shuffle=config.training.shuffle,
         collate_fn=lambda batch: batch,
     )
 
@@ -807,6 +941,10 @@ def main():
         )
 
     updates_per_rollout = max(int(config.training.get("updates_per_rollout", 1)), 1)
+    train_batch_size = int(
+        config.training.get("train_batch_size", config.training.batch_size)
+    )
+    config.training.train_batch_size = train_batch_size
     num_update_steps_per_epoch = math.ceil(
         len(train_dataloader) * updates_per_rollout
         / max(int(config.training.gradient_accumulation_steps), 1)
@@ -844,6 +982,7 @@ def main():
     resume_dir = config.experiment.get("resume_from_checkpoint", None)
     global_step = 0
     skip_batches = 0
+    saved_batches_seen: Optional[int] = None
 
     if resume_dir:
         resume_path = Path(resume_dir)
@@ -856,13 +995,45 @@ def main():
 
         ckpt_name = resume_path.name
         if ckpt_name.startswith("step_"):
-            try:
-                global_step = int(ckpt_name.split("_")[1])
-            except Exception:
-                global_step = 0
+            parts = ckpt_name.split("_")
+            if len(parts) > 1:
+                try:
+                    global_step = int(parts[1])
+                except Exception:
+                    global_step = 0
 
-        skip_batches = global_step // updates_per_rollout
-        accelerator.print(f"Skipping the first {skip_batches} batches after resume.")
+            for idx, part in enumerate(parts):
+                if part == "batch" and idx + 1 < len(parts):
+                    try:
+                        saved_batches_seen = int(parts[idx + 1])
+                    except Exception:
+                        saved_batches_seen = None
+
+        metadata_path = resume_path / "metadata.json"
+        if metadata_path.exists():
+            try:
+                with metadata_path.open("r", encoding="utf-8") as fh:
+                    meta = json.load(fh)
+                if saved_batches_seen is None and "batches_seen" in meta:
+                    saved_batches_seen = int(meta["batches_seen"])
+                if global_step == 0:
+                    step_val = meta.get("step")
+                    if isinstance(step_val, str) and step_val.startswith("step_"):
+                        try:
+                            global_step = int(step_val.split("_")[1])
+                        except Exception:
+                            global_step = 0
+            except Exception:
+                pass
+
+        skip_batches = (
+            saved_batches_seen
+            if saved_batches_seen is not None
+            else global_step // updates_per_rollout
+        )
+        accelerator.print(
+            f"Skipping the first {skip_batches} batches after resume (from checkpoint)."
+        )
     else:
         accelerator.print("Starting training from scratch.")
 
@@ -875,13 +1046,16 @@ def main():
     num_batches_per_epoch = len(train_dataloader)
     start_epoch = min(num_epochs - 1, skip_batches // max(num_batches_per_epoch, 1))
     skip_batches_in_epoch = skip_batches % max(num_batches_per_epoch, 1)
-    global_batch_size = int(config.training.batch_size) * accelerator.num_processes
+    train_on_sample_once = bool(config.training.get("train_on_sample_once", False))
+    reuse_before_sample = bool(config.training.get("reuse_before_sample", True))
+    global_batch_size = train_batch_size * accelerator.num_processes
 
     sample_queue: Deque[SampleTrajectoryBundle] = deque()
     recent_missing_signals: Deque[bool] = deque(maxlen=100)
     pending_stats = SamplingStats()
     use_prompt_cache = bool(config.training.get("enable_prompt_cache", True))
     prompt_cache = PromptCacheManager() if use_prompt_cache else None
+    rollout_batches_seen = skip_batches
 
     for epoch in range(start_epoch, num_epochs):
         batch_iter = tqdm(
@@ -901,15 +1075,22 @@ def main():
                 config,
                 accelerator,
                 progress_desc=f"process: {accelerator.process_index} Rollout E{epoch+1}",
-                enable_bar=True,
+                enable_bar=config.training.debug,
                 prompt_cache=prompt_cache,
             )
             if prompt_cache is not None:
                 prompt_cache.clear()
 
             if bool(config.training.get("debug_rollout", False)):
+                assign_advantages(
+                    step_records,
+                    completed,
+                    tokenizer,
+                    config.training.group_size,
+                )
                 _store_debug_rollouts(
                     completed,
+                    step_records,
                     tokenizer,
                     config.training.get("debug_rollout_store_path", ""),
                     accelerator,
@@ -943,7 +1124,8 @@ def main():
             _reindex_sample_trajectories(new_samples, 0) # re_index from zero
             sample_queue.extend(new_samples)
             recent_missing_signals.extend(missing_signal_flags)
-            if accelerator.is_main_process:
+            rollout_batches_seen += 1
+            if accelerator.is_main_process and config.training.debug:
                 print(f"total: {len(missing_signal_flags)} missing:{sum(missing_signal_flags)}")
                 print(f"all_correct: {all_correct} all_error: {all_error}")
 
@@ -967,21 +1149,46 @@ def main():
                     config.training.group_size,
                 )
 
-                local_start = accelerator.process_index * int(config.training.batch_size)
-                local_end = local_start + int(config.training.batch_size)
-                local_batch_samples = batch_samples[local_start:local_end]
-                local_training_step_records = [
-                    step for bundle in local_batch_samples for step in bundle.step_records
-                ]
+                update_batches: List[Tuple[List[SampleTrajectoryBundle], int]] = []
+                if train_on_sample_once:
+                    per_device_base = train_batch_size // updates_per_rollout
+                    remainder = train_batch_size % updates_per_rollout
+                    cursor = 0
+
+                    for update_idx in range(updates_per_rollout):
+                        per_device_size = per_device_base + (
+                            1 if update_idx < remainder else 0
+                        )
+                        if per_device_size <= 0:
+                            continue
+
+                        per_global_size = per_device_size * accelerator.num_processes
+                        update_batch = batch_samples[cursor : cursor + per_global_size]
+                        cursor += per_global_size
+                        if not update_batch:
+                            continue
+                        update_batches.append((update_batch, per_device_size)) # （一个batch的所有device的数据，每个device取多少训）
+
+                    if not update_batches:
+                        update_batches.append((batch_samples, train_batch_size))
+                else:
+                    update_batches.append((batch_samples, train_batch_size)) # （所有数据，每个batch取多少训）
 
                 stats_for_logging = pending_stats
                 pending_stats = SamplingStats()
 
-                for _ in range(updates_per_rollout):
+                for update_batch, per_device_size in update_batches:
+                    local_start = accelerator.process_index * per_device_size
+                    local_end = local_start + per_device_size
+                    local_batch_samples = update_batch[local_start:local_end]
+
+                    local_training_step_records = [
+                        step for bundle in local_batch_samples for step in bundle.step_records
+                    ]
                     loss_desc = (
                         f"process{accelerator.process_index} Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
                     )
-                    rl_loss, clip_fraction, rl_steps = compute_losses(
+                    rl_loss, clip_fraction, rl_steps, ratio_debug = compute_losses(
                         local_training_step_records,
                         model,
                         tokenizer,
@@ -991,14 +1198,57 @@ def main():
                         lr_scheduler,
                         progress_desc=loss_desc,
                         prompt_cache=prompt_cache,
-                        enable_bar=True
+                        collect_ratio_debug=bool(
+                            config.training.get("debug_ratio", False)
+                        ),
+                        enable_bar=config.training.debug
                     )
 
                     if accelerator.sync_gradients:
+                        if bool(config.training.get("debug_ratio", False)):
+                            step_id = global_step
+                            gathered_ratios = gather_object([ratio_debug])
+                            if accelerator.is_main_process:
+                                locate_entries: List[Any] = []
+                                token_entries: List[Any] = []
+                                trajectory_entries: List[Any] = []
+                                for proc_ratios in gathered_ratios:
+                                    if not proc_ratios:
+                                        continue
+                                    locate_entries.extend(proc_ratios.get("locate_ratio", []))
+                                    token_entries.extend(proc_ratios.get("token_ratio", []))
+                                    trajectory_entries.extend(
+                                        proc_ratios.get("trajectory_ratio", [])
+                                    )
+
+                                locate_entries.sort(key=lambda x: x[0] if x else 0.0)
+                                token_entries.sort(key=lambda x: x[0] if x else 0.0)
+                                trajectory_entries.sort(
+                                    key=lambda x: x.get("combined", (0.0,))[0]
+                                    if isinstance(x, dict)
+                                    else 0.0
+                                )
+
+                                debug_ratio_path = Path(project_dir) / config.training.debug_ratio_path
+                                existing_debug: Dict[str, Any] = {}
+                                if debug_ratio_path.exists():
+                                    with open(debug_ratio_path, "r", encoding="utf-8") as fh:
+                                        existing_debug = json.load(fh)
+
+                                existing_debug[str(step_id)] = {
+                                    "token_ratio": token_entries,
+                                    "locate_ratio": locate_entries,
+                                    "trajectory_ratio": trajectory_entries,
+                                }
+
+                                with open(debug_ratio_path, "w", encoding="utf-8") as fh:
+                                    json.dump(existing_debug, fh, ensure_ascii=False, indent=2)
+
                         global_step += 1
                         metrics = {
                             "loss/rl": rl_loss,
-                            "train/clip_fraction": clip_fraction,
+                            "train/clip_fraction_tok": clip_fraction[0],
+                            "train/clip_fraction_loc": clip_fraction[1],
                             "train/raw_reward_sum": raw_reward_sum,
                             "train/rl_steps": rl_steps,
                         }
@@ -1035,7 +1285,13 @@ def main():
                             model.train()
 
                         if checkpoint_interval > 0 and global_step % checkpoint_interval == 0:
-                            ckpt_dir = Path(project_dir) / "ckpt" / config.model.optimized_name / f"step_{global_step:06d}"
+                            ckpt_label = f"step_{global_step:06d}_batch_{rollout_batches_seen:06d}"
+                            ckpt_dir = (
+                                Path(project_dir)
+                                / "ckpt"
+                                / config.model.optimized_name
+                                / ckpt_label
+                            )
                             ckpt_dir.mkdir(parents=True, exist_ok=True)
                             save_checkpoint(
                                 model,
@@ -1043,12 +1299,15 @@ def main():
                                 accelerator,
                                 config,
                                 project_dir,
-                                global_step,
+                                ckpt_label,
                                 save_training_state=config.experiment.get("save_training_state", True),
+                                batches_seen=rollout_batches_seen,
                             )
                             if accelerator.is_main_process:
                                 torch.save(lr_scheduler.state_dict(), ckpt_dir / "lr_scheduler.pt")
-
+                if not reuse_before_sample:
+                    sample_queue.clear()
+                    break
     # Final evals & checkpoint
     run_evaluation(accelerator, model, tokenizer, config, val_dataloader, global_step, "val_final")
     run_evaluation(accelerator, model, tokenizer, config, test_dataloader, global_step, "test")
@@ -1063,6 +1322,7 @@ def main():
         project_dir,
         "final",
         save_training_state=config.experiment.get("save_training_state", True),
+        batches_seen=rollout_batches_seen,
     )
     if accelerator.is_main_process:
         torch.save(lr_scheduler.state_dict(), final_ckpt / "lr_scheduler.pt")
