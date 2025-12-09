@@ -70,6 +70,7 @@ class StepRecord:
     token_id: int
     logprob_old_loc: float
     logprob_old_tok: float
+    loc_logit_old: float = 0.0
     prompt_length: int
     metadata: Dict[str, Any] = field(default_factory=dict)
     advantage: float = 0.0

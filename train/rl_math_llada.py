@@ -177,6 +177,7 @@ def collect_rollouts(
                     token_id=token_id,
                     logprob_old_loc=logprob_loc,
                     logprob_old_tok=logprob_tok,
+                    loc_logit_old=float(loc_scores[location_index].item()),
                     prompt_length=job.prompt_length,
                     metadata=job.metadata,
                 )
@@ -454,6 +455,56 @@ def _log_ratio_debug(
         json.dump(existing_debug, fh, ensure_ascii=False, indent=2)
 
 
+def _build_token_spans(token_strings: Sequence[str]) -> Tuple[List[Tuple[int, int]], int]:
+    spans: List[Tuple[int, int]] = []
+    cursor = 0
+    for tok in token_strings:
+        start = cursor
+        cursor += len(tok)
+        spans.append((start, cursor))
+    return spans, cursor
+
+
+def _overlay_tokens(
+    spans: Sequence[Tuple[int, int]], total_length: int, token_map: Dict[int, str]
+) -> str:
+    canvas = [" "] * total_length
+    for idx, tok in token_map.items():
+        if idx < 0 or idx >= len(spans):
+            continue
+        start, end = spans[idx]
+        if start >= total_length:
+            continue
+        max_len = min(len(tok), total_length - start, max(end - start, 0))
+        if max_len <= 0:
+            continue
+        canvas[start : start + max_len] = list(tok[:max_len])
+
+    return "".join(canvas)
+
+
+def _store_clipped_locate_debug(
+    accelerator: Accelerator,
+    project_dir: str,
+    debug_root: str,
+    step_id: int,
+    entries: List[Dict[str, Any]],
+) -> None:
+    if not entries:
+        return
+
+    debug_dir = Path(project_dir) / debug_root / f"step_{step_id}"
+    debug_dir.mkdir(parents=True, exist_ok=True)
+    out_path = debug_dir / f"{accelerator.process_index}.json"
+
+    sorted_entries = sorted(entries, key=lambda x: x.get("logit_diff", 0.0))
+    if len(sorted_entries) > 2000:
+        sorted_entries = sorted_entries[:1000] + sorted_entries[-1000:]
+
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(sorted_entries, fh, ensure_ascii=False, indent=2)
+
+
 # --- Loss computation -------------------------------------------------------
 
 
@@ -469,10 +520,24 @@ def compute_losses(
     enable_bar: bool = False,
     prompt_cache: Optional[PromptCacheManager] = None,
     collect_ratio_debug: bool = False,
-) -> Tuple[float, float, Tuple[float, float], float, Dict[str, List[Any]]]:
+) -> Tuple[
+    float,
+    float,
+    Tuple[float, float],
+    float,
+    Dict[str, List[Any]],
+    List[Dict[str, Any]],
+]:
     device = accelerator.device
     if not step_records:
-        return 0.0, 0.0, (0.0, 0.0), 0.0, {"locate_ratio": [], "token_ratio": [], "trajectory_ratio": []}
+        return (
+            0.0,
+            0.0,
+            (0.0, 0.0),
+            0.0,
+            {"locate_ratio": [], "token_ratio": [], "trajectory_ratio": []},
+            [],
+        )
 
     training_cfg = config.training
     kl_coefficient = float(training_cfg.get("kl_coefficient", 0.04))
@@ -500,6 +565,7 @@ def compute_losses(
         "token_ratio": [],
         "trajectory_ratio": [],
     }
+    clipped_locate_records: List[Dict[str, Any]] = []
 
     traj_logprob_new_combined: Dict[Tuple[int, int], torch.Tensor] = {}
     traj_logprob_old_combined: Dict[Tuple[int, int], torch.Tensor] = {}
@@ -547,12 +613,33 @@ def compute_losses(
                 if not torch.any(candidate_mask):
                     continue
 
-                loc_probs, _ = build_location_distribution(
+                loc_probs, loc_scores = build_location_distribution(
                     logits_b,
                     candidate_mask=candidate_mask,
                     epsilon=training_cfg.epsilon_small,
                     temperature=training_cfg.location_temperature,
                 )
+                token_strings: Optional[List[str]] = None
+                token_spans: Optional[List[Tuple[int, int]]] = None
+                before_state_str: Optional[str] = None
+                prompt_str: Optional[str] = None
+                decoded_overlay: Optional[str] = None
+                total_length = 0
+                if collect_ratio_debug:
+                    token_strings = tokenizer.convert_ids_to_tokens(
+                        state_before.detach().cpu().tolist()
+                    )
+                    token_spans, total_length = _build_token_spans(token_strings)
+                    before_state_str = "".join(token_strings)
+                    prompt_str = "".join(token_strings[: group[0].prompt_length])
+                    decoded_overlay = _overlay_tokens(
+                        token_spans,
+                        total_length,
+                        {
+                            step.location_index: tokenizer.convert_ids_to_tokens([step.token_id])[0]
+                            for step in group
+                        },
+                    )
                 for step in group:
                     loc_prob_selected = loc_probs[step.location_index]
                     logprob_new_loc = torch.log(loc_prob_selected + 1e-12)
@@ -568,6 +655,11 @@ def compute_losses(
                     )
                     logprob_old_tok = torch.tensor(
                         step.logprob_old_tok, device=device, dtype=logprob_new_tok.dtype
+                    )
+
+                    logit_new_loc = loc_scores[step.location_index]
+                    logit_old_loc = torch.tensor(
+                        step.loc_logit_old, device=device, dtype=logit_new_loc.dtype
                     )
 
                     logprob_diff_loc = logprob_new_loc - logprob_old_loc
@@ -639,8 +731,30 @@ def compute_losses(
                     if (clip_ratio_tok - ratio_tok).abs() > 1e-8:
                         clip_events_tok += 1
 
-                    if (clip_ratio_loc - ratio_loc).abs() > 1e-8:
+                    clipped_loc = (clip_ratio_loc - ratio_loc).abs() > 1e-8
+                    if clipped_loc:
                         clip_events_loc += 1
+                        if collect_ratio_debug and token_strings and token_spans:
+                            clipped_overlay = _overlay_tokens(
+                                token_spans,
+                                total_length,
+                                {
+                                    step.location_index: tokenizer.convert_ids_to_tokens([step.token_id])[0]
+                                },
+                            )
+                            logit_diff = float((logit_new_loc - logit_old_loc).detach().cpu())
+                            clipped_locate_records.append(
+                                {
+                                    "prompt": prompt_str or "",
+                                    "before_state": before_state_str or "",
+                                    "decoded_tokens": decoded_overlay or "",
+                                    "clipped_token": clipped_overlay,
+                                    "logit_old": float(logit_old_loc.detach().cpu()),
+                                    "logit_new": float(logit_new_loc.detach().cpu()),
+                                    "logit_diff": logit_diff,
+                                    "advantage": float(step.advantage),
+                                }
+                            )
 
                     if training_cfg.ablation:
                         clip_ratio_loc = 1.0
@@ -718,7 +832,14 @@ def compute_losses(
     kl_loss_mean = float((kl_loss_sum / max(kl_count, 1)).item())
     clip_fraction = (clip_events_tok / max(rl_count, 1), clip_events_loc / max(rl_count, 1))
 
-    return rl_loss_mean, kl_loss_mean, clip_fraction, float(rl_count), ratio_debug
+    return (
+        rl_loss_mean,
+        kl_loss_mean,
+        clip_fraction,
+        float(rl_count),
+        ratio_debug,
+        clipped_locate_records,
+    )
 
 
 def _decode_and_score(
@@ -1236,6 +1357,12 @@ def main():
                 pending_stats = SamplingStats()
 
                 for _ in range(train_passes_per_sample):
+                    ratio_debug_total = {
+                        "locate_ratio": [],
+                        "token_ratio": [],
+                        "trajectory_ratio": [],
+                    }
+                    clipped_locate_entries: List[Dict[str, Any]] = []
                     for update_batch, per_device_size in update_batches:
                         local_start = accelerator.process_index * per_device_size
                         local_end = local_start + per_device_size
@@ -1250,7 +1377,7 @@ def main():
                         loss_desc = (
                             f"process{accelerator.process_index} Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
                         )
-                        rl_loss, kl_loss, clip_fraction, rl_steps, ratio_debug = compute_losses(
+                        rl_loss, kl_loss, clip_fraction, rl_steps, ratio_debug, clipped_records = compute_losses(
                             local_training_step_records,
                             model,
                             tokenizer,
@@ -1266,14 +1393,32 @@ def main():
                             enable_bar=config.training.debug
                         )
 
+                        ratio_debug_total["locate_ratio"].extend(
+                            ratio_debug.get("locate_ratio", [])
+                        )
+                        ratio_debug_total["token_ratio"].extend(
+                            ratio_debug.get("token_ratio", [])
+                        )
+                        ratio_debug_total["trajectory_ratio"].extend(
+                            ratio_debug.get("trajectory_ratio", [])
+                        )
+                        clipped_locate_entries.extend(clipped_records)
+
                     if accelerator.sync_gradients:
                         if bool(config.training.get("debug_ratio", False)):
                             _log_ratio_debug(
                                 accelerator,
-                                ratio_debug,
+                                ratio_debug_total,
                                 project_dir,
                                 config.training.debug_ratio_path,
                                 global_step,
+                            )
+                            _store_clipped_locate_debug(
+                                accelerator,
+                                project_dir,
+                                config.training.get("debug_ratio_dir", "debug_ratio"),
+                                global_step,
+                                clipped_locate_entries,
                             )
 
                         global_step += 1

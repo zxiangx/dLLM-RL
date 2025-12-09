@@ -63,6 +63,7 @@ training:
     debug_rollout_store_path: "./projects/rl_math_llada_1207_ablation/debug_rollouts"
     debug_ratio: false
     debug_ratio_path: "debug_ratio.json"
+    debug_ratio_dir: "debug_ratio"
     ablation: true
 
 optimizer:
