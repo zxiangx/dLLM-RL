@@ -28,3 +28,8 @@ $$
 \pi_\theta(\tau_{i}^{1:L}|\tau_{i+1}^{1:L},q)=\pi_\theta(\ell(\tau,t)|\tau_{t+1}^{1:L},q)\cdot\pi_\theta(\tau_t^{\ell(\tau,t)}|\ell(\tau,t),\tau_{t+1}^{1:L},q)
 $$
 通过将解码过程显示拆分成两个部分，能够同时优化选位置与选token两种行为，扩大优化范围。
+
+## 新增训练选项
+
+- **KL散度惩罚（`training.kl_coefficient`）**：基于新旧策略对解码token概率的比值加入$x-\log x-1$形式的惩罚，默认系数为0.04，可通过配置调整。
+- **单样本多轮训练（`training.train_passes_per_sample`）**：在一次rollout得到的样本上重复训练多轮。每一轮会按照`updates_per_rollout`将样本划分成若干更新批次，确保每个样本在一轮中只被使用一次。

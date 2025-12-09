@@ -12,13 +12,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import math
 import torch
 from torch.optim import AdamW
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import tqdm
 from accelerate.utils import set_seed, gather_object
 from omegaconf import OmegaConf
-import time
 import wandb
 from transformers import AutoTokenizer
 from math_verify import parse as math_parse, verify as math_verify
@@ -378,6 +377,83 @@ def _reindex_sample_trajectories(
     return next_index
 
 
+def _build_update_batches(
+    batch_samples: List[SampleTrajectoryBundle],
+    train_batch_size: int,
+    updates_per_rollout: int,
+    accelerator: Accelerator,
+) -> List[Tuple[List[SampleTrajectoryBundle], int]]:
+    """Split a rollout batch into per-update chunks that cover each sample once."""
+
+    update_batches: List[Tuple[List[SampleTrajectoryBundle], int]] = []
+    per_device_base = train_batch_size // updates_per_rollout
+    remainder = train_batch_size % updates_per_rollout
+    cursor = 0
+
+    for update_idx in range(updates_per_rollout):
+        per_device_size = per_device_base + (1 if update_idx < remainder else 0)
+        if per_device_size <= 0:
+            continue
+
+        per_global_size = per_device_size * accelerator.num_processes
+        update_batch = batch_samples[cursor : cursor + per_global_size]
+        cursor += per_global_size
+        if not update_batch:
+            continue
+
+        update_batches.append((update_batch, per_device_size))
+
+    if not update_batches:
+        update_batches.append((batch_samples, train_batch_size))
+
+    return update_batches
+
+
+def _log_ratio_debug(
+    accelerator: Accelerator,
+    ratio_debug: Dict[str, List[Any]],
+    project_dir: str,
+    debug_ratio_path: str,
+    step_id: int,
+) -> None:
+    gathered_ratios = gather_object([ratio_debug])
+    if not accelerator.is_main_process:
+        return
+
+    locate_entries: List[Any] = []
+    token_entries: List[Any] = []
+    trajectory_entries: List[Any] = []
+    for proc_ratios in gathered_ratios:
+        if not proc_ratios:
+            continue
+        locate_entries.extend(proc_ratios.get("locate_ratio", []))
+        token_entries.extend(proc_ratios.get("token_ratio", []))
+        trajectory_entries.extend(proc_ratios.get("trajectory_ratio", []))
+
+    locate_entries.sort(key=lambda x: x[0] if x else 0.0)
+    token_entries.sort(key=lambda x: x[0] if x else 0.0)
+    trajectory_entries.sort(
+        key=lambda x: x.get("combined", (0.0,))[0]
+        if isinstance(x, dict)
+        else 0.0
+    )
+
+    debug_ratio_path = Path(project_dir) / debug_ratio_path
+    existing_debug: Dict[str, Any] = {}
+    if debug_ratio_path.exists():
+        with open(debug_ratio_path, "r", encoding="utf-8") as fh:
+            existing_debug = json.load(fh)
+
+    existing_debug[str(step_id)] = {
+        "token_ratio": token_entries,
+        "locate_ratio": locate_entries,
+        "trajectory_ratio": trajectory_entries,
+    }
+
+    with open(debug_ratio_path, "w", encoding="utf-8") as fh:
+        json.dump(existing_debug, fh, ensure_ascii=False, indent=2)
+
+
 # --- Loss computation -------------------------------------------------------
 
 
@@ -393,12 +469,13 @@ def compute_losses(
     enable_bar: bool = False,
     prompt_cache: Optional[PromptCacheManager] = None,
     collect_ratio_debug: bool = False,
-) -> Tuple[float, float, float, int, Dict[str, List[Any]]]:
+) -> Tuple[float, float, Tuple[float, float], float, Dict[str, List[Any]]]:
     device = accelerator.device
     if not step_records:
-        return 0.0, 0.0, 0.0, {"locate_ratio": [], "token_ratio": [], "trajectory_ratio": []}
+        return 0.0, 0.0, (0.0, 0.0), 0.0, {"locate_ratio": [], "token_ratio": [], "trajectory_ratio": []}
 
     training_cfg = config.training
+    kl_coefficient = float(training_cfg.get("kl_coefficient", 0.04))
     mask_token_id = training_cfg.mask_token_id
     micro_batch_size = max(int(training_cfg.micro_batch_size), 1)
     total_steps = len(step_records)
@@ -416,6 +493,8 @@ def compute_losses(
     rl_count = 0
     clip_events_tok = 0
     clip_events_loc = 0
+    kl_loss_sum = torch.tensor(0.0, device=device)
+    kl_count = 0
     ratio_debug: Dict[str, List[Any]] = {
         "locate_ratio": [],
         "token_ratio": [],
@@ -444,11 +523,9 @@ def compute_losses(
 
     for start in range(0, len(grouped_steps), micro_batch_size):
         with accelerator.accumulate(model):
-            loop_start_time = time.time()
             batch_groups = grouped_steps[start : start + micro_batch_size]
             states_before = [group[0].state_before.to(device) for group in batch_groups]
 
-            forward_start_time = time.time()
             logits_before = compute_logits_with_padding(
                 states_before,
                 model,
@@ -458,13 +535,11 @@ def compute_losses(
                 prompt_cache=prompt_cache,
                 allow_cache_in_grad=True,
             )
-            forward_time = time.time() - forward_start_time
 
             if loss_pbar is not None:
                 loss_pbar.update(1)
 
             combined_losses = []
-            loss_compute_start_time = time.time()
             for idx, group in enumerate(batch_groups):
                 logits_b = logits_before[idx]
                 state_before = states_before[idx]
@@ -500,6 +575,13 @@ def compute_losses(
 
                     ratio_loc = torch.exp(logprob_diff_loc)
                     ratio_tok = torch.exp(logprob_diff_tok)
+
+                    kl_ratio = ratio_tok
+                    kl_penalty = training_cfg.kl_coefficient * (
+                        kl_ratio - torch.log(kl_ratio + 1e-12) - 1.0
+                    )
+                    kl_loss_sum = kl_loss_sum + kl_penalty.detach()
+                    kl_count += 1
 
                     if collect_ratio_debug:
                         ratio_debug["locate_ratio"].append(
@@ -568,24 +650,13 @@ def compute_losses(
                     rl_loss_sum = rl_loss_sum + rl_term.detach()
                     rl_count += 1
 
-                    combined_losses.append(rl_term / max(1, total_steps))
+                    combined_losses.append((rl_term + kl_penalty) / max(1, total_steps))
 
             total_loss = torch.tensor(0.0, device=device)
             for loss in combined_losses:
                 total_loss += loss
-            loss_compute_time = time.time() - loss_compute_start_time
 
-            backward_start_time = time.time()
             accelerator.backward(total_loss)
-            backward_time = time.time() - backward_start_time
-
-            loop_total_time = time.time() - loop_start_time
-            # print(
-            #     f"[rank {accelerator.process_index}] compute_losses micro-batch timing - "
-            #     f"forward: {forward_time:.2f}s, loss: {loss_compute_time:.2f}s, "
-            #     f"backward: {backward_time:.2f}s, total: {loop_total_time:.2f}s",
-            #     flush=True,
-            # )
     if collect_ratio_debug:
         for traj_key, count in traj_counts.items():
             combined_new_sum = traj_logprob_new_combined.get(
@@ -644,9 +715,10 @@ def compute_losses(
         loss_pbar.close()
 
     rl_loss_mean = float((rl_loss_sum / max(rl_count, 1)).item())
+    kl_loss_mean = float((kl_loss_sum / max(kl_count, 1)).item())
     clip_fraction = (clip_events_tok / max(rl_count, 1), clip_events_loc / max(rl_count, 1))
 
-    return rl_loss_mean, clip_fraction, float(rl_count), ratio_debug
+    return rl_loss_mean, kl_loss_mean, clip_fraction, float(rl_count), ratio_debug
 
 
 def _decode_and_score(
@@ -940,13 +1012,18 @@ def main():
             collate_fn=lambda batch: batch,
         )
 
+    train_passes_per_sample = max(
+        int(config.training.get("train_passes_per_sample", 1)), 1
+    )
     updates_per_rollout = max(int(config.training.get("updates_per_rollout", 1)), 1)
     train_batch_size = int(
         config.training.get("train_batch_size", config.training.batch_size)
     )
     config.training.train_batch_size = train_batch_size
     num_update_steps_per_epoch = math.ceil(
-        len(train_dataloader) * updates_per_rollout
+        len(train_dataloader)
+        * updates_per_rollout
+        * train_passes_per_sample
         / max(int(config.training.gradient_accumulation_steps), 1)
     )
     max_train_steps = num_update_steps_per_epoch * int(config.training.num_train_epochs)
@@ -1029,7 +1106,7 @@ def main():
         skip_batches = (
             saved_batches_seen
             if saved_batches_seen is not None
-            else global_step // updates_per_rollout
+            else global_step // (updates_per_rollout * train_passes_per_sample)
         )
         accelerator.print(
             f"Skipping the first {skip_batches} batches after resume (from checkpoint)."
@@ -1046,7 +1123,6 @@ def main():
     num_batches_per_epoch = len(train_dataloader)
     start_epoch = min(num_epochs - 1, skip_batches // max(num_batches_per_epoch, 1))
     skip_batches_in_epoch = skip_batches % max(num_batches_per_epoch, 1)
-    train_on_sample_once = bool(config.training.get("train_on_sample_once", False))
     reuse_before_sample = bool(config.training.get("reuse_before_sample", True))
     global_batch_size = train_batch_size * accelerator.num_processes
 
@@ -1149,104 +1225,61 @@ def main():
                     config.training.group_size,
                 )
 
-                update_batches: List[Tuple[List[SampleTrajectoryBundle], int]] = []
-                if train_on_sample_once:
-                    per_device_base = train_batch_size // updates_per_rollout
-                    remainder = train_batch_size % updates_per_rollout
-                    cursor = 0
-
-                    for update_idx in range(updates_per_rollout):
-                        per_device_size = per_device_base + (
-                            1 if update_idx < remainder else 0
-                        )
-                        if per_device_size <= 0:
-                            continue
-
-                        per_global_size = per_device_size * accelerator.num_processes
-                        update_batch = batch_samples[cursor : cursor + per_global_size]
-                        cursor += per_global_size
-                        if not update_batch:
-                            continue
-                        update_batches.append((update_batch, per_device_size)) # （一个batch的所有device的数据，每个device取多少训）
-
-                    if not update_batches:
-                        update_batches.append((batch_samples, train_batch_size))
-                else:
-                    update_batches.append((batch_samples, train_batch_size)) # （所有数据，每个batch取多少训）
+                update_batches = _build_update_batches(
+                    batch_samples,
+                    train_batch_size,
+                    updates_per_rollout,
+                    accelerator,
+                )
 
                 stats_for_logging = pending_stats
                 pending_stats = SamplingStats()
 
-                for update_batch, per_device_size in update_batches:
-                    local_start = accelerator.process_index * per_device_size
-                    local_end = local_start + per_device_size
-                    local_batch_samples = update_batch[local_start:local_end]
+                for _ in range(train_passes_per_sample):
+                    for update_batch, per_device_size in update_batches:
+                        local_start = accelerator.process_index * per_device_size
+                        local_end = local_start + per_device_size
+                        local_batch_samples = update_batch[local_start:local_end]
 
-                    local_training_step_records = [
-                        step for bundle in local_batch_samples for step in bundle.step_records
-                    ]
-                    loss_desc = (
-                        f"process{accelerator.process_index} Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
-                    )
-                    rl_loss, clip_fraction, rl_steps, ratio_debug = compute_losses(
-                        local_training_step_records,
-                        model,
-                        tokenizer,
-                        config,
-                        accelerator,
-                        optimizer,
-                        lr_scheduler,
-                        progress_desc=loss_desc,
-                        prompt_cache=prompt_cache,
-                        collect_ratio_debug=bool(
-                            config.training.get("debug_ratio", False)
-                        ),
-                        enable_bar=config.training.debug
-                    )
+                        if not local_batch_samples:
+                            continue
+
+                        local_training_step_records = [
+                            step for bundle in local_batch_samples for step in bundle.step_records
+                        ]
+                        loss_desc = (
+                            f"process{accelerator.process_index} Loss E{epoch + 1}/{num_epochs} B{batch_idx + 1}/{len(train_dataloader)}"
+                        )
+                        rl_loss, kl_loss, clip_fraction, rl_steps, ratio_debug = compute_losses(
+                            local_training_step_records,
+                            model,
+                            tokenizer,
+                            config,
+                            accelerator,
+                            optimizer,
+                            lr_scheduler,
+                            progress_desc=loss_desc,
+                            prompt_cache=prompt_cache,
+                            collect_ratio_debug=bool(
+                                config.training.get("debug_ratio", False)
+                            ),
+                            enable_bar=config.training.debug
+                        )
 
                     if accelerator.sync_gradients:
                         if bool(config.training.get("debug_ratio", False)):
-                            step_id = global_step
-                            gathered_ratios = gather_object([ratio_debug])
-                            if accelerator.is_main_process:
-                                locate_entries: List[Any] = []
-                                token_entries: List[Any] = []
-                                trajectory_entries: List[Any] = []
-                                for proc_ratios in gathered_ratios:
-                                    if not proc_ratios:
-                                        continue
-                                    locate_entries.extend(proc_ratios.get("locate_ratio", []))
-                                    token_entries.extend(proc_ratios.get("token_ratio", []))
-                                    trajectory_entries.extend(
-                                        proc_ratios.get("trajectory_ratio", [])
-                                    )
-
-                                locate_entries.sort(key=lambda x: x[0] if x else 0.0)
-                                token_entries.sort(key=lambda x: x[0] if x else 0.0)
-                                trajectory_entries.sort(
-                                    key=lambda x: x.get("combined", (0.0,))[0]
-                                    if isinstance(x, dict)
-                                    else 0.0
-                                )
-
-                                debug_ratio_path = Path(project_dir) / config.training.debug_ratio_path
-                                existing_debug: Dict[str, Any] = {}
-                                if debug_ratio_path.exists():
-                                    with open(debug_ratio_path, "r", encoding="utf-8") as fh:
-                                        existing_debug = json.load(fh)
-
-                                existing_debug[str(step_id)] = {
-                                    "token_ratio": token_entries,
-                                    "locate_ratio": locate_entries,
-                                    "trajectory_ratio": trajectory_entries,
-                                }
-
-                                with open(debug_ratio_path, "w", encoding="utf-8") as fh:
-                                    json.dump(existing_debug, fh, ensure_ascii=False, indent=2)
+                            _log_ratio_debug(
+                                accelerator,
+                                ratio_debug,
+                                project_dir,
+                                config.training.debug_ratio_path,
+                                global_step,
+                            )
 
                         global_step += 1
                         metrics = {
                             "loss/rl": rl_loss,
+                            "loss/kl": kl_loss,
                             "train/clip_fraction_tok": clip_fraction[0],
                             "train/clip_fraction_loc": clip_fraction[1],
                             "train/raw_reward_sum": raw_reward_sum,
