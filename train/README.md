@@ -33,4 +33,3 @@ $$
 
 - **KL散度惩罚（`training.kl_coefficient`）**：基于新旧策略对解码token概率的比值加入$x-\log x-1$形式的惩罚，默认系数为0.04，可通过配置调整。
 - **单样本多轮训练（`training.train_passes_per_sample`）**：在一次rollout得到的样本上重复训练多轮。每一轮会按照`updates_per_rollout`将样本划分成若干更新批次，确保每个样本在一轮中只被使用一次。
-- **定位比率裁剪调试（`training.debug_ratio`与`training.debug_ratio_dir`）**：开启`debug_ratio`后，会在`debug_ratio_dir`下按训练步保存被裁剪的`locate_ratio`调试信息，每个rank以`step_x/<rank>.json`形式记录最正向和最反向（各1000条，如不足则全量）的logits差值样本。
