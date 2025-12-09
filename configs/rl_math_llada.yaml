@@ -38,6 +38,7 @@ training:
     locate_clip_epsilon_low: 0.15
     epsilon_small: 1e-9
     tokens_per_step: 2
+    kl_coefficient: 0.04
 
     evaluation_tokens_per_step: 4
     evaluation_group_size: 8
@@ -51,8 +52,8 @@ training:
     max_generation_length: 256
     validation_interval: 8
     checkpoint_interval: 60
-    updates_per_rollout: 8 # 每一遍rollout用来训练几次
-    train_on_sample_once: true # 一个sample只训练一次
+    updates_per_rollout: 8 # 每次rollout拆成多少次更新，覆盖当前样本各一次
+    train_passes_per_sample: 1 # 一个sample重复训练几轮
     reuse_before_sample: false # 之前的sample还可以再利用
     enable_prompt_cache: true
     filter_invalid: true
